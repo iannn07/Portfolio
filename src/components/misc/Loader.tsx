@@ -1,23 +1,23 @@
-"use client"
+'use client'
 
-import { animate, motion, useMotionValue, useTransform } from "framer-motion"
-import Image from "next/image"
-import { useEffect, useState } from "react"
-import { Progress } from "../ui/progress"
+import { animate, motion, useMotionValue, useTransform } from 'framer-motion'
+import Image from 'next/image'
+import { useEffect, useState } from 'react'
+import { Progress } from '../ui/progress'
 
 const Loader = () => {
   const count = useMotionValue(0)
   const rounded = useTransform(count, (value) => Math.round(value))
   const [progress, setProgress] = useState(0)
-  const [currentGif, setCurrentGif] = useState("/images/gifs/piston.gif")
+  const [currentGif, setCurrentGif] = useState('/images/gifs/piston.gif')
 
   const [currentMessage, setCurrentMessage] = useState(
-    "Pressing the start button...",
+    'Pressing the start button...',
   )
 
   useEffect(() => {
     const controls = animate(count, 100, {
-      duration: 5,
+      duration: 4,
       onUpdate: (latest) => {
         setProgress(latest)
         let message
@@ -25,28 +25,28 @@ const Loader = () => {
 
         switch (true) {
           case latest >= 95:
-            message = "Rev it!"
-            gifPath = "/images/gifs/motorbike.gif"
+            message = 'Rev it!'
+            gifPath = '/images/gifs/motorbike.gif'
             break
           case latest >= 85:
-            message = "Heating up..."
-            gifPath = "/images/gifs/turbo.gif"
+            message = 'Heating up...'
+            gifPath = '/images/gifs/turbo.gif'
             break
           case latest >= 75:
-            message = "Almost there..."
-            gifPath = "/images/gifs/settings.gif"
+            message = 'Almost there...'
+            gifPath = '/images/gifs/settings.gif'
             break
           case latest >= 50:
-            message = "Starting the ignition..."
-            gifPath = "/images/gifs/crankshaft.gif"
+            message = 'Starting the ignition...'
+            gifPath = '/images/gifs/crankshaft.gif'
             break
           case latest >= 25:
-            message = "Activates the starter..."
-            gifPath = "/images/gifs/piston.gif"
+            message = 'Activates the starter...'
+            gifPath = '/images/gifs/piston.gif'
             break
           default:
-            message = "Pressing the start button..."
-            gifPath = "/images/gifs/engine.gif"
+            message = 'Pressing the start button...'
+            gifPath = '/images/gifs/engine.gif'
         }
 
         if (currentMessage !== message) setCurrentMessage(message)
@@ -85,8 +85,8 @@ const Loader = () => {
           />
         </motion.div>
       </div>
-      <div className="flex w-full items-center justify-center gap-5">
-        <Progress className="w-1/2 md:h-4" value={progress} />
+      <div className="col w-1/2 items-center gap-5 md:grid md:grid-cols-[1fr,4ch]">
+        <Progress className="w-full md:h-4" value={progress} />
         <span className="hidden items-center text-xl md:flex">
           <motion.div>{rounded}</motion.div>%
         </span>

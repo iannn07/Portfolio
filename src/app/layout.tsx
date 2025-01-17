@@ -1,22 +1,21 @@
-import { SidebarTrigger } from "@/components/ui/sidebar"
-import DefaultLayout from "@/layout/DefaultLayout"
-import { Metadata } from "next"
+import DefaultLayout from '@/layout/DefaultLayout'
+import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: "Pristian Budi Dharmawan | Software Engineer I",
+  title: 'Pristian Budi Dharmawan | Software Engineer I',
   keywords: [
-    "Front-End Developer",
-    "Software Engineer",
-    "Junior Software Engineer",
-    "Software Engineer I",
-    "React",
-    "Next.js",
-    "TypeScript",
-    "Web Development",
+    'Front-End Developer',
+    'Software Engineer',
+    'Junior Software Engineer',
+    'Software Engineer I',
+    'React',
+    'Next.js',
+    'TypeScript',
+    'Web Development',
   ],
   openGraph: {
-    title: "Pristian Budi Dharmawan | Software Engineer I",
-    type: "website",
+    title: 'Pristian Budi Dharmawan | Software Engineer I',
+    type: 'website',
   },
   robots: {
     index: true,
@@ -32,18 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body suppressHydrationWarning className="font-poppins antialiased">
-        <DefaultLayout>
-          <div className="flex min-h-screen overflow-hidden">
-            <div className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
-              <main>
-                <div className="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
-                  <SidebarTrigger className="flex" />
-                  {children}
-                </div>
-              </main>
-            </div>
-          </div>
-        </DefaultLayout>
+        <DefaultLayout>{children}</DefaultLayout>
       </body>
     </html>
   )
