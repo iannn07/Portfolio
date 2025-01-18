@@ -52,7 +52,7 @@ export function AppSidebar() {
                       isActive={pathname === item.url}
                       tooltip={item.tooltip}
                     >
-                      <a href={item.url || '#'}>
+                      <a href={pathname === item.url ? '#' : item.url}>
                         <item.icon />
                         <span>{item.title}</span>
                       </a>

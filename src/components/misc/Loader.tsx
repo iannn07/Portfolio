@@ -58,7 +58,7 @@ const Loader = () => {
   }, [count, currentGif, currentMessage])
 
   return (
-    <div className="flex h-screen flex-col items-center justify-center gap-5">
+    <div className="flex h-screen flex-col items-center justify-center gap-5 bg-white">
       <div className="flex w-full items-center justify-center gap-5">
         <motion.h1
           key={currentMessage}

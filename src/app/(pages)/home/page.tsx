@@ -1,15 +1,9 @@
-import { Button } from '@/components/ui/button'
-import Link from 'next/link'
+import HomeSection1 from './(sections)/HomeSection1'
 
 function Homepage() {
   return (
-    <div className="w-full">
-      <div className="flex items-center justify-end">
-        <Link href={'/projects'}>
-          <Button>Click me!</Button>
-        </Link>
-      </div>
-      <div className="h-20 w-full bg-zinc-500" />
+    <div className="h-full w-full sm:flex sm:items-center sm:justify-evenly">
+      <HomeSection1 />
     </div>
   )
 }

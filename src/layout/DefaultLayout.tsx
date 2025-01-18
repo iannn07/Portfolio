@@ -18,19 +18,15 @@ function DefaultLayout({
   return (
     <LoaderProvider>
       {/* <Content> */}
-      <SidebarProvider>
-        <AppSidebar />
-        <div className="flex min-h-screen overflow-hidden">
-          <div className="relative flex w-screen flex-1 flex-col overflow-y-auto overflow-x-hidden">
-            <main>
-              <div className="mx-auto min-h-screen w-full max-w-screen-2xl p-4 px-8 transition-all duration-300 ease-in-out md:p-8">
-                {isMobile && <SidebarTrigger className="flex" />}
-                {children}
-              </div>
-            </main>
+      <div className="flex h-full w-full bg-primary text-white">
+        <SidebarProvider>
+          <AppSidebar />
+          <div className="h-screen w-full">
+            {isMobile && <SidebarTrigger />}
+            {children}
           </div>
-        </div>
-      </SidebarProvider>
+        </SidebarProvider>
+      </div>
       {/* </Content> */}
     </LoaderProvider>
   )
