@@ -18,10 +18,10 @@ function DefaultLayout({
   return (
     <LoaderProvider>
       {/* <Content> */}
-      <div className="flex h-full w-full bg-primary text-white">
+      <div className="flex min-h-screen w-full bg-primary text-white">
         <SidebarProvider>
           <AppSidebar />
-          <div className="h-screen w-full">
+          <div className="flex w-full flex-col">
             {isMobile && <SidebarTrigger />}
             {children}
           </div>

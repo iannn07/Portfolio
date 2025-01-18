@@ -29,8 +29,11 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <body suppressHydrationWarning className="font-poppins antialiased">
+    <html lang="en" className="h-full bg-primary">
+      <body
+        suppressHydrationWarning
+        className="min-h-screen font-poppins antialiased"
+      >
         <DefaultLayout>{children}</DefaultLayout>
       </body>
     </html>
