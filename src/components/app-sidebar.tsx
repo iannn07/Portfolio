@@ -9,21 +9,32 @@ import {
   useSidebar,
 } from '@/components/ui/sidebar'
 import { useIsMobile } from '@/hooks/use-mobile'
-import { IconArrowLeft, IconCode, IconHome } from '@tabler/icons-react'
+import {
+  IconArrowLeft,
+  IconCode,
+  IconHome,
+  IconSchool,
+} from '@tabler/icons-react'
 import { usePathname } from 'next/navigation'
 
 const items = [
   {
-    title: 'Home',
+    title: 'Gear 1 - Home',
     url: '/home',
     icon: IconHome,
     tooltip: 'Home',
   },
   {
-    title: 'My Projects',
+    title: 'Gear 2 - Projects',
     url: '/projects',
     icon: IconCode,
     tooltip: 'My Projects',
+  },
+  {
+    title: 'Gear 3 - Education',
+    url: '/education',
+    icon: IconSchool,
+    tooltip: 'Education',
   },
   {
     title: 'Go back',

@@ -6,6 +6,7 @@ import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import { LoaderProvider, useLoader } from '@/context/LoaderContext'
 import '@/css/style.css'
 import { useIsMobile } from '@/hooks/use-mobile'
+import { motion } from 'framer-motion'
 import React, { useEffect, useState } from 'react'
 
 function DefaultLayout({
@@ -17,22 +18,25 @@ function DefaultLayout({
 
   return (
     <LoaderProvider>
-      {/* <Content> */}
-      <div className="flex min-h-screen w-full bg-primary text-white">
-        <SidebarProvider>
-          <AppSidebar />
-          <div className="flex w-full flex-col">
-            {isMobile && <SidebarTrigger />}
-            {children}
-          </div>
-        </SidebarProvider>
-      </div>
-      {/* </Content> */}
+      <Content>
+        <div className="flex min-h-screen w-full text-white">
+          {isMobile ? (
+            <SidebarProvider>
+              <AppSidebar />
+              <div className="flex w-full flex-col">
+                {isMobile && <SidebarTrigger />}
+                {children}
+              </div>
+            </SidebarProvider>
+          ) : (
+            <div className="flex w-full flex-col">{children}</div>
+          )}
+        </div>
+      </Content>
     </LoaderProvider>
   )
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function Content({ children }: { children: React.ReactNode }) {
   const { hasLoaded, setHasLoaded } = useLoader()
   const [loading, setLoading] = useState(!hasLoaded)
@@ -42,13 +46,32 @@ function Content({ children }: { children: React.ReactNode }) {
       const load = setTimeout(() => {
         setLoading(false)
         setHasLoaded(true)
-      }, 9500)
+      }, 10250)
 
       return () => clearTimeout(load)
     }
   }, [hasLoaded, setHasLoaded])
 
-  return loading ? <Loader /> : <>{children}</>
+  const slideVariants = {
+    hidden: { x: '100%', opacity: 0 },
+    visible: { x: 0, opacity: 1 },
+    exit: { x: '-100%', opacity: 0 },
+  }
+
+  return loading ? (
+    <Loader />
+  ) : (
+    <motion.div
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+      variants={slideVariants}
+      transition={{ duration: 0.5, ease: 'easeInOut' }}
+      className="h-full w-full"
+    >
+      {children}
+    </motion.div>
+  )
 }
 
 export default DefaultLayout
