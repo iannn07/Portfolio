@@ -32,7 +32,8 @@ export default function RootLayout({
     <html lang="en" className="h-full bg-background">
       <body
         suppressHydrationWarning
-        className="min-h-screen font-poppins antialiased"
+        className="min-h-screen overflow-x-hidden font-poppins antialiased"
+        style={{ margin: 0, scrollBehavior: 'smooth' }}
       >
         <DefaultLayout>{children}</DefaultLayout>
       </body>

@@ -1,38 +1,52 @@
 'use client'
 
-import { useIsMobile } from '@/hooks/use-mobile'
-import { motion, useScroll, useSpring } from 'framer-motion'
+import { motion, useScroll, useTransform } from 'framer-motion'
+import Lenis from 'lenis'
+import { useEffect } from 'react'
+import HomeSection1 from './(sections)/HomeSection1'
 import HomeSection2 from './(sections)/HomeSection2'
 import HomeSection3 from './(sections)/HomeSection3'
 
 function Homepage() {
   const { scrollYProgress } = useScroll()
-  const isMobile = useIsMobile()
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001,
+
+  const section1Opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
+  const y = useTransform(scrollYProgress, [0, 0.5], [0, -300])
+  const opacity = useTransform(scrollYProgress, [0, 0.3], [0, 1])
+
+  useEffect(() => {
+    const lenis = new Lenis({
+      autoRaf: true,
+    })
+
+    function raf(time: number) {
+      lenis.raf(time)
+      requestAnimationFrame(raf)
+    }
+
+    requestAnimationFrame(raf)
   })
 
   return (
-    <div className="flex h-full w-full flex-col gap-10 bg-background p-10 md:px-5 md:py-0">
-      <HomeSection2 />
-      <HomeSection3 />
-      <div className="h-20">abcdef</div>
-      <div className="h-20">abcdef</div>
-      <div className="h-20">abcdef</div>
-      <div className="h-20">abcdef</div>
-      <div className="h-20">abcdef</div>
-      <div className="h-20">abcdef</div>
-      <div className="h-20">abcdef</div>
+    <div className="flex h-[200vh] w-full flex-col bg-background">
       <motion.div
-        id="scroll-indicator"
-        className={`${isMobile ? 'bottom-0 left-0 right-[-10px]' : 'bottom-[10px] left-[85px] right-[25px]'} fixed h-2 bg-background`}
-        style={{
-          scaleX,
-          originX: 0,
-        }}
-      />
+        className="sticky top-0 z-0 h-screen"
+        style={{ opacity: section1Opacity, y }}
+      >
+        <HomeSection1 scrollYProgress={scrollYProgress} />
+      </motion.div>
+
+      <motion.div className="z-0 bg-primary" style={{ opacity }}>
+        <HomeSection3 />
+        <HomeSection2 scrollYProgress={scrollYProgress} />
+        <div className="h-20">abcdef</div>
+        <div className="h-20">abcdef</div>
+        <div className="h-20">abcdef</div>
+        <div className="h-20">abcdef</div>
+        <div className="h-20">abcdef</div>
+        <div className="h-20">abcdef</div>
+        <div className="h-20">abcdef</div>
+      </motion.div>
     </div>
   )
 }

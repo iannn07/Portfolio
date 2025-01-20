@@ -3,12 +3,12 @@ import React from 'react'
 
 function HomeSection3() {
   return (
-    <div className="flex w-full items-center justify-center">
-      <div className="w-full max-w-7xl">
+    <div className="mt-10 flex w-full items-center justify-center bg-primary">
+      <div className="w-full">
         <ParallaxText baseVelocity={-2}>Start with Why?</ParallaxText>
         <ParallaxText baseVelocity={2}>Negative Space Programming</ParallaxText>
         <ParallaxText baseVelocity={-2}>
-          Scalable, Maintainable, Robust, and Fast
+          Scalable • Maintainable • Robust • Fast
         </ParallaxText>
       </div>
     </div>

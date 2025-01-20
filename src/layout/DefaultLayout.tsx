@@ -18,25 +18,26 @@ function DefaultLayout({
 
   return (
     <LoaderProvider>
-      <Content>
-        <div className="flex min-h-screen w-full text-white">
-          {isMobile ? (
-            <SidebarProvider>
-              <AppSidebar />
-              <div className="flex w-full flex-col">
-                {isMobile && <SidebarTrigger />}
-                {children}
-              </div>
-            </SidebarProvider>
-          ) : (
-            <div className="flex w-full flex-col">{children}</div>
-          )}
-        </div>
-      </Content>
+      {/* <Content> */}
+      <div className="flex min-h-screen w-full text-white">
+        {isMobile ? (
+          <SidebarProvider>
+            <AppSidebar />
+            <div className="flex w-full flex-col">
+              {isMobile && <SidebarTrigger />}
+              {children}
+            </div>
+          </SidebarProvider>
+        ) : (
+          <div className="flex w-full flex-col">{children}</div>
+        )}
+      </div>
+      {/* </Content> */}
     </LoaderProvider>
   )
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function Content({ children }: { children: React.ReactNode }) {
   const { hasLoaded, setHasLoaded } = useLoader()
   const [loading, setLoading] = useState(!hasLoaded)
