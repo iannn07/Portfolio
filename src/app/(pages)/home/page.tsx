@@ -38,8 +38,8 @@ function Homepage() {
       </motion.div>
 
       <motion.div className="z-0 bg-primary" style={{ opacity }}>
-        <HomeSection3 />
-        <HomeSection2 scrollYProgress={scrollYProgress} />
+        <HomeSection2 />
+        <HomeSection3 scrollYProgress={scrollYProgress} />
         <div className="h-20">abcdef</div>
         <div className="h-20">abcdef</div>
         <div className="h-20">abcdef</div>
