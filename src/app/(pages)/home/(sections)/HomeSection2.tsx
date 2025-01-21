@@ -3,7 +3,7 @@ import React from 'react'
 
 function HomeSection2() {
   return (
-    <div className="mt-10 flex w-full items-center justify-center bg-primary">
+    <div className="my-10 flex w-full items-center justify-center bg-primary">
       <div className="w-full">
         <ParallaxText baseVelocity={-1}>Start with Why?</ParallaxText>
         <ParallaxText baseVelocity={1}>Negative Space Programming</ParallaxText>

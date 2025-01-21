@@ -25,10 +25,14 @@ function HomeSection3({ scrollYProgress }: HomeSection3Props) {
 
   const isMobile = useIsMobile()
 
-  const opacity = useTransform(scrollYProgress, [0.2, 0.5], [0, 1])
-  const gap = useTransform(scrollYProgress, [0.2, 0.5], [60, 24])
-  const slideAvatar = useTransform(scrollYProgress, [0.2, 0.5], [-150, 0])
-  const slideText = useTransform(scrollYProgress, [0.2, 0.5], [150, 0])
+  const opacity = useTransform(
+    scrollYProgress,
+    [0.2, !isMobile ? 0.3 : 0.2],
+    [0, 1],
+  )
+  const gap = useTransform(scrollYProgress, [0.2, 0.3], [60, 32])
+  const slideAvatar = useTransform(scrollYProgress, [0.2, 0.3], [-100, 0])
+  const slideText = useTransform(scrollYProgress, [0.2, 0.3], [100, 0])
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -45,12 +49,12 @@ function HomeSection3({ scrollYProgress }: HomeSection3Props) {
 
   return (
     <motion.div
-      className="flex h-screen max-h-[75%] w-full flex-col items-center justify-evenly bg-primary text-background"
+      className="flex h-screen w-full flex-col items-center justify-evenly bg-primary text-background"
       style={{ opacity }}
     >
       <div className="flex w-full flex-col items-center justify-center gap-5 md:gap-10">
         <motion.div
-          className="flex w-full flex-col items-center justify-center gap-10 md:flex-row md:gap-24"
+          className="flex w-full flex-col items-center justify-center gap-10 md:flex-row"
           style={!isMobile ? { gap } : undefined}
         >
           <motion.div
@@ -71,28 +75,30 @@ function HomeSection3({ scrollYProgress }: HomeSection3Props) {
             className="flex w-full flex-col items-center gap-3 text-center md:w-auto md:items-start md:text-left"
             style={!isMobile ? { x: slideText } : { opacity, x: 0 }}
           >
-            <span className="text-3xl md:text-5xl">Hi there👋🏻 I&apos;m </span>
-            <h1 className="text-4xl font-bold md:text-6xl">
+            <span className="text-3xl md:text-4xl">Hi there👋🏻 I&apos;m </span>
+            <h1 className="text-4xl font-bold md:text-5xl">
               Pristian Budi Dharmawan
             </h1>
             <h2 className="text-xl font-medium md:text-3xl">
-              or... just call me{' '}
+              or... you can call me{' '}
               <span className="font-bold text-secondary">Ian.</span>
             </h2>
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
-              className="min-w-[25ch] text-justify"
+              className="mt-4 min-w-[30ch] text-justify"
             >
               <Alert className="w-full text-primary">
-                <IconCircleCheckFilled color="white" />
-                <AlertTitle className="md:ml-2">A passionate</AlertTitle>
+                <AlertTitle className="flex items-center gap-2 md:ml-2 md:text-xl">
+                  A passionate
+                  <IconCircleCheckFilled color="white" size={20} />
+                </AlertTitle>
                 <motion.div
                   key={changeRole}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                 >
-                  <AlertDescription className="md:ml-2">
+                  <AlertDescription className="md:ml-2 md:text-lg">
                     {changeRole}
                   </AlertDescription>
                 </motion.div>

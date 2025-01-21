@@ -11,6 +11,7 @@ body {
 @layer base {
   :root {
     --background: #232323;
+    --background-secondary: #e5e5e5;
     --foreground: #232323;
     --card: #232323;
     --card-foreground: #232323;

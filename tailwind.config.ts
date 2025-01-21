@@ -13,7 +13,10 @@ export default {
         poppins: ['Poppins', 'sans-serif'],
       },
       colors: {
-        background: 'var(--background)',
+        background: {
+          DEFAULT: 'var(--background)',
+          secondary: 'var(--background-secondary)',
+        },
         foreground: 'var(--foreground)',
         gray: {
           DEFAULT: '#DAF0EE',
