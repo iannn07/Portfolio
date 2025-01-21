@@ -7,6 +7,7 @@ import HomeSection1 from './(sections)/HomeSection1'
 import HomeSection2 from './(sections)/HomeSection2'
 import HomeSection3 from './(sections)/HomeSection3'
 import HomeSection4 from './(sections)/HomeSection4'
+import HomeSection5 from './(sections)/HomeSection5'
 
 function Homepage() {
   const { scrollYProgress } = useScroll()
@@ -43,6 +44,7 @@ function Homepage() {
         <HomeSection3 scrollYProgress={scrollYProgress} />
         <div className="px-20">
           <HomeSection4 />
+          <HomeSection5 />
           <div className="h-20">abcdef</div>
           <div className="h-20">abcdef</div>
           <div className="h-20">abcdef</div>
