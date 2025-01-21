@@ -1,65 +1,99 @@
 import { IconChevronDown } from '@tabler/icons-react'
 import {
   animate,
-  motion,
-  MotionValue,
   useMotionValue,
+  useScroll,
+  useSpring,
   useTransform,
+  useVelocity,
 } from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
-interface HomeSection1Props {
-  scrollYProgress: MotionValue<number>
+function rpmToKph(rpm: number) {
+  const TIRE_CIRCUMFERENCE = 2.02
+  const SINGLE_GEAR_RATIO = 6.06
+  const rawKph = (rpm * TIRE_CIRCUMFERENCE * 60) / 1000 / SINGLE_GEAR_RATIO
+
+  return Math.min(160, Math.round(Math.abs(rawKph)))
 }
 
-function HomeSection1({ scrollYProgress }: HomeSection1Props) {
-  const [rpm, setRpm] = useState(0)
+function HomeSection1() {
+  const [rpm, setRpm] = useState(1000)
   const [kph, setKph] = useState(0)
 
-  const count = useMotionValue(0)
-  const increaseKph = useTransform(scrollYProgress, [0, 0.5], [40, 150])
-  const increaseRpm = useTransform(scrollYProgress, [0, 0.5], [1200, 7500])
+  const count = useMotionValue(1000)
+  const { scrollY } = useScroll()
+  const scrollVelocity = useVelocity(scrollY)
+
+  const smoothVelocity = useSpring(scrollVelocity, {
+    damping: 50,
+    stiffness: 400,
+  })
+
+  const absVelocity = useTransform(smoothVelocity, (v) => Math.abs(v))
+
+  const scrollBasedRpm = useTransform(absVelocity, [0, 1], [1000, 15000], {
+    clamp: true,
+  })
+
+  const idleIntervalRef = useRef<NodeJS.Timer | null>(null)
 
   useEffect(() => {
-    scrollYProgress.onChange((latest) => {
-      if (latest > 0.2) {
-        animate(count, 0, {
-          duration: 2,
-          ease: 'easeInOut',
-          onUpdate: () => {
-            increaseRpm.onChange((latest) => setRpm(Math.round(latest)))
-            increaseKph.onChange((latest) => setKph(Math.round(latest)))
-          },
-        })
-      } else {
-        const interval = setInterval(() => {
-          const randomValue =
-            Math.floor(Math.random() * (1200 - 1000 + 1)) + 1000
-          animate(count, randomValue, {
-            duration: 2,
+    const unsubscribe = smoothVelocity.on('change', (currVel) => {
+      const speed = Math.abs(currVel)
+
+      if (!idleIntervalRef.current) {
+        idleIntervalRef.current = setInterval(() => {
+          const randomIdleRpm =
+            Math.floor(Math.random() * (1100 - 1050 + 1)) + 1000
+
+          animate(count, randomIdleRpm, {
+            duration: 0.8,
             ease: 'easeInOut',
-            delay: 2,
-            onUpdate: (latest) => {
-              setRpm(Math.round(latest))
+            onUpdate: (val) => {
+              const currentRpm = Math.round(Math.abs(val))
+              setRpm(currentRpm)
               setKph(0)
             },
           })
-        }, 1000)
+        }, 500)
+      }
 
-        return () => clearInterval(interval)
+      if (speed > 0.01) {
+        if (idleIntervalRef.current) {
+          clearInterval(idleIntervalRef.current as unknown as number)
+          idleIntervalRef.current = null
+        }
+
+        const targetRpm = scrollBasedRpm.get()
+        animate(count, targetRpm, {
+          duration: 0.8,
+          ease: 'easeOut',
+          onUpdate: (val) => {
+            const currentRpm = Math.round(Math.abs(val))
+            setRpm(currentRpm)
+            setKph(rpmToKph(currentRpm))
+          },
+        })
       }
     })
+
+    return () => {
+      unsubscribe()
+      if (idleIntervalRef.current)
+        clearInterval(idleIntervalRef.current as unknown as number)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [scrollYProgress])
+  }, [])
 
   return (
     <div className="mx-5 h-screen text-primary">
       <div className="flex h-[75%] flex-col items-center justify-center will-change-transform md:h-[90%]">
-        <div className="grid w-full max-w-xl grid-cols-2 px-4 text-6xl font-bold italic md:max-w-3xl md:text-[10rem]">
-          <motion.h1 layout>{rpm}</motion.h1>
+        <div className="grid w-full max-w-5xl grid-cols-2 text-5xl font-bold italic md:text-[10rem]">
+          <h1 className="text-right">{rpm}</h1>
           <h1>RPM</h1>
         </div>
-        <h1 className="w-full max-w-3xl text-right text-6xl font-bold italic md:text-[10rem]">
+        <h1 className="mr-10 w-full max-w-6xl text-right text-5xl font-bold italic md:mr-36 md:text-[10rem]">
           {kph} km/h
         </h1>
       </div>

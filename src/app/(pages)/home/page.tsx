@@ -33,7 +33,7 @@ function Homepage() {
         className="sticky top-0 z-0 h-screen"
         style={{ opacity: section1Opacity, y }}
       >
-        <HomeSection1 scrollYProgress={scrollYProgress} />
+        <HomeSection1 />
       </motion.div>
 
       <motion.div className="z-0 bg-primary" style={{ opacity }}>
