@@ -13,6 +13,7 @@ function Homepage() {
   const section1Opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
   const y = useTransform(scrollYProgress, [0, 0.5], [0, -300])
   const opacity = useTransform(scrollYProgress, [0, 0.3], [0, 1])
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 0])
 
   useEffect(() => {
     const lenis = new Lenis({
@@ -31,7 +32,7 @@ function Homepage() {
     <div className="flex h-[200vh] w-full flex-col bg-background">
       <motion.div
         className="sticky top-0 z-0 h-screen"
-        style={{ opacity: section1Opacity, y }}
+        style={{ opacity: section1Opacity, y, scale }}
       >
         <HomeSection1 />
       </motion.div>

@@ -22,7 +22,13 @@ function HomeSection1() {
   const [kph, setKph] = useState(0)
 
   const count = useMotionValue(1000)
-  const { scrollY } = useScroll()
+  const container = useRef(null)
+
+  const { scrollY } = useScroll({
+    target: container,
+    offset: ['start end', 'end center'],
+  })
+
   const scrollVelocity = useVelocity(scrollY)
 
   const smoothVelocity = useSpring(scrollVelocity, {
@@ -68,7 +74,7 @@ function HomeSection1() {
         const targetRpm = scrollBasedRpm.get()
         animate(count, targetRpm, {
           duration: 0.8,
-          ease: 'easeOut',
+          ease: 'easeInOut',
           onUpdate: (val) => {
             const currentRpm = Math.round(Math.abs(val))
             setRpm(currentRpm)
@@ -87,7 +93,7 @@ function HomeSection1() {
   }, [])
 
   return (
-    <div className="mx-5 h-screen text-primary">
+    <div ref={container} className="mx-5 h-screen text-primary">
       <div className="flex h-[75%] flex-col items-center justify-center will-change-transform md:h-[90%]">
         <div className="grid w-full max-w-5xl grid-cols-2 text-5xl font-bold italic md:text-[10rem]">
           <h1 className="text-right">{rpm}</h1>
