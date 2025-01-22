@@ -15,9 +15,9 @@ function HomeSection4() {
   const expandSeparator = useTransform(scrollYProgress, [0.1, 0.3], [0, 100])
   const separatorDynamicWidth = useTransform(expandSeparator, (v) => `${v}%`)
 
-  const scale = useTransform(scrollYProgress, [0.2, 0.375], [0.4, 1])
-  const slideBox = useTransform(scrollYProgress, [0.2, 0.375], [150, 0])
-  const showPatronus = useTransform(scrollYProgress, [0.2, 0.375], [0, 1])
+  const scale = useTransform(scrollYProgress, [0, 0.4], [0.4, 1])
+  const slideBox = useTransform(scrollYProgress, [0, 0.4], [150, 0])
+  const showPatronus = useTransform(scrollYProgress, [0, 0.4], [0, 1])
 
   const titles = ['Start with Why?', 'Negative Space Programming', 'SMRF']
 
@@ -54,7 +54,9 @@ function HomeSection4() {
           <Separator className="bg-background" />
         </motion.div>
       </div>
+
       <Paragraph word="In my development journey, I proudly identify as a T-shaped developer with a strong passion for Full Stack. However, I'm also learning about AI to help me build something more scalable, with larger and broader implications for society by looking at some problems or SDGs. Regardless of that, I have two main philosophies as a Developer, the first one is coming from Simon Sinek, and the second one is something that is called “Negative Space Programming”" />
+
       <motion.div
         className="grid h-full w-full grid-cols-3 gap-5 rounded-3xl bg-background p-5 text-background shadow-md md:gap-10 md:p-10"
         style={{
@@ -62,6 +64,7 @@ function HomeSection4() {
           y: slideBox,
           opacity: showPatronus,
         }}
+        transition={{ duration: 1 }}
       >
         {renderCard(titles, contents)}
       </motion.div>

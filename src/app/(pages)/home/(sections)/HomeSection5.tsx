@@ -26,7 +26,7 @@ function HomeSection5() {
   return (
     <div
       ref={container}
-      className="flex min-h-screen w-full flex-col gap-10 md:gap-20"
+      className="mt-20 flex min-h-screen w-full flex-col gap-10 md:gap-20"
     >
       <div className="flex w-full flex-col justify-center gap-2">
         <h1 className="text-heading-2 font-bold">Work Experience</h1>
