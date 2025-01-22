@@ -30,9 +30,9 @@ function HomeSection3({ scrollYProgress }: HomeSection3Props) {
     [0.2, !isMobile ? 0.3 : 0.2],
     [0, 1],
   )
-  const gap = useTransform(scrollYProgress, [0.2, 0.3], [60, 32])
-  const slideAvatar = useTransform(scrollYProgress, [0.2, 0.3], [-100, 0])
-  const slideText = useTransform(scrollYProgress, [0.2, 0.3], [100, 0])
+  const gap = useTransform(scrollYProgress, [0.15, 0.3], [60, 32])
+  const slideAvatar = useTransform(scrollYProgress, [0.15, 0.3], [-100, 0])
+  const slideText = useTransform(scrollYProgress, [0.15, 0.3], [100, 0])
 
   useEffect(() => {
     const interval = setInterval(() => {

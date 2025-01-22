@@ -1,8 +1,6 @@
 'use client'
 
 import { motion, useScroll, useTransform } from 'framer-motion'
-import Lenis from 'lenis'
-import { useEffect } from 'react'
 import HomeSection1 from './(sections)/HomeSection1'
 import HomeSection2 from './(sections)/HomeSection2'
 import HomeSection3 from './(sections)/HomeSection3'
@@ -17,21 +15,8 @@ function Homepage() {
   const opacity = useTransform(scrollYProgress, [0, 0.3], [0, 1])
   const scale = useTransform(scrollYProgress, [0, 1], [1, 0])
 
-  useEffect(() => {
-    const lenis = new Lenis({
-      autoRaf: true,
-    })
-
-    function raf(time: number) {
-      lenis.raf(time)
-      requestAnimationFrame(raf)
-    }
-
-    requestAnimationFrame(raf)
-  })
-
   return (
-    <div className="flex h-[200vh] w-full flex-col bg-background">
+    <div className="flex h-[100vh] w-full flex-col bg-background">
       <motion.div
         className="sticky top-0 z-0 h-screen"
         style={{ opacity: section1Opacity, y, scale }}

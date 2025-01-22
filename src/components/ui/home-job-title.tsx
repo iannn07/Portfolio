@@ -43,11 +43,4 @@ function HomeJobTitle({
   )
 }
 
-interface HomeJobTitleProps {
-  title: string
-  hoverWidth?: number
-  start: number
-  end: number
-}
-
 export default HomeJobTitle
