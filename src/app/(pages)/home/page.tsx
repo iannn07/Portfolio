@@ -6,13 +6,14 @@ import HomeSection2 from './(sections)/HomeSection2'
 import HomeSection3 from './(sections)/HomeSection3'
 import HomeSection4 from './(sections)/HomeSection4'
 import HomeSection5 from './(sections)/HomeSection5'
+import HomeSection6 from './(sections)/HomeSection6'
 
 function Homepage() {
   const { scrollYProgress } = useScroll()
 
   const section1Opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
   const y = useTransform(scrollYProgress, [0, 0.5], [0, -300])
-  const opacity = useTransform(scrollYProgress, [0, 0.3], [0, 1])
+  const opacity = useTransform(scrollYProgress, [0, 0.1], [0, 1])
   const scale = useTransform(scrollYProgress, [0, 1], [1, 0])
 
   return (
@@ -27,10 +28,9 @@ function Homepage() {
       <motion.div className="z-0 bg-primary" style={{ opacity }}>
         <HomeSection2 />
         <HomeSection3 scrollYProgress={scrollYProgress} />
-        <div className="px-10 md:px-20">
-          <HomeSection4 />
-          <HomeSection5 />
-        </div>
+        <HomeSection4 />
+        <HomeSection5 />
+        <HomeSection6 />
       </motion.div>
     </div>
   )

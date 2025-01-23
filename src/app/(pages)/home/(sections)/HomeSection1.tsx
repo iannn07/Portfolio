@@ -26,7 +26,7 @@ function HomeSection1() {
 
   const { scrollY } = useScroll({
     target: container,
-    offset: ['start end', 'end start'],
+    offset: ['start start', 'end start'],
   })
 
   const scrollVelocity = useVelocity(scrollY)

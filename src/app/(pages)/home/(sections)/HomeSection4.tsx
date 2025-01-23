@@ -1,6 +1,6 @@
 import Paragraph from '@/components/ui/paragraph'
 import PhilosophyCard from '@/components/ui/philosophy-card'
-import { Separator } from '@/components/ui/separator'
+import SectionContainer from '@/components/ui/section-container'
 import { shortDescription } from '@/contents/Descriptions'
 import { philosophies } from '@/contents/Philosophies'
 import { motion, useScroll, useTransform } from 'framer-motion'
@@ -14,28 +14,17 @@ function HomeSection4() {
     offset: ['start end', 'end start'],
   })
 
-  const expandSeparator = useTransform(scrollYProgress, [0, 0.2], [0, 100])
-  const separatorDynamicWidth = useTransform(expandSeparator, (v) => `${v}%`)
-
   const scale = useTransform(scrollYProgress, [0, 0.45], [0.4, 1])
   const slideBox = useTransform(scrollYProgress, [0, 0.45], [150, 0])
   const showPatronus = useTransform(scrollYProgress, [0, 0.45], [0, 1])
 
   return (
-    <div
-      className="flex min-h-screen w-full flex-col justify-center gap-5 pb-20"
-      ref={container}
+    <SectionContainer
+      container={container}
+      scrollYProgress={scrollYProgress}
+      header="Expecto Patronum!"
+      className="pb-20 md:pb-40"
     >
-      <div className="flex w-full flex-col justify-center gap-2">
-        <h1 className="text-heading-2 font-bold">Expecto Patronum!</h1>
-        <motion.div
-          style={{ width: separatorDynamicWidth }}
-          className="max-w-full"
-        >
-          <Separator className="bg-background" />
-        </motion.div>
-      </div>
-
       {shortDescription.map((description, index) => (
         <Paragraph
           key={index}
@@ -62,7 +51,7 @@ function HomeSection4() {
           />
         ))}
       </motion.div>
-    </div>
+    </SectionContainer>
   )
 }
 
