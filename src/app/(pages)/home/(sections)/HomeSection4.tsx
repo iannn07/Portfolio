@@ -1,6 +1,8 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import Paragraph from '@/components/ui/paragraph'
+import PhilosophyCard from '@/components/ui/philosophy-card'
 import { Separator } from '@/components/ui/separator'
+import { shortDescription } from '@/contents/Descriptions'
+import { philosophies } from '@/contents/Philosophies'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useRef } from 'react'
 
@@ -12,33 +14,12 @@ function HomeSection4() {
     offset: ['start end', 'end start'],
   })
 
-  const expandSeparator = useTransform(scrollYProgress, [0.1, 0.3], [0, 100])
+  const expandSeparator = useTransform(scrollYProgress, [0, 0.2], [0, 100])
   const separatorDynamicWidth = useTransform(expandSeparator, (v) => `${v}%`)
 
-  const scale = useTransform(scrollYProgress, [0, 0.4], [0.4, 1])
-  const slideBox = useTransform(scrollYProgress, [0, 0.4], [150, 0])
-  const showPatronus = useTransform(scrollYProgress, [0, 0.4], [0, 1])
-
-  const titles = ['Start with Why?', 'Negative Space Programming', 'SMRF']
-
-  const contents = [
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam dictum sodales commodo. In posuere est bibendum libero varius, in varius felis ultrices. Sed eget pretium lectus, viverra feugiat est. Pellentesque nec diam et justo posuere interdum in quis risus. Vestibulum malesuada, libero id gravida efficitur, ante ex efficitur felis, non pulvinar felis ante a sapien',
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam dictum sodales commodo. In posuere est bibendum libero varius, in varius felis ultrices. Sed eget pretium lectus, viverra feugiat est. Pellentesque nec diam et justo posuere interdum in quis risus. Vestibulum malesuada, libero id gravida efficitur, ante ex efficitur felis, non pulvinar felis ante a sapien',
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam dictum sodales commodo. In posuere est bibendum libero varius, in varius felis ultrices. Sed eget pretium lectus, viverra feugiat est. Pellentesque nec diam et justo posuere interdum in quis risus. Vestibulum malesuada, libero id gravida efficitur, ante ex efficitur felis, non pulvinar felis ante a sapien',
-  ]
-
-  const renderCard = (titles: string[], contents: string[]) => {
-    return titles.map((title, index) => (
-      <Card key={index} className="bg-primary">
-        <CardHeader>
-          <CardTitle>{title}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p>{contents[index]}</p>
-        </CardContent>
-      </Card>
-    ))
-  }
+  const scale = useTransform(scrollYProgress, [0, 0.45], [0.4, 1])
+  const slideBox = useTransform(scrollYProgress, [0, 0.45], [150, 0])
+  const showPatronus = useTransform(scrollYProgress, [0, 0.45], [0, 1])
 
   return (
     <div
@@ -55,10 +36,17 @@ function HomeSection4() {
         </motion.div>
       </div>
 
-      <Paragraph word="In my development journey, I proudly identify as a T-shaped developer with a strong passion for Full Stack. However, I'm also learning about AI to help me build something more scalable, with larger and broader implications for society by looking at some problems or SDGs. Regardless of that, I have two main philosophies as a Developer, the first one is coming from Simon Sinek, and the second one is something that is called “Negative Space Programming”" />
+      {shortDescription.map((description, index) => (
+        <Paragraph
+          key={index}
+          word={description.text}
+          start={description.start}
+          end={description.end}
+        />
+      ))}
 
       <motion.div
-        className="grid h-full w-full grid-cols-3 gap-5 rounded-3xl bg-background p-5 text-background shadow-md md:gap-10 md:p-10"
+        className="flex h-full w-full flex-col gap-5 rounded-3xl bg-background p-5 text-background shadow-md md:grid md:grid-cols-2 md:gap-10 md:p-10"
         style={{
           scale,
           y: slideBox,
@@ -66,7 +54,13 @@ function HomeSection4() {
         }}
         transition={{ duration: 1 }}
       >
-        {renderCard(titles, contents)}
+        {philosophies.map((philosphy, index) => (
+          <PhilosophyCard
+            {...philosphy}
+            key={index}
+            scrollYProgress={scrollYProgress}
+          />
+        ))}
       </motion.div>
     </div>
   )

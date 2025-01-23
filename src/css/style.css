@@ -20,13 +20,13 @@ body {
     --primary: #ecebf3;
     --primary-foreground: #232323;
     --secondary: #bc0b0b;
-    --secondary-foreground: #232323;
-    --muted: #f4f4f5;
+    --secondary-foreground: #e5e5e5;
+    --muted: #1d4ed8;
     --muted-foreground: #71717a;
-    --accent: #f4f4f5;
+    --accent: #1d4ed8;
     --accent-foreground: #232323;
     --destructive: #ef4444;
-    --destructive-foreground: #232323;
+    --destructive-foreground: #e5e5e5;
     --border: #e4e4e7;
     --input: #e4e4e7;
     --ring: #232323;

@@ -1,26 +1,38 @@
+import { useIsMobile } from '@/hooks/use-mobile'
 import { motion, MotionValue, useScroll, useTransform } from 'framer-motion'
 import React, { useRef } from 'react'
 
 interface ParagraphProps {
   word: string
+  start: number
+  end: number
   className?: string
 }
 
-function Paragraph({ word, className }: ParagraphProps) {
+function Paragraph({ word, start, end, className }: ParagraphProps) {
   const container = useRef(null)
+  const isMobile = useIsMobile()
 
   const { scrollYProgress } = useScroll({
     target: container,
-    offset: ['start 0.9', 'start 0.4'],
+    offset: [
+      `${isMobile && start === 1.1 ? 0.1 : start} 0.9`,
+      `${isMobile && end === 1.2 ? 0.8 : end} 0.6`,
+    ],
   })
 
   const words = word.split(' ')
 
   return (
-    <motion.p ref={container} className={`flex flex-wrap ${className}`}>
+    <motion.p
+      ref={container}
+      className={`flex flex-wrap text-justify ${className}`}
+    >
       {words.map((word, index) => {
         const start = index / words.length
         const end = start + 1 / words.length
+
+        const convertedWord = word.replace(/&quot;/g, '"')
 
         return (
           <Word
@@ -28,7 +40,7 @@ function Paragraph({ word, className }: ParagraphProps) {
             range={[start, end]}
             scrollYProgress={scrollYProgress}
           >
-            {word}
+            {convertedWord}
           </Word>
         )
       })}

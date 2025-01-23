@@ -1,5 +1,6 @@
-import DefaultLayout from '@/layout/DefaultLayout'
 import { ReactLenis } from '@/components/lenis/lenis'
+import '@/css/style.css'
+import DefaultLayout from '@/layout/DefaultLayout'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -36,7 +37,7 @@ export default function RootLayout({
         className="min-h-screen overflow-x-hidden font-poppins antialiased"
         style={{ margin: 0, scrollBehavior: 'smooth' }}
       >
-        <ReactLenis root options={{ duration: 4 }}>
+        <ReactLenis root options={{ duration: 4, overscroll: false }}>
           <DefaultLayout>{children}</DefaultLayout>
         </ReactLenis>
       </body>
