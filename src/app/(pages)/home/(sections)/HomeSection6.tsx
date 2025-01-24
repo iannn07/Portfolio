@@ -1,9 +1,10 @@
-import HomeJobTitle from '@/components/ui/home-job-title'
+import { Accordion } from '@/components/ui/accordion'
+import ExperiencesAccordion from '@/components/ui/experiences-accordion'
 import Paragraph from '@/components/ui/paragraph'
 import SectionContainer from '@/components/ui/section-container'
 import { journeyDescription } from '@/contents/Descriptions'
 import { experiences } from '@/contents/Experiences'
-import { useScroll, useTransform } from 'framer-motion'
+import { useScroll } from 'framer-motion'
 import { useRef } from 'react'
 
 function HomeSection6() {
@@ -14,30 +15,36 @@ function HomeSection6() {
     offset: ['start end', 'end start'],
   })
 
-  const opacity = useTransform(scrollYProgress, [0.1, 0.3], [0, 1])
-
   return (
     <SectionContainer
       container={container}
       scrollYProgress={scrollYProgress}
       header="My Journey"
-      className="my-20 md:my-40"
+      className="py-20 md:py-40"
     >
       <Paragraph
         word={journeyDescription.text}
         start={journeyDescription.start}
         end={journeyDescription.end}
       />
-      {experiences.map((exp, index) => (
-        <HomeJobTitle
-          key={index}
-          title={exp.title}
-          scrollYProgress={scrollYProgress}
-          start={exp.range[0]}
-          end={exp.range[1]}
-          hoverWidth={exp.hoverWidth}
-        />
-      ))}
+      <Accordion
+        className="flex min-h-screen w-full flex-col justify-center gap-5 md:gap-10"
+        collapsible
+        type="single"
+      >
+        {experiences.map((exp, index) => (
+          <ExperiencesAccordion
+            key={index}
+            id={exp.id}
+            title={exp.title}
+            company={exp.company}
+            type={exp.type}
+            duration={exp.duration}
+            content={exp.content}
+            range={exp.range}
+          />
+        ))}
+      </Accordion>
     </SectionContainer>
   )
 }

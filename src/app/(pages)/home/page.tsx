@@ -7,6 +7,8 @@ import HomeSection3 from './(sections)/HomeSection3'
 import HomeSection4 from './(sections)/HomeSection4'
 import HomeSection5 from './(sections)/HomeSection5'
 import HomeSection6 from './(sections)/HomeSection6'
+import HomeSection7 from './(sections)/HomeSection7'
+import HomeSection8 from './(sections)/HomeSection8'
 
 function Homepage() {
   const { scrollYProgress } = useScroll()
@@ -31,6 +33,8 @@ function Homepage() {
         <HomeSection4 />
         <HomeSection5 />
         <HomeSection6 />
+        <HomeSection7 />
+        <HomeSection8 />
       </motion.div>
     </div>
   )

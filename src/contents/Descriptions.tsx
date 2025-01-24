@@ -18,7 +18,7 @@ export const shortDescription: DescriptionProps[] = [
 ]
 
 export const journeyDescription: DescriptionProps = {
-  text: 'I am a Final Year Computer Science student at BINUS University and I have been working as a Software Engineer I (SWE) at PT Kalbe Farma Tbk since 2024. I am waiting for my thesis defence schedule and am available for a full-time job or contract work as a Software Engineer or related position by Q2 or Q3 of 2024. And this is my journey:',
+  text: 'I am a Final Year Computer Science student at BINUS University and I have been working as a Software Engineer I (SWE) at PT Kalbe Farma Tbk since 2024. I am available for a full-time job or contract work as a Software Engineer or related position by Q2 or Q3 of 2024. And this is my journey:',
   start: 0.1,
   end: 0.3,
 }
