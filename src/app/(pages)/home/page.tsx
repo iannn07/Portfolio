@@ -27,7 +27,7 @@ function Homepage() {
 
       <motion.div className="z-0 bg-primary" style={{ opacity }}>
         <HomeSection2 />
-        <HomeSection3 scrollYProgress={scrollYProgress} />
+        <HomeSection3 />
         <HomeSection4 />
         <HomeSection5 />
         <HomeSection6 />

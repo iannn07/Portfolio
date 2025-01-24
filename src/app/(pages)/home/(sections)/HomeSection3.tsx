@@ -5,14 +5,10 @@ import { Avatar } from '@/components/ui/avatar'
 import { useIsMobile } from '@/hooks/use-mobile'
 import { AvatarImage } from '@radix-ui/react-avatar'
 import { IconCircleCheckFilled } from '@tabler/icons-react'
-import { motion, MotionValue, useTransform } from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { motion, useScroll, useTransform } from 'framer-motion'
+import { useEffect, useRef, useState } from 'react'
 
-interface HomeSection3Props {
-  scrollYProgress: MotionValue<number>
-}
-
-function HomeSection3({ scrollYProgress }: HomeSection3Props) {
+function HomeSection3() {
   const role = [
     'Software Engineer I',
     'Junior Software Engineer',
@@ -25,11 +21,18 @@ function HomeSection3({ scrollYProgress }: HomeSection3Props) {
 
   const isMobile = useIsMobile()
 
+  const container = useRef(null)
+  const { scrollYProgress } = useScroll({
+    target: container,
+    offset: ['start 0.8', 'end start'],
+  })
+
   const opacity = useTransform(
     scrollYProgress,
     [0.2, !isMobile ? 0.3 : 0.2],
     [0, 1],
   )
+
   const gap = useTransform(scrollYProgress, [0.15, 0.3], [60, 32])
   const slideAvatar = useTransform(scrollYProgress, [0.15, 0.3], [-100, 0])
   const slideText = useTransform(scrollYProgress, [0.15, 0.3], [100, 0])
@@ -49,6 +52,7 @@ function HomeSection3({ scrollYProgress }: HomeSection3Props) {
 
   return (
     <motion.div
+      ref={container}
       className="flex h-screen w-full flex-col items-center justify-evenly bg-primary text-background"
       style={{ opacity }}
     >

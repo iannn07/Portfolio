@@ -1,63 +1,39 @@
-import TechStacks from '@/components/ui/tech-stacks'
-import {
-  IconBrandAngular,
-  IconBrandAws,
-  IconBrandAzure,
-  IconBrandDocker,
-  IconBrandFigma,
-  IconBrandFramerMotion,
-  IconBrandNextjs,
-  IconBrandReact,
-  IconBrandTailwind,
-  IconBrandTypescript,
-  IconBrandVue,
-} from '@tabler/icons-react'
-import { MotionValue } from 'framer-motion'
+import { motion } from 'framer-motion'
+import Image from 'next/image'
+import React from 'react'
+import { stacks } from './Stacks'
 
-interface TechStacksProps {
-  scrollYProgress: MotionValue<number>
-}
-
-function Skills({ scrollYProgress }: TechStacksProps) {
-  const stacks = [
-    {
-      category: 'Frontend',
-      items: [
-        IconBrandNextjs,
-        IconBrandReact,
-        IconBrandFramerMotion,
-        IconBrandTypescript,
-      ],
-      range: [0.1, 0.3],
-    },
-    {
-      category: 'Design',
-      items: [IconBrandFigma, IconBrandTailwind, '/images/logo/mui.png'],
-      range: [0.3, 0.5],
-    },
-    {
-      category: 'DevOps',
-      items: [IconBrandDocker, '/images/logo/gcloud.png'],
-      range: [0.5, 0.6],
-    },
-    {
-      category: 'Currently Learning',
-      items: [IconBrandAngular, IconBrandVue, IconBrandAws, IconBrandAzure],
-      range: [0.6, 0.7],
-    },
-  ]
-
+function Skills() {
   return (
-    <div className="grid grid-cols-2 gap-5">
-      {stacks.map((stack, index) => (
-        <TechStacks
-          scrollYProgress={scrollYProgress}
-          category={stack.category}
-          items={stack.items}
-          range={stack.range}
-          key={index}
-        />
-      ))}
+    <div className="flex flex-col items-center justify-center gap-5 md:grid md:grid-cols-2">
+      {stacks.map((stack, index) => {
+        const { category, items } = stack
+
+        return (
+          <motion.div
+            key={index}
+            className="flex w-full flex-col items-center justify-between gap-5 rounded-xl border border-primary p-5"
+          >
+            <h1 className="text-heading-6">{category}</h1>
+            <div className="flex flex-col items-center justify-center gap-5 md:flex-row">
+              {items.map((item, index) => (
+                <div key={index}>
+                  {typeof item === 'string' ? (
+                    <Image
+                      src={item}
+                      alt={item}
+                      width={item === '/images/logo/figma.svg' ? 25 : 50}
+                      height={item === '/images/logo/figma.svg' ? 25 : 50}
+                    />
+                  ) : (
+                    React.createElement(item, { size: 50, strokeWidth: 1 })
+                  )}
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        )
+      })}
     </div>
   )
 }
