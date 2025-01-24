@@ -26,25 +26,19 @@ function HomeSection5() {
     [0.35, 0.4, 0.45],
     [0, 1, 0],
   )
-  const showTitle = useTransform(scrollYProgress, [0.35, 0.4, 0.45], [0, 1, 0])
+  const showTitle = useTransform(imageYProgress, [0.25, 0.45, 0.55], [0, 1, 0])
 
-  const scaleMobile = useTransform(imageYProgress, [-0.1, 0.25], [0, 5])
-  const scale = useTransform(imageYProgress, [0, 0.25], [1, 5])
+  const scaleMobile = useTransform(scrollYProgress, [0, 0.25], [1, 2])
+  const scale = useTransform(scrollYProgress, [0.25, 0.5], [1, 4])
 
-  const dimBackgroundMobile = useTransform(
-    imageYProgress,
-    [0.25, 0.35],
-    [100, 25],
-  )
   const dimBackground = useTransform(imageYProgress, [0.25, 0.35], [100, 25])
-
   const reduceBrightness = useTransform(
-    isMobile ? dimBackgroundMobile : dimBackground,
+    dimBackground,
     (v) => `brightness(${v}%)`,
   )
 
-  const showContentMobile = useTransform(imageYProgress, [0.3, 0.4], [0, 1])
-  const showContent = useTransform(imageYProgress, [0.3, 0.4], [0, 1])
+  const showContentMobile = useTransform(imageYProgress, [0.4, 0.5], [0, 1])
+  const showContent = useTransform(imageYProgress, [0.3, 0.5], [0, 1])
 
   const titleOpacity = isMobile ? showTitleMobile : showTitle
   const scaleValue = isMobile ? scaleMobile : scale
@@ -57,17 +51,20 @@ function HomeSection5() {
       useHeader={false}
       className="py-20 text-primary md:py-40"
     >
-      <motion.div className="min-h-[225vh]" ref={imageContainer}>
+      <motion.div
+        className={`${isMobile ? 'h-[600vh]' : 'h-[300vh]'}`}
+        ref={imageContainer}
+      >
         <div className="sticky top-0 h-screen">
           <div className="absolute top-0 flex h-screen w-full items-center justify-center">
             <motion.div
-              className="relative h-auto w-screen -scale-150 rounded-b-3xl rounded-t-xl bg-background md:w-[25vw]"
+              className={`relative w-[50vw] bg-background md:w-[25vw] ${isMobile ? 'h-[50vh]' : 'rounded-3xl'}`}
               style={{ scale: scaleValue, filter: reduceBrightness }}
             >
               <Image
                 src="/images/ducati/ducati.jpg"
                 alt="ducati"
-                className="rounded-b-3xl rounded-t-xl object-cover"
+                className={`relative h-full bg-background object-cover md:w-[25vw] ${isMobile ? '' : 'rounded-3xl'}`}
                 height={99999999999999999999}
                 width={99999999999999999999}
               />
@@ -80,8 +77,9 @@ function HomeSection5() {
             Tech Stacks
           </motion.h1>
         </div>
+
         <motion.div
-          className="relative flex h-screen justify-center py-20 md:py-40"
+          className={`relative flex h-screen justify-center py-20 md:py-40 ${isMobile ? 'top-[300vh]' : 'top-[100vh]'}`}
           style={{ opacity: contentOpacity }}
         >
           <Skills />
