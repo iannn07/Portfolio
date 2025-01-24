@@ -2,9 +2,16 @@
 
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Avatar } from '@/components/ui/avatar'
+import Contacts from '@/components/ui/contacts'
 import { useIsMobile } from '@/hooks/use-mobile'
 import { AvatarImage } from '@radix-ui/react-avatar'
-import { IconCircleCheckFilled } from '@tabler/icons-react'
+import {
+  IconBrandGithub,
+  IconBrandGithubFilled,
+  IconBrandLinkedin,
+  IconBrandLinkedinFilled,
+  IconCircleCheckFilled,
+} from '@tabler/icons-react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useEffect, useRef, useState } from 'react'
 
@@ -29,7 +36,7 @@ function HomeSection3() {
 
   const opacity = useTransform(
     scrollYProgress,
-    [0.2, !isMobile ? 0.3 : 0.2],
+    [!isMobile ? 0.2 : 0.1, !isMobile ? 0.3 : 0.2],
     [0, 1],
   )
 
@@ -87,27 +94,59 @@ function HomeSection3() {
               or... you can call me{' '}
               <span className="font-bold text-secondary">Ian.</span>
             </h2>
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              className="mt-4 min-w-[30ch] text-justify"
-            >
-              <Alert className="w-full text-primary">
-                <AlertTitle className="flex items-center gap-2 md:ml-2 md:text-xl">
-                  A passionate
-                  <IconCircleCheckFilled color="white" size={20} />
-                </AlertTitle>
-                <motion.div
-                  key={changeRole}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                >
-                  <AlertDescription className="md:ml-2 md:text-lg">
-                    {changeRole}
-                  </AlertDescription>
-                </motion.div>
-              </Alert>
-            </motion.button>
+            <div className="mt-4 flex flex-col items-center justify-center gap-5 md:flex-row">
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                className="min-w-[30ch] text-justify md:mr-5"
+              >
+                <Alert className="w-full text-primary">
+                  <AlertTitle className="flex items-center gap-2 md:ml-2 md:text-xl">
+                    A passionate
+                    <IconCircleCheckFilled color="white" size={20} />
+                  </AlertTitle>
+                  <motion.div
+                    key={changeRole}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                  >
+                    <AlertDescription className="md:ml-2 md:text-lg">
+                      {changeRole}
+                    </AlertDescription>
+                  </motion.div>
+                </Alert>
+              </motion.button>
+
+              <div className="flex items-center justify-center gap-5">
+                <Contacts
+                  link="https://github.com/iannn07"
+                  inactiveIcon={<IconBrandGithub size={50} strokeWidth={1} />}
+                  activeIcon={
+                    <IconBrandGithubFilled size={50} strokeWidth={1} />
+                  }
+                />
+                <Contacts
+                  link="https://www.linkedin.com/in/pristian-budi-dharmawan/"
+                  inactiveIcon={<IconBrandLinkedin size={50} strokeWidth={1} />}
+                  activeIcon={
+                    <IconBrandLinkedinFilled size={50} strokeWidth={1} />
+                  }
+                />
+                <Contacts
+                  link="https://www.linkedin.com/in/pristian-budi-dharmawan/"
+                  inactiveIcon={
+                    <h1 className="flex items-center justify-center rounded-[0.6rem] border-2 border-black p-[7px]">
+                      CV
+                    </h1>
+                  }
+                  activeIcon={
+                    <h1 className="flex items-center justify-center rounded-[0.6rem] border-2 border-primary bg-black p-[7px] text-primary">
+                      CV
+                    </h1>
+                  }
+                />
+              </div>
+            </div>
           </motion.div>
         </motion.div>
       </div>

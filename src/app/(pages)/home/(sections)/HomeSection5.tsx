@@ -29,7 +29,7 @@ function HomeSection5() {
   const showTitle = useTransform(imageYProgress, [0.25, 0.45, 0.55], [0, 1, 0])
 
   const scaleMobile = useTransform(scrollYProgress, [0, 0.25], [1, 2])
-  const scale = useTransform(scrollYProgress, [0.25, 0.5], [1, 4])
+  const scale = useTransform(scrollYProgress, [0, 0.25], [1, 4])
 
   const dimBackground = useTransform(imageYProgress, [0.25, 0.35], [100, 25])
   const reduceBrightness = useTransform(

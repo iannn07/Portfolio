@@ -1,6 +1,9 @@
 import HomeJobTitle from '@/components/ui/home-job-title'
+import Paragraph from '@/components/ui/paragraph'
 import SectionContainer from '@/components/ui/section-container'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { journeyDescription } from '@/contents/Descriptions'
+import { experiences } from '@/contents/Experiences'
+import { useScroll, useTransform } from 'framer-motion'
 import { useRef } from 'react'
 
 function HomeSection6() {
@@ -13,33 +16,28 @@ function HomeSection6() {
 
   const opacity = useTransform(scrollYProgress, [0.1, 0.3], [0, 1])
 
-  const jobTitles = [
-    { title: 'SWE I', start: 0.1, end: 0.2 },
-    { title: 'SWE I', start: 0.2, end: 0.3 },
-    { title: 'SWE I', start: 0.3, end: 0.4 },
-    { title: 'SWE I', start: 0.4, end: 0.5 },
-  ]
-
   return (
     <SectionContainer
       container={container}
       scrollYProgress={scrollYProgress}
-      header="Work Experience"
+      header="My Journey"
+      className="my-20 md:my-40"
     >
-      <motion.div
-        className="flex h-full w-full flex-col gap-10 text-background md:gap-20"
-        style={{ opacity }}
-      >
-        {jobTitles.map((jobTitle, index) => (
-          <HomeJobTitle
-            key={index}
-            title={jobTitle.title}
-            scrollYProgress={scrollYProgress}
-            start={jobTitle.start}
-            end={jobTitle.end}
-          />
-        ))}
-      </motion.div>
+      <Paragraph
+        word={journeyDescription.text}
+        start={journeyDescription.start}
+        end={journeyDescription.end}
+      />
+      {experiences.map((exp, index) => (
+        <HomeJobTitle
+          key={index}
+          title={exp.title}
+          scrollYProgress={scrollYProgress}
+          start={exp.range[0]}
+          end={exp.range[1]}
+          hoverWidth={exp.hoverWidth}
+        />
+      ))}
     </SectionContainer>
   )
 }
