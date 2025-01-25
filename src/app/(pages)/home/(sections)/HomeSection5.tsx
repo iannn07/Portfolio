@@ -68,7 +68,7 @@ function HomeSection5() {
             </motion.div>
           </div>
           <motion.h1
-            className="relative flex h-screen items-center justify-center text-heading-2 font-bold"
+            className="relative flex h-screen items-center justify-center text-heading-2 font-medium"
             style={{ opacity: titleOpacity }}
           >
             Tech Stacks

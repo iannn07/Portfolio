@@ -31,7 +31,7 @@ function HomeSection4() {
       ))}
 
       <div className="flex h-screen w-full items-center justify-center md:h-[50vh]">
-        <h1 className="text-heading-2 font-bold md:text-heading-1">
+        <h1 className="text-heading-2 font-medium md:text-heading-1">
           Why do I develop?
         </h1>
       </div>
@@ -39,7 +39,7 @@ function HomeSection4() {
       <PhilosophyCard scrollYProgress={scrollYProgress} {...philosophies[0]} />
 
       <div className="flex h-screen w-full items-center justify-center md:h-[50vh]">
-        <h1 className="text-heading-2 font-bold md:text-heading-1">
+        <h1 className="text-heading-2 font-medium md:text-heading-1">
           How do I develop?
         </h1>
       </div>

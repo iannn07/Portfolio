@@ -36,8 +36,8 @@ export const philosophies: PhilosophyProps[] = [
       </div>
     ),
     badges: ['Simon Sinek', 'Leadership', 'Continuous Learning', 'Innovation'],
-    start: 0.4,
-    end: 0.45,
+    start: 0.35,
+    end: 0.4,
   },
   {
     title: 'Negative Space Programming',
@@ -64,7 +64,7 @@ export const philosophies: PhilosophyProps[] = [
 
         <div className="flex flex-col justify-center gap-10 md:flex-row">
           <div className="flex flex-col items-center gap-2 md:flex-row">
-            <h1 className="text-center text-xl font-bold text-background md:text-left md:text-heading-6">
+            <h1 className="text-center text-xl font-medium text-background md:text-left md:text-heading-6">
               Direct Usage of Raw Data
             </h1>
             <div className="h-28 w-28 text-center">
@@ -78,7 +78,7 @@ export const philosophies: PhilosophyProps[] = [
             </div>
           </div>
           <div className="flex flex-col items-center gap-2 md:flex-row">
-            <h1 className="text-center text-xl font-bold text-background md:text-left md:text-heading-6">
+            <h1 className="text-center text-xl font-medium text-background md:text-left md:text-heading-6">
               Never Trust Any Raw Data
             </h1>
             <div className="h-28 w-28 text-center">

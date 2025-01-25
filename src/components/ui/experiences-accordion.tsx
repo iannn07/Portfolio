@@ -35,7 +35,7 @@ function ExperiencesAccordion({
     <AccordionItem value={id} ref={container}>
       <motion.div style={{ opacity }}>
         <AccordionTrigger>
-          <h1>
+          <h1 className="text-heading-6 font-medium md:text-heading-5">
             {title} <span className="text-xs text-muted-foreground">at</span>{' '}
             {company}
           </h1>
@@ -48,7 +48,7 @@ function ExperiencesAccordion({
               </div>
               <Badge variant="outline">{duration}</Badge>
             </div>
-            {content}
+            <div className="md:text-md">{content}</div>
           </div>
         </AccordionContent>
       </motion.div>

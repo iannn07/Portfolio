@@ -1,5 +1,6 @@
 'use client'
 
+import ParallaxText from '@/components/ui/parallax'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import HomeSection1 from './(sections)/HomeSection1'
 import HomeSection2 from './(sections)/HomeSection2'
@@ -8,8 +9,6 @@ import HomeSection4 from './(sections)/HomeSection4'
 import HomeSection5 from './(sections)/HomeSection5'
 import HomeSection6 from './(sections)/HomeSection6'
 import HomeSection7 from './(sections)/HomeSection7'
-import HomeSection8 from './(sections)/HomeSection8'
-import ParallaxText from '@/components/ui/parallax'
 
 function Homepage() {
   const { scrollYProgress } = useScroll()
@@ -38,7 +37,6 @@ function Homepage() {
         <HomeSection5 />
         <HomeSection6 />
         <HomeSection7 />
-        <HomeSection8 />
       </motion.div>
     </div>
   )

@@ -46,7 +46,13 @@ function HomeSection3() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setChangeRole(role[Math.floor(Math.random() * role.length)])
+      setChangeRole((prev) => {
+        let next = role[Math.floor(Math.random() * role.length)]
+        while (next === prev) {
+          next = role[Math.floor(Math.random() * role.length)]
+        }
+        return next
+      })
     }, 2000)
 
     if (firstRender)

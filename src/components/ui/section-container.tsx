@@ -37,7 +37,7 @@ function SectionContainer({
     >
       {useHeader && (
         <div className="flex w-full flex-col justify-center gap-2">
-          <h1 className="text-heading-2 font-bold md:text-heading-1">
+          <h1 className="text-heading-2 font-medium md:text-heading-1">
             {header}
           </h1>
           <motion.div

@@ -20,7 +20,7 @@ function HomeSection6() {
       container={container}
       scrollYProgress={scrollYProgress}
       header="My Journey"
-      className="py-20 md:py-40"
+      className="pt-20 md:pt-40"
     >
       <Paragraph
         word={journeyDescription.text}
