@@ -11,6 +11,7 @@ interface SectionContainerProps {
   separatorColor?: string
   customPadding?: string
   useHeader?: boolean
+  screen?: boolean
   children: React.ReactNode
 }
 
@@ -23,6 +24,7 @@ function SectionContainer({
   separatorColor = 'bg-background',
   customPadding,
   useHeader = true,
+  screen = true,
   children,
 }: SectionContainerProps) {
   const expandSeparator = useTransform(scrollYProgress, [0, 0.2], [0, 100])
@@ -30,12 +32,14 @@ function SectionContainer({
 
   return (
     <div
-      className={`flex min-h-screen w-full flex-col gap-5 ${className} ${verticalCenter ? 'justify-center' : ''} ${customPadding ? customPadding : 'px-10 md:px-20'}`}
+      className={`flex w-full flex-col gap-5 ${className} ${verticalCenter ? 'justify-center' : ''} ${customPadding ? customPadding : 'px-10 md:px-20'} ${screen ? 'min-h-screen' : ''}`}
       ref={container}
     >
       {useHeader && (
         <div className="flex w-full flex-col justify-center gap-2">
-          <h1 className="text-heading-2 font-bold">{header}</h1>
+          <h1 className="text-heading-2 font-bold md:text-heading-1">
+            {header}
+          </h1>
           <motion.div
             style={{ width: separatorDynamicWidth }}
             className="max-w-full"

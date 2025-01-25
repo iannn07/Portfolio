@@ -49,22 +49,19 @@ function HomeSection5() {
       container={container}
       scrollYProgress={scrollYProgress}
       useHeader={false}
-      className="py-20 text-primary md:py-40"
+      className="py-20 text-primary md:py-40 md:pb-[50vh]"
     >
-      <motion.div
-        className={`${isMobile ? 'h-[600vh]' : 'h-[300vh]'}`}
-        ref={imageContainer}
-      >
+      <motion.div className={`h-[550vh] md:max-h-[250vh]`} ref={imageContainer}>
         <div className="sticky top-0 h-screen">
           <div className="absolute top-0 flex h-screen w-full items-center justify-center">
             <motion.div
-              className={`relative w-[50vw] bg-background md:w-[25vw] ${isMobile ? 'h-[50vh]' : 'rounded-3xl'}`}
+              className={`relative h-[50vh] w-[50vw] bg-background md:w-[25vw] md:rounded-3xl`}
               style={{ scale: scaleValue, filter: reduceBrightness }}
             >
               <Image
                 src="/images/ducati/ducati.jpg"
                 alt="ducati"
-                className={`relative h-full bg-background object-cover md:w-[25vw] ${isMobile ? '' : 'rounded-3xl'}`}
+                className={`relative h-full bg-background object-cover md:w-[25vw] md:rounded-3xl`}
                 height={99999999999999999999}
                 width={99999999999999999999}
               />
@@ -79,10 +76,12 @@ function HomeSection5() {
         </div>
 
         <motion.div
-          className={`relative flex h-screen justify-center py-20 md:py-40 ${isMobile ? 'top-[300vh]' : 'top-[100vh]'}`}
+          className={`relative top-[250vh] flex h-screen justify-center py-20 md:top-[75vh] md:py-40`}
           style={{ opacity: contentOpacity }}
         >
-          <Skills />
+          <div className="flex flex-col items-center justify-center gap-5 md:grid md:h-fit md:grid-cols-2">
+            <Skills />
+          </div>
         </motion.div>
       </motion.div>
     </SectionContainer>

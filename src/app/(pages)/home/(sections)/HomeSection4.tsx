@@ -3,7 +3,7 @@ import PhilosophyCard from '@/components/ui/philosophy-card'
 import SectionContainer from '@/components/ui/section-container'
 import { shortDescription } from '@/contents/Descriptions'
 import { philosophies } from '@/contents/Philosophies'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { useScroll } from 'framer-motion'
 import { useRef } from 'react'
 
 function HomeSection4() {
@@ -14,16 +14,12 @@ function HomeSection4() {
     offset: ['start end', 'end start'],
   })
 
-  const scale = useTransform(scrollYProgress, [0, 0.45], [0.4, 1])
-  const slideBox = useTransform(scrollYProgress, [0, 0.45], [150, 0])
-  const showPatronus = useTransform(scrollYProgress, [0, 0.45], [0, 1])
-
   return (
     <SectionContainer
       container={container}
       scrollYProgress={scrollYProgress}
       header="Expecto Patronum!"
-      className="pb-20 md:pb-40"
+      className="py-20 md:pb-40"
     >
       {shortDescription.map((description, index) => (
         <Paragraph
@@ -34,23 +30,21 @@ function HomeSection4() {
         />
       ))}
 
-      <motion.div
-        className="flex h-full w-full flex-col gap-5 rounded-3xl bg-background p-5 text-background shadow-md md:grid md:grid-cols-2 md:gap-10 md:p-10"
-        style={{
-          scale,
-          y: slideBox,
-          opacity: showPatronus,
-        }}
-        transition={{ duration: 1 }}
-      >
-        {philosophies.map((philosphy, index) => (
-          <PhilosophyCard
-            {...philosphy}
-            key={index}
-            scrollYProgress={scrollYProgress}
-          />
-        ))}
-      </motion.div>
+      <div className="flex h-screen w-full items-center justify-center md:h-[50vh]">
+        <h1 className="text-heading-2 font-bold md:text-heading-1">
+          Why do I develop?
+        </h1>
+      </div>
+
+      <PhilosophyCard scrollYProgress={scrollYProgress} {...philosophies[0]} />
+
+      <div className="flex h-screen w-full items-center justify-center md:h-[50vh]">
+        <h1 className="text-heading-2 font-bold md:text-heading-1">
+          How do I develop?
+        </h1>
+      </div>
+
+      <PhilosophyCard scrollYProgress={scrollYProgress} {...philosophies[1]} />
     </SectionContainer>
   )
 }

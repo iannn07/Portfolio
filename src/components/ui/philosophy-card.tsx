@@ -8,50 +8,50 @@ import {
   CardHeader,
   CardTitle,
 } from './card'
-import { useIsMobile } from '@/hooks/use-mobile'
 
 interface PhilosophyCardProps {
+  scrollYProgress: MotionValue<number>
   title: string
   content: React.ReactNode
   badges: string[]
-  scrollYProgress: MotionValue<number>
   start: number
   end: number
 }
 
 function PhilosophyCard({
+  scrollYProgress,
   title,
   content,
   badges,
-  scrollYProgress,
   start,
   end,
 }: PhilosophyCardProps) {
-  const isMobile = useIsMobile()
-
-  const scaleCard = useTransform(scrollYProgress, [start, end], [0.2, 1])
-  const showCard = useTransform(scrollYProgress, [start, end], [0, 1])
+  const showPatronus = useTransform(scrollYProgress, [start, end], [0, 1])
 
   return (
     <motion.div
-      className="flex w-full"
-      style={isMobile ? { scale: scaleCard, opacity: showCard } : undefined}
+      className="flex h-full w-full flex-col gap-5 rounded-3xl bg-background p-5 text-background shadow-md"
+      style={{ opacity: showPatronus }}
     >
-      <Card className="flex h-full flex-col justify-between bg-primary">
-        <CardHeader>
-          <CardTitle>{title}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <CardDescription>{content}</CardDescription>
-        </CardContent>
-        <CardFooter className="flex w-full flex-wrap justify-center gap-2">
-          {badges.map((badge, index) => (
-            <Badge key={index} variant="outline">
-              {badge}
-            </Badge>
-          ))}
-        </CardFooter>
-      </Card>
+      <div className="flex w-full">
+        <Card className="flex h-full flex-col bg-primary">
+          <CardHeader>
+            <CardTitle className="text-heading-5 md:text-heading-4">
+              {title}
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="flex-grow">
+            <CardDescription>{content}</CardDescription>
+          </CardContent>
+          <CardFooter className="flex w-full flex-wrap justify-center gap-2">
+            {badges?.map((badge, index) => (
+              <Badge key={index} variant="outline">
+                {badge}
+              </Badge>
+            ))}
+          </CardFooter>
+        </Card>
+      </div>
     </motion.div>
   )
 }

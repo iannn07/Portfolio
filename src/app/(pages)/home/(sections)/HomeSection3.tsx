@@ -36,7 +36,7 @@ function HomeSection3() {
 
   const opacity = useTransform(
     scrollYProgress,
-    [!isMobile ? 0.2 : 0.1, !isMobile ? 0.3 : 0.2],
+    [!isMobile ? 0.2 : 0.1, !isMobile ? 0.3 : 0.35],
     [0, 1],
   )
 

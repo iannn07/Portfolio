@@ -16,8 +16,8 @@ function Paragraph({ word, start, end, className }: ParagraphProps) {
   const { scrollYProgress } = useScroll({
     target: container,
     offset: [
-      `${isMobile && start === 1.1 ? 0.1 : start} 0.9`,
-      `${isMobile && end === 1.2 ? 0.8 : end} 0.6`,
+      `${isMobile && start === 0.4 ? 0.1 : start} 0.9`,
+      `${isMobile && end === 1.1 ? 0.8 : end} 0.7`,
     ],
   })
 
@@ -26,7 +26,7 @@ function Paragraph({ word, start, end, className }: ParagraphProps) {
   return (
     <motion.p
       ref={container}
-      className={`flex flex-wrap text-justify ${className}`}
+      className={`flex flex-wrap text-justify text-lg md:text-xl ${className}`}
     >
       {words.map((word, index) => {
         const start = index / words.length
