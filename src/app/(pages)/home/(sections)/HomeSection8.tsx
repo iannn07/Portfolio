@@ -16,6 +16,7 @@ function HomeSection8() {
     <SectionContainer
       container={container}
       scrollYProgress={scrollYProgress}
+      id="projects"
       header="Featured Work"
       shortDesc="Projects during my journey"
       className="py-20 md:py-40"

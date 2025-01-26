@@ -68,6 +68,7 @@ function HomeSection3() {
       ref={container}
       className="flex h-screen w-full flex-col items-center justify-evenly bg-primary text-background"
       style={{ opacity }}
+      id="patronus"
     >
       <div className="flex w-full flex-col items-center justify-center gap-5 md:gap-10">
         <motion.div

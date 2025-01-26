@@ -19,6 +19,7 @@ function HomeSection6() {
     <SectionContainer
       container={container}
       scrollYProgress={scrollYProgress}
+      id="experiences"
       header="My Journey"
       className="pt-20 md:pt-40"
     >

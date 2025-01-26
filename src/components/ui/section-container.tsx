@@ -5,6 +5,7 @@ import { Separator } from './separator'
 interface SectionContainerProps {
   container: RefObject<null>
   scrollYProgress: MotionValue<number>
+  id?: string
   header?: string
   shortDesc?: string
   className?: string
@@ -19,6 +20,7 @@ interface SectionContainerProps {
 function SectionContainer({
   container,
   scrollYProgress,
+  id,
   header,
   shortDesc,
   className,
@@ -36,6 +38,7 @@ function SectionContainer({
     <div
       className={`flex w-full flex-col gap-5 ${className} ${verticalCenter ? 'justify-center' : ''} ${customPadding ? customPadding : 'px-10 md:px-20'} ${screen ? 'min-h-screen' : ''}`}
       ref={container}
+      id={id}
     >
       {useHeader && (
         <div className="flex w-full flex-col justify-center gap-2">
