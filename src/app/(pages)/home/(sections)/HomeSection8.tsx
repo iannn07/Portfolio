@@ -1,4 +1,6 @@
+import ProjectCard from '@/components/ui/project-card'
 import SectionContainer from '@/components/ui/section-container'
+import { Projects } from '@/contents/Projects'
 import { useScroll } from 'framer-motion'
 import { useRef } from 'react'
 
@@ -14,9 +16,13 @@ function HomeSection8() {
     <SectionContainer
       container={container}
       scrollYProgress={scrollYProgress}
-      header="Projects"
+      header="Featured Work"
+      shortDesc="Projects during my journey"
+      className="py-20 md:py-40"
     >
-      abcdef
+      {Projects.map((project, index) => (
+        <ProjectCard key={index} {...project} />
+      ))}
     </SectionContainer>
   )
 }

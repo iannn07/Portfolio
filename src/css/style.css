@@ -11,7 +11,7 @@ body {
 @layer base {
   :root {
     --background: #232323;
-    --background-secondary: #e5e5e5;
+    --background-secondary: #c7ccdb;
     --foreground: #232323;
     --card: #232323;
     --card-foreground: #232323;
@@ -20,13 +20,13 @@ body {
     --primary: #ecebf3;
     --primary-foreground: #232323;
     --secondary: #bc0b0b;
-    --secondary-foreground: #e5e5e5;
+    --secondary-foreground: #c7ccdb;
     --muted: #1d4ed8;
     --muted-foreground: #71717a;
     --accent: #1d4ed8;
     --accent-foreground: #232323;
     --destructive: #ef4444;
-    --destructive-foreground: #e5e5e5;
+    --destructive-foreground: #c7ccdb;
     --border: #e4e4e7;
     --input: #e4e4e7;
     --ring: #232323;

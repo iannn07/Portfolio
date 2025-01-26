@@ -36,7 +36,7 @@ function ExperiencesAccordion({
       <motion.div style={{ opacity }}>
         <AccordionTrigger>
           <h1 className="text-heading-6 font-medium md:text-heading-5">
-            {title} <span className="text-xs text-muted-foreground">at</span>{' '}
+            {title} <span className="text-base text-muted-foreground">at</span>{' '}
             {company}
           </h1>
         </AccordionTrigger>

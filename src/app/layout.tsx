@@ -37,7 +37,10 @@ export default function RootLayout({
         className="min-h-screen overflow-x-hidden font-poppins antialiased"
         style={{ margin: 0, scrollBehavior: 'smooth' }}
       >
-        <ReactLenis root options={{ duration: 4, overscroll: false }}>
+        <ReactLenis
+          root
+          options={{ duration: 4, overscroll: false, wheelMultiplier: 0.25 }}
+        >
           <DefaultLayout>{children}</DefaultLayout>
         </ReactLenis>
       </body>

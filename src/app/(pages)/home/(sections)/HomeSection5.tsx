@@ -1,5 +1,6 @@
 import SectionContainer from '@/components/ui/section-container'
-import Skills from '@/contents/Skills'
+import SkillsCard from '@/components/ui/skills-card'
+
 import { useIsMobile } from '@/hooks/use-mobile'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import Image from 'next/image'
@@ -80,7 +81,7 @@ function HomeSection5() {
           style={{ opacity: contentOpacity }}
         >
           <div className="flex flex-col items-center justify-center gap-5 md:grid md:h-fit md:grid-cols-2">
-            <Skills />
+            <SkillsCard />
           </div>
         </motion.div>
       </motion.div>

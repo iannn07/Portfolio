@@ -6,6 +6,7 @@ interface SectionContainerProps {
   container: RefObject<null>
   scrollYProgress: MotionValue<number>
   header?: string
+  shortDesc?: string
   className?: string
   verticalCenter?: boolean
   separatorColor?: string
@@ -19,6 +20,7 @@ function SectionContainer({
   container,
   scrollYProgress,
   header,
+  shortDesc,
   className,
   verticalCenter = false,
   separatorColor = 'bg-background',
@@ -37,9 +39,12 @@ function SectionContainer({
     >
       {useHeader && (
         <div className="flex w-full flex-col justify-center gap-2">
-          <h1 className="text-heading-2 font-medium md:text-heading-1">
-            {header}
-          </h1>
+          <div className="flex items-end justify-between">
+            <h1 className="text-heading-2 font-medium md:text-heading-1">
+              {header}
+            </h1>
+            <p className="hidden max-w-56 md:block">{shortDesc}</p>
+          </div>
           <motion.div
             style={{ width: separatorDynamicWidth }}
             className="max-w-full"

@@ -1,10 +1,7 @@
 'use client'
 
-import { AppSidebar } from '@/components/app-sidebar'
 import Loader from '@/components/misc/Loader'
-import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import { LoaderProvider, useLoader } from '@/context/LoaderContext'
-import { useIsMobile } from '@/hooks/use-mobile'
 import { motion } from 'framer-motion'
 import React, { useEffect, useState } from 'react'
 
@@ -13,23 +10,11 @@ function DefaultLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const isMobile = useIsMobile()
-
   return (
     <LoaderProvider>
       {/* <Content> */}
       <div className="flex min-h-screen w-full text-white">
-        {isMobile ? (
-          <SidebarProvider>
-            <AppSidebar />
-            <div className="flex w-full flex-col">
-              {isMobile && <SidebarTrigger />}
-              {children}
-            </div>
-          </SidebarProvider>
-        ) : (
-          <div className="flex w-full flex-col">{children}</div>
-        )}
+        <div className="flex w-full flex-col">{children}</div>
       </div>
       {/* </Content> */}
     </LoaderProvider>

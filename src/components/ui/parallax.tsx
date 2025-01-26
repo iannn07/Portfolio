@@ -56,7 +56,7 @@ export default function ParallaxText({
         className="flex flex-nowrap whitespace-nowrap text-heading-5 uppercase"
         style={{ x }}
       >
-        {[...Array(16)].map((_, i) => (
+        {[...Array(32)].map((_, i) => (
           <span key={i} className="mr-10 block">
             {children}
           </span>

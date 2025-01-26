@@ -1,9 +1,9 @@
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import React from 'react'
-import { stacks } from './Stacks'
+import { stacks } from '@/contents/Stacks'
 
-function Skills() {
+function SkillsCard() {
   return stacks.map((stack, index) => {
     const { category, items } = stack
 
@@ -34,4 +34,4 @@ function Skills() {
   })
 }
 
-export default Skills
+export default SkillsCard
