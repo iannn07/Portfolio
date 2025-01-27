@@ -35,12 +35,9 @@ export default function RootLayout({
       <body
         suppressHydrationWarning
         className="min-h-screen overflow-x-hidden font-poppins antialiased"
-        style={{ margin: 0, scrollBehavior: 'smooth' }}
+        style={{ margin: 0 }}
       >
-        <ReactLenis
-          root
-          options={{ duration: 4, overscroll: false, wheelMultiplier: 0.25 }}
-        >
+        <ReactLenis root options={{ overscroll: false, wheelMultiplier: 0.5 }}>
           <DefaultLayout>{children}</DefaultLayout>
         </ReactLenis>
       </body>

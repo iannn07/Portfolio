@@ -4,7 +4,7 @@ interface ProjectProps {
   image?: string
   roles: string[]
   range: number[]
-  link: string
+  // link: string
 }
 
 export const Projects: ProjectProps[] = [
