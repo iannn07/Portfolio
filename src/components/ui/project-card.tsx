@@ -2,6 +2,9 @@ import { motion, useScroll, useTransform } from 'framer-motion'
 import Image from 'next/image'
 import { useRef } from 'react'
 import { Badge } from './badge'
+import { Separator } from './separator'
+import Link from 'next/link'
+import { IconArrowRight } from '@tabler/icons-react'
 
 interface ProjectCardProps {
   issuer: string
@@ -9,9 +12,19 @@ interface ProjectCardProps {
   image?: string
   roles: string[]
   range: number[]
+  demoLink?: string
+  postLink?: string
 }
 
-function ProjectCard({ issuer, title, image, roles, range }: ProjectCardProps) {
+function ProjectCard({
+  issuer,
+  title,
+  image,
+  roles,
+  range,
+  demoLink,
+  postLink,
+}: ProjectCardProps) {
   const container = useRef(null)
 
   const { scrollYProgress } = useScroll({
@@ -41,6 +54,29 @@ function ProjectCard({ issuer, title, image, roles, range }: ProjectCardProps) {
                 {role}
               </Badge>
             ))}
+          </div>
+
+          <Separator className="bg-background" />
+
+          <div className="flex w-full gap-5 text-black">
+            {demoLink && (
+              <Link
+                href={demoLink}
+                target="_blank"
+                className="flex items-center justify-center gap-2 hover:underline"
+              >
+                Live Product <IconArrowRight size={20} />
+              </Link>
+            )}
+            {postLink && (
+              <Link
+                href={postLink}
+                target="_blank"
+                className="flex items-center justify-center gap-2 hover:underline"
+              >
+                Product Post <IconArrowRight size={20} />
+              </Link>
+            )}
           </div>
         </div>
       </div>

@@ -12,11 +12,11 @@ function DefaultLayout({
 }>) {
   return (
     <LoaderProvider>
-      {/* <Content> */}
-      <div className="flex min-h-screen w-full text-white">
-        <div className="flex w-full flex-col">{children}</div>
-      </div>
-      {/* </Content> */}
+      <Content>
+        <div className="flex min-h-screen w-full text-white">
+          <div className="flex w-full flex-col">{children}</div>
+        </div>
+      </Content>
     </LoaderProvider>
   )
 }
