@@ -68,10 +68,10 @@ function Homepage() {
 
       <motion.div className="z-0 bg-primary" style={{ opacity }}>
         <motion.div
-          className="fixed bottom-2 z-10 flex w-full justify-center"
+          className="fixed bottom-5 z-10 flex w-screen justify-center md:bottom-2"
           style={{ y: menuSlideUp, opacity: menuOpacity }}
         >
-          <Menubar className="w-fit">
+          <Menubar className="w-fit items-center justify-center">
             {jumpSections.map((section, index) => (
               <MenubarMenu key={index}>
                 <MenubarTrigger
