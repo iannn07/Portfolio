@@ -140,7 +140,7 @@ function HomeSection3() {
                   }
                 />
                 <Contacts
-                  link="https://www.linkedin.com/in/pristian-budi-dharmawan/"
+                  link="https://storage.googleapis.com/resume-ian/Pristian%20Budi%20Dharmawan%20CV%20(12.01.25).pdf"
                   inactiveIcon={
                     <h1 className="flex items-center justify-center rounded-[0.6rem] border-2 border-black p-[7px]">
                       CV

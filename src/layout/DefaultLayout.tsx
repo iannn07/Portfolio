@@ -21,7 +21,6 @@ function DefaultLayout({
   )
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function Content({ children }: { children: React.ReactNode }) {
   const { hasLoaded, setHasLoaded } = useLoader()
   const [loading, setLoading] = useState(!hasLoaded)
