@@ -1,79 +1,44 @@
-import {
-  Icon,
-  IconBrandAngular,
-  IconBrandAws,
-  IconBrandAzure,
-  IconBrandCss3,
-  IconBrandFramerMotion,
-  IconBrandHtml5,
-  IconBrandMysql,
-  IconBrandNextjs,
-  IconBrandPython,
-  IconBrandReact,
-  IconBrandSupabase,
-  IconBrandThreejs,
-  IconBrandTypescript,
-  IconBrandVue,
-  IconProps,
-} from '@tabler/icons-react'
-import { ForwardRefExoticComponent, RefAttributes } from 'react'
-
-interface StackProps {
+export interface SkillColumn {
   category: string
-  items: (ForwardRefExoticComponent<IconProps & RefAttributes<Icon>> | string)[]
+  skills: string[]
 }
 
-export const stacks: StackProps[] = [
+export const skillColumns: SkillColumn[] = [
   {
-    category: 'Frontend',
-    items: [
-      IconBrandHtml5,
-      IconBrandCss3,
-      IconBrandTypescript,
-      IconBrandNextjs,
-      IconBrandReact,
+    category: 'Languages',
+    skills: ['TypeScript / JavaScript', 'Python', 'Dart (Flutter)', 'SQL', 'Golang'],
+  },
+  {
+    category: 'Frameworks',
+    skills: ['Next.js / React', 'Node.js / Deno', 'FastAPI', 'Flutter', 'GSAP / Lenis'],
+  },
+  {
+    category: 'DevOps & Infra',
+    skills: [
+      'Docker / Kubernetes',
+      'GCP Cloud Run',
+      'CI/CD Pipelines',
+      'Supabase / PostgreSQL',
+      'Microservices',
     ],
   },
   {
-    category: 'Backend & ML',
-    items: [
-      IconBrandPython,
-      '/images/logo/fastapi.svg',
-      '/images/logo/sklearn.svg',
-      '/images/logo/openai.svg',
-      '/images/logo/tensorflow.svg',
+    category: 'AI & Data',
+    skills: [
+      'Agentic AI Systems',
+      'ELT / ETL Pipelines',
+      'Power Automate',
+      'k6 / Jest / QA',
+      'System Design',
     ],
   },
-  {
-    category: 'Design',
-    items: [
-      IconBrandFramerMotion,
-      '/images/logo/figma.svg',
-      '/images/logo/tailwind.svg',
-      '/images/logo/mui.svg',
-    ],
-  },
-  {
-    category: 'Database',
-    items: [IconBrandSupabase, IconBrandMysql],
-  },
-  {
-    category: 'DevOps',
-    items: [
-      '/images/logo/docker.svg',
-      '/images/logo/gcloud.svg',
-      '/images/logo/gcloud-run.svg',
-      '/images/logo/ubuntu.svg',
-    ],
-  },
-  {
-    category: 'Currently Learning',
-    items: [
-      IconBrandThreejs,
-      IconBrandAngular,
-      IconBrandVue,
-      IconBrandAws,
-      IconBrandAzure,
-    ],
-  },
+]
+
+export const certBadges = [
+  'Automation Developer Python L1',
+  'Gemini API by Google',
+  'SQL Intermediate',
+  'SQL Basic',
+  'Summa Cum Laude — GPA 3.94',
+  'Best Paper Award',
 ]

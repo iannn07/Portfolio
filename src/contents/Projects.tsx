@@ -1,76 +1,107 @@
-interface ProjectProps {
-  issuer: string
+export interface FeaturedProject {
+  num: string
+  badge: string
   title: string
-  image?: string
-  roles: string[]
-  range: number[]
-  demoLink?: string
-  postLink?: string
+  description: string
+  highlight: string
+  tags: string[]
+  link: string
 }
 
-export const Projects: ProjectProps[] = [
+export interface GridProject {
+  num: string
+  category: string
+  name: string
+  description: string
+  tags: string[]
+  link: string
+}
+
+export const featuredProjects: FeaturedProject[] = [
   {
-    issuer: 'Thesis - Final Year Project',
-    title: 'Axolotl - Your Caregiver',
-    image: '/images/projects/axolotl/1.png',
-    roles: ['Fullstack Developer', 'ML Engineer', 'DevOps', 'Designer'],
-    range: [0.1, 0.2],
-    demoLink:
-      'https://axolotl-your-caregiver-257622146567.asia-southeast1.run.app/',
-    postLink:
-      'https://www.linkedin.com/posts/pristian-budi-dharmawan_computerscience-webapp-web-activity-7277585987701035008-oxLG?utm_source=share&utm_medium=member_desktop',
+    num: '01',
+    badge: 'Agentic AI · Active Development',
+    title: 'Gunawan Agents',
+    description:
+      'Personal AI agent framework — the foundation of autonomous software development workflows. Building agents that plan, code, test, and deploy with minimal human intervention.',
+    highlight: 'Agentic AI · Software Factory',
+    tags: ['TypeScript', 'Agents', 'LLM', 'Automation'],
+    link: 'https://github.com/iannn07',
   },
   {
-    issuer: 'Codédex - Holiday Hackathon (Dec 13 - 15, 2024)',
-    title: 'Old Gartic.io',
-    image: '/images/projects/gartic/1.png',
-    roles: ['Fullstack Developer', 'Supabase'],
-    range: [0.125, 0.225],
-    demoLink: 'https://old-gartic.vercel.app/',
-    postLink:
-      'https://www.linkedin.com/posts/pristian-budi-dharmawan_on-december-13-15-2024-i-participated-activity-7274800974110584832-WBkH?utm_source=share&utm_medium=member_desktop',
+    num: '02',
+    badge: 'Mobile App · Local Discovery',
+    title: 'The Weeknd Project',
+    description:
+      "A TikTok-style mobile app that surfaces what's hot in your current area — local spaces, events, and moments. Designed for real-time discovery and hyper-local social relevance.",
+    highlight: 'Hyper-local social discovery',
+    tags: ['React Native', 'Mobile', 'Real-time', 'Location'],
+    link: 'https://github.com/iannn07',
   },
   {
-    issuer: 'Utility - TanStack Table Date Filter',
-    title: 'Custom Date FilterFn',
-    image: '/images/projects/tanstack/1.png',
-    roles: ['Open Source Contributor'],
-    range: [0.15, 0.25],
-    postLink: 'https://github.com/TanStack/table/discussions/5829',
+    num: '03',
+    badge: 'Thesis · AI Healthcare',
+    title: 'Axolotl — Your Caregiver',
+    description:
+      'AI-powered healthcare platform with a Random Forest Classifier trained on 133 symptoms. Full-stack system with E2E test coverage, DB data-flow verification, and clinical workflow integration.',
+    highlight: '96.45% diagnostic accuracy',
+    tags: ['Next.js', 'FastAPI', 'Python', 'Random Forest', 'Supabase'],
+    link: 'https://github.com/iannn07/Axolotl',
+  },
+]
+
+export const gridProjects: GridProject[] = [
+  {
+    num: '04',
+    category: 'Organisation',
+    name: 'The Weeknd Organisation',
+    description:
+      'Contributing as <strong>Lead Software Engineer</strong> — building and architecting software systems within the organisation.',
+    tags: ['Lead SE', 'Architecture'],
+    link: 'https://github.com/iannn07',
   },
   {
-    issuer: 'College - Mobile App',
-    title: 'MedExpert - Medical Education App',
-    image: '/images/projects/medexpert/1.png',
-    roles: ['Flutter Developer', 'ML Engineer', 'Designer'],
-    range: [0.175, 0.275],
-    postLink: 'https://youtu.be/ppB0mTmSyhg',
+    num: '05',
+    category: 'OSS',
+    name: 'TanStack Custom FilterFn',
+    description:
+      'Open-source contribution — custom filter functions including date range and IncludesSubString for React Table.',
+    tags: ['React', 'TypeScript', 'Open Source'],
+    link: 'https://github.com/iannn07/TanStack-Custom-FilterFn',
   },
   {
-    issuer: 'College - Big Data Analytics',
-    title:
-      'Forecasting the Return on Investment (ROI) for a New House in Melbourne',
-    image: '/images/projects/bda/1.png',
-    roles: ['Data Scientist', 'Regression', 'Feed Forward Neural Network'],
-    range: [0.2, 0.3],
-    postLink: 'https://github.com/iannn07/S5-BDA-Project-House-ROI-Forecasting',
+    num: '06',
+    category: 'Healthcare',
+    name: 'HL7 Deno Parser',
+    description:
+      'HL7 medical data protocol implementation in Deno — supporting digital radiology workflows.',
+    tags: ['Deno', 'TypeScript', 'HL7'],
+    link: 'https://github.com/iannn07/hl7-deno',
   },
   {
-    issuer: 'College - Data Visualisation',
-    title:
-      'Unveiling the Top Performing Sectors Market in The Last Three Years of Indonesia Stock Market',
-    image: '/images/projects/davis/1.png',
-    roles: ['Data Analysis', 'Tableau'],
-    range: [0.225, 0.325],
-    postLink:
-      'https://public.tableau.com/app/profile/pristian.budi.dharmawan/vizzes',
+    num: '07',
+    category: 'Mobile',
+    name: 'MedExpert',
+    description: 'Flutter mobile app for medical expertise. Watch the full demo on YouTube.',
+    tags: ['Flutter', 'Dart', '▶ Demo'],
+    link: 'https://www.youtube.com/watch?v=ppB0mTmSyhg&t=40s',
   },
   {
-    issuer: 'College - Augmented Reality',
-    title: 'NavLib - Augmented Reality Indoor Navigation System for Library',
-    image: '/images/projects/navlib/1.png',
-    roles: ['C# Developer', 'Immersal SDK', 'Unity'],
-    range: [0.25, 0.35],
-    postLink: 'https://youtube.com/shorts/cLfUOyVmDG4',
+    num: '08',
+    category: 'Data Science',
+    name: 'House ROI Forecasting',
+    description:
+      'Big data project forecasting Melbourne property ROI using ML on historical pricing and market signals.',
+    tags: ['Python', 'ML', 'Jupyter'],
+    link: 'https://github.com/iannn07/S5-BDA-Project-House-ROI-Forecasting',
+  },
+  {
+    num: '09',
+    category: 'Hackathon',
+    name: 'Old Gartic V2',
+    description:
+      'Codedex Holiday Hackathon entry — collaborative real-time drawing and guessing game.',
+    tags: ['Real-time', 'Hackathon'],
+    link: 'https://github.com/iannn07/Old-Gartic-V2',
   },
 ]

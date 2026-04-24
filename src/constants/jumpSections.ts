@@ -1,18 +1,7 @@
 export const jumpSections = [
-  {
-    name: 'Patronus',
-    href: 'patronus',
-  },
-  {
-    name: 'Tech Stack',
-    href: 'tech-stack',
-  },
-  {
-    name: 'Experiences',
-    href: 'experiences',
-  },
-  {
-    name: 'Projects',
-    href: 'projects',
-  },
+  { name: 'About', href: 'about' },
+  { name: 'Work', href: 'featured' },
+  { name: 'Experience', href: 'experience' },
+  { name: 'Passions', href: 'passions' },
+  { name: 'Contact', href: 'contact' },
 ]

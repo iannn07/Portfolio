@@ -1,24 +1,19 @@
-interface DescriptionProps {
-  text: string
-  start: number
-  end: number
+export const aboutBio = {
+  paragraphs: [
+    "Full-stack software engineer with <strong>2+ years of production experience</strong> at PT Kalbe Farma Tbk (IDX: KLBF), Indonesia's largest listed pharma group — specialising in scalable web applications, ELT data pipelines, and AI integration.",
+    "I named my agentic AI projects, agents, and systems <strong>Gunawan</strong> — a name built to outlast frameworks and trends. I architect autonomous systems that eliminate manual work — from AI chatbots serving thousands of users, to 150+ Power Automate workflows that run without human intervention.",
+    "Every system I ship is built to last — not to impress in a sprint review, but to still be running, still be scaling, three years after I've moved on. That's the standard. That's the only one that matters.",
+  ],
+  quote:
+    "I don't build features. I build legacies — systems that refuse to stop running, long after everyone else has moved on.",
 }
 
-export const shortDescription: DescriptionProps[] = [
-  {
-    text: 'In the Harry Potter movie series, Expecto Patronum is a spell for expelling Dementors by focusing on our happiest memory. When we experience happiness, our body releases the endorphin hormone, which is responsible for our feelings of joy.',
-    start: 0,
-    end: 0.1,
-  },
-  {
-    text: "Endorphin is one of human's &quot;happiness&quot; hormones which can be obtained after hard work or long processes (e.g., 1 Hour of Leg Day at the Gym is challenging and might be painful, however, it releases our cortisol much more eventually). I find the same feeling that endorphin gives use whenever I tackle highly challenging issues and I can overcome it. There are moments when I wonder, &quot;Wow, back then you think this is impossible. But look at you now, it works!&quot;. Sometimes we meet with certain issues with our code, lack of documentation frameworks, deprecated libraries, compatibility issues, etc. There are only two choices, either give up trying or keep pushing forward. These issues might give me some goosebumps, am I able to deliver it on time or not? However, I tend to keep moving forward by exploring different approaches, and doing trial and error with multiple scenarios or solutions, and eventually, through perseverance and luck, I can overcome those challenges. Overcoming this kind of situation gives me a deep sense of pride and happiness, just like the satisfaction when you see your results after 3 months of working out.",
-    start: 0.4,
-    end: 1.1,
-  },
+export const heroTagline =
+  "Building the future of <strong>agentic software development</strong> — from healthcare AI to supply chain automation, owning systems end-to-end."
+
+export const stats = [
+  { value: 2, suffix: '+', decimals: 0, label: 'Years in production' },
+  { value: 150, suffix: '+', decimals: 0, label: 'Automation workflows' },
+  { value: 500, suffix: '×', decimals: 0, label: 'Community growth' },
+  { value: 3.94, suffix: '', decimals: 2, label: 'GPA — Summa Cum Laude' },
 ]
-
-export const journeyDescription: DescriptionProps = {
-  text: 'I am a Final Year Computer Science student at BINUS University and I have been working as a Software Engineer I (SWE) at PT Kalbe Farma Tbk since 2024. And this is my journey:',
-  start: 0.1,
-  end: 0.3,
-}
