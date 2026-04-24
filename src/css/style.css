@@ -1,83 +1,43 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
-}
-
 @layer base {
   :root {
-    --background: #232323;
-    --background-secondary: #c7ccdb;
-    --foreground: #232323;
-    --card: #232323;
-    --card-foreground: #232323;
-    --popover: #232323;
-    --popover-foreground: #232323;
-    --primary: #ecebf3;
-    --primary-foreground: #232323;
-    --secondary: #bc0b0b;
-    --secondary-foreground: #c7ccdb;
-    --muted: #1d4ed8;
-    --muted-foreground: #71717a;
-    --accent: #1d4ed8;
-    --accent-foreground: #232323;
+    /* ── v2 Design Tokens ───────────────────────────────────── */
+    --bg:     #000000;
+    --bg2:    #0a0c0c;
+    --fg:     #C8CCCE;
+    --fg2:    #8a9094;
+    --fg3:    #565F64;
+    --accent: #00A19B;
+    --rule:   #1a2020;
+
+    /* ── Font variables (set by next/font in layout.tsx) ────── */
+    --serif:  var(--font-serif, Georgia, serif);
+    --sans:   var(--font-sans, system-ui, sans-serif);
+    --mono:   var(--font-mono, monospace);
+
+    /* ── Shadcn/ui compatibility tokens ────────────────────── */
+    --background: #000000;
+    --foreground: #C8CCCE;
+    --card: #0a0c0c;
+    --card-foreground: #C8CCCE;
+    --popover: #0a0c0c;
+    --popover-foreground: #C8CCCE;
+    --primary: #C8CCCE;
+    --primary-foreground: #000000;
+    --secondary: #00A19B;
+    --secondary-foreground: #000000;
+    --muted: #1a2020;
+    --muted-foreground: #565F64;
+    --accent-foreground: #000000;
     --destructive: #ef4444;
-    --destructive-foreground: #c7ccdb;
-    --border: #e4e4e7;
-    --input: #e4e4e7;
-    --ring: #232323;
-    --chart-1: #e76e50;
-    --chart-2: #2a9d90;
-    --chart-3: #274754;
-    --chart-4: #e8c468;
-    --chart-5: #f4a462;
+    --destructive-foreground: #C8CCCE;
+    --border: #1a2020;
+    --input: #1a2020;
+    --ring: #00A19B;
     --radius: 0.5rem;
-    --sidebar-background: #232323;
-    --sidebar-foreground: #3f3f46;
-    --sidebar-primary: #232323;
-    --sidebar-primary-foreground: #232323;
-    --sidebar-accent: #ecebf3;
-    --sidebar-accent-foreground: #232323;
-    --sidebar-border: #e5e7eb;
-    --sidebar-ring: #3b82f6;
-  }
-  .dark {
-    --background: #232323;
-    --foreground: #232323;
-    --card: #232323;
-    --card-foreground: #232323;
-    --popover: #232323;
-    --popover-foreground: #232323;
-    --primary: hsl(#fff);
-    --primary-foreground: #232323;
-    --secondary: #27272a;
-    --secondary-foreground: #232323;
-    --muted: #27272a;
-    --muted-foreground: #a1a1aa;
-    --accent: #27272a;
-    --accent-foreground: #232323;
-    --destructive: #7f1d1d;
-    --destructive-foreground: #232323;
-    --border: #27272a;
-    --input: #27272a;
-    --ring: #d4d4d8;
-    --chart-1: #2662d9;
-    --chart-2: #2eb88a;
-    --chart-3: #e88c30;
-    --chart-4: #af57db;
-    --chart-5: #e23670;
-    --sidebar-background: #232323;
-    --sidebar-foreground: #f4f4f5;
-    --sidebar-primary: #1d4ed8;
-    --sidebar-primary-foreground: #232323;
-    --sidebar-accent: #27272a;
-    --sidebar-accent-foreground: #f4f4f5;
-    --sidebar-border: #27272a;
-    --sidebar-ring: #3b82f6;
   }
 }
 
@@ -87,5 +47,17 @@ body {
   }
   body {
     @apply bg-background text-foreground;
+    font-family: var(--sans);
+    font-weight: 300;
+    line-height: 1.6;
+    overflow-x: hidden;
+    cursor: none;
+  }
+  a {
+    cursor: none;
+  }
+  ::selection {
+    background: var(--accent);
+    color: var(--fg);
   }
 }
