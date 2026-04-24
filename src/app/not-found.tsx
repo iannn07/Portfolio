@@ -1,17 +1,40 @@
-import ParallaxText from '@/components/ui/parallax'
-import React from 'react'
+import Link from 'next/link'
 
-function NotFound() {
+export default function NotFound() {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center overflow-hidden bg-primary">
-      <div className="w-screen rotate-[25deg] scale-150">
-        <ParallaxText baseVelocity={2}>404</ParallaxText>
+    <div
+      style={{
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: 'var(--bg)',
+        fontFamily: 'var(--mono)',
+      }}
+    >
+      <div style={{ fontSize: 'clamp(6rem, 20vw, 14rem)', fontFamily: 'var(--serif)', fontWeight: 900, color: 'var(--fg3)', lineHeight: 1 }}>
+        404
       </div>
-      <div className="-rotate-[25deg] scale-110">
-        <ParallaxText baseVelocity={-2}>Not Found</ParallaxText>
+      <div style={{ fontSize: '0.78rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--fg3)', marginTop: '1rem' }}>
+        Page Not Found
       </div>
+      <Link
+        href="/"
+        style={{
+          marginTop: '2rem',
+          fontFamily: 'var(--mono)',
+          fontSize: '0.72rem',
+          letterSpacing: '0.14em',
+          textTransform: 'uppercase',
+          color: 'var(--accent)',
+          borderBottom: '1px solid var(--accent)',
+          paddingBottom: '2px',
+          textDecoration: 'none',
+        }}
+      >
+        ← Back home
+      </Link>
     </div>
   )
 }
-
-export default NotFound
