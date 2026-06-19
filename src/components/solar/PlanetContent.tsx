@@ -333,7 +333,11 @@ export default function PlanetContent({ section, onBack, standalone = false }: P
         flexDirection: 'column' as const,
         justifyContent: 'center',
         paddingRight: 40,
-        paddingLeft: 24,
+        paddingLeft: 32,
+        background: 'var(--panel-bg)',
+        backdropFilter: 'blur(18px)',
+        WebkitBackdropFilter: 'blur(18px)',
+        borderLeft: '1px solid var(--border)',
       }}
     >
       <button

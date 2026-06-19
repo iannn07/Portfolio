@@ -4,7 +4,11 @@ import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react'
 import * as THREE from 'three'
 import { CSS2DObject, CSS2DRenderer } from 'three/examples/jsm/renderers/CSS2DRenderer.js'
 import gsap from 'gsap'
-import { CAMERA_DEFAULT_Z, CAMERA_FOV, PLANETS, SUN_SIZE } from '@/constants/solarSystem'
+import { CAMERA_FOV, PLANETS, SUN_SIZE } from '@/constants/solarSystem'
+
+// Top-down orbit view — camera elevated on Y axis with slight forward tilt
+const CAM_DEFAULT = { x: 0, y: 12, z: 4 }
+const PARALLAX = [0.02, 0.06, 0.12] as const
 
 export interface SolarSceneHandle {
   zoomToPlanet: (id: string) => void
@@ -22,11 +26,9 @@ const SolarScene = forwardRef<SolarSceneHandle, Props>(function SolarScene(
 ) {
   const mountRef = useRef<HTMLDivElement>(null)
 
-  // Callbacks stored in ref to avoid stale closure in GSAP onComplete
   const cbRef = useRef({ onPlanetEntered, onPlanetExited })
   useEffect(() => { cbRef.current = { onPlanetEntered, onPlanetExited } }, [onPlanetEntered, onPlanetExited])
 
-  // Zoom functions set inside useEffect (after scene init), exposed via imperative handle
   const zoomRef = useRef<{ to: ((id: string) => void) | null; out: (() => void) | null }>({
     to: null,
     out: null,
@@ -42,10 +44,11 @@ const SolarScene = forwardRef<SolarSceneHandle, Props>(function SolarScene(
     if (!mount) return
     const zoom = zoomRef.current
 
-    // ── Scene setup ──────────────────────────────────────────────────────
+    // ── Scene ────────────────────────────────────────────────────────────
     const scene = new THREE.Scene()
     const camera = new THREE.PerspectiveCamera(CAMERA_FOV, mount.clientWidth / mount.clientHeight, 0.1, 1000)
-    camera.position.z = CAMERA_DEFAULT_Z
+    camera.position.set(CAM_DEFAULT.x, CAM_DEFAULT.y, CAM_DEFAULT.z)
+    camera.lookAt(0, 0, 0)
 
     const renderer = new THREE.WebGLRenderer({ antialias: true })
     renderer.setSize(mount.clientWidth, mount.clientHeight)
@@ -61,54 +64,54 @@ const SolarScene = forwardRef<SolarSceneHandle, Props>(function SolarScene(
     // ── Lights ───────────────────────────────────────────────────────────
     scene.add(new THREE.AmbientLight(0xffffff, 0.4))
     const dirLight = new THREE.DirectionalLight(0xffffff, 1.0)
-    dirLight.position.set(5, 5, 5)
+    dirLight.position.set(5, 8, 5)
     scene.add(dirLight)
 
-    // ── Stars — 3 depth layers with mouse parallax ────────────────────────
+    // ── Stars — 3 depth layers, spherically distributed for top-down view ─
     const STAR_CFG = [
       { count: 500, spread: 80, size: 0.008 },
       { count: 500, spread: 60, size: 0.012 },
       { count: 400, spread: 40, size: 0.018 },
     ] as const
-    const PARALLAX = [0.02, 0.06, 0.12] as const
 
+    const starMats: THREE.PointsMaterial[] = []
     const starGroups = STAR_CFG.map(({ count, spread, size }) => {
       const geo = new THREE.BufferGeometry()
       const pos = new Float32Array(count * 3)
       for (let i = 0; i < count; i++) {
         pos[i * 3]     = (Math.random() - 0.5) * spread
         pos[i * 3 + 1] = (Math.random() - 0.5) * spread
-        pos[i * 3 + 2] = -15 - Math.random() * 20
+        pos[i * 3 + 2] = (Math.random() - 0.5) * spread
       }
       geo.setAttribute('position', new THREE.BufferAttribute(pos, 3))
       const mat = new THREE.PointsMaterial({ color: 0xffffff, size, sizeAttenuation: true })
+      starMats.push(mat)
       const pts = new THREE.Points(geo, mat)
       scene.add(pts)
       return pts
     })
 
     // ── Sun + halo ───────────────────────────────────────────────────────
-    const sun = new THREE.Mesh(
-      new THREE.SphereGeometry(SUN_SIZE, 32, 32),
-      new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0xffffff, emissiveIntensity: 1 })
-    )
+    const sunMat = new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0xffffff, emissiveIntensity: 1 })
+    const sun = new THREE.Mesh(new THREE.SphereGeometry(SUN_SIZE, 32, 32), sunMat)
     scene.add(sun)
-    scene.add(new THREE.Mesh(
-      new THREE.SphereGeometry(SUN_SIZE * 2.5, 16, 16),
-      new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.04, side: THREE.BackSide })
-    ))
+    const haloMat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.04, side: THREE.BackSide })
+    scene.add(new THREE.Mesh(new THREE.SphereGeometry(SUN_SIZE * 2.5, 16, 16), haloMat))
 
     // ── Orbit rings ──────────────────────────────────────────────────────
+    const ringMats: THREE.MeshBasicMaterial[] = []
     PLANETS.forEach(p => {
+      const mat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.06 })
+      ringMats.push(mat)
       const ring = new THREE.Mesh(
         new THREE.TorusGeometry(p.orbitRadius, 0.006, 8, 128),
-        new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.06 })
+        mat
       )
       ring.rotation.x = Math.PI / 2
       scene.add(ring)
     })
 
-    // ── Planets + CSS2D number labels ────────────────────────────────────
+    // ── Planets + CSS2D section name labels ───────────────────────────────
     type PE = { mesh: THREE.Mesh; id: string; angle: number; speed: number; r: number; size: number }
     const planets: PE[] = []
     const meshById = new Map<string, THREE.Mesh>()
@@ -116,20 +119,51 @@ const SolarScene = forwardRef<SolarSceneHandle, Props>(function SolarScene(
     PLANETS.forEach(p => {
       const mesh = new THREE.Mesh(
         new THREE.SphereGeometry(p.size, 24, 24),
-        new THREE.MeshStandardMaterial({ color: 0x888888, metalness: 0.1, roughness: 0.85 })
+        new THREE.MeshStandardMaterial({ color: 0x999999, metalness: 0.1, roughness: 0.8 })
       )
       scene.add(mesh)
       meshById.set(p.id, mesh)
 
+      // Label uses CSS variables — inherits theme automatically from the document
       const el = document.createElement('div')
-      el.textContent = p.id
-      el.style.cssText = 'font-size:9px;color:rgba(255,255,255,0.55);letter-spacing:.14em;pointer-events:none;user-select:none;'
+      el.textContent = p.section
+      el.style.fontFamily = 'var(--mono)'
+      el.style.fontSize = '9px'
+      el.style.color = 'var(--secondary)'
+      el.style.letterSpacing = '0.18em'
+      el.style.textTransform = 'uppercase'
+      el.style.pointerEvents = 'none'
+      el.style.userSelect = 'none'
+      el.style.transition = 'color 0.3s'
       const lbl = new CSS2DObject(el)
-      lbl.position.set(0, p.size + 0.22, 0)
+      lbl.position.set(0, p.size + 0.28, 0)
       mesh.add(lbl)
 
       planets.push({ mesh, id: p.id, angle: p.initialAngle, speed: p.speed, r: p.orbitRadius, size: p.size })
     })
+
+    // ── Theme-aware material updates (called each frame, only acts on change) ─
+    let lastTheme = ''
+    const applyTheme = () => {
+      const theme = document.documentElement.dataset.theme ?? 'dark'
+      if (theme === lastTheme) return
+      lastTheme = theme
+      const dark = theme !== 'light'
+      renderer.setClearColor(dark ? 0x000000 : 0xF5F5F0, 1)
+      starMats.forEach(m => { m.color.setHex(dark ? 0xffffff : 0x444444); m.needsUpdate = true })
+      ringMats.forEach(m => {
+        m.color.setHex(dark ? 0xffffff : 0x000000)
+        m.opacity = dark ? 0.06 : 0.10
+        m.needsUpdate = true
+      })
+      sunMat.color.setHex(dark ? 0xffffff : 0xc8762c)
+      sunMat.emissive.setHex(dark ? 0xffffff : 0xc8762c)
+      sunMat.emissiveIntensity = dark ? 1.0 : 0.75
+      sunMat.needsUpdate = true
+      haloMat.color.setHex(dark ? 0xffffff : 0xd4813a)
+      haloMat.opacity = dark ? 0.04 : 0.08
+      haloMat.needsUpdate = true
+    }
 
     // ── Zoom functions ───────────────────────────────────────────────────
     let isZooming = false
@@ -144,15 +178,14 @@ const SolarScene = forwardRef<SolarSceneHandle, Props>(function SolarScene(
       isZooming = true
       pausedPlanetId = id
 
-      // Capture position at click time (planet pauses here so position stays accurate)
       const mPos = mesh.position.clone()
-      const back = new THREE.Vector3(-mPos.x, 0, -mPos.z).normalize()
-      const offset = pDef.size * 3 + 1.8
+      const outward = new THREE.Vector3(mPos.x, 0, mPos.z).normalize()
+      const offset = pDef.size * 3 + 2.5
 
       gsap.to(camera.position, {
-        x: mPos.x + back.x * offset,
-        y: mPos.y + 0.4,
-        z: mPos.z + back.z * offset + 1.5,
+        x: mPos.x + outward.x * offset,
+        y: 4.5,
+        z: mPos.z + outward.z * offset,
         duration: 1.5,
         ease: 'power3.inOut',
         onComplete: () => {
@@ -161,7 +194,7 @@ const SolarScene = forwardRef<SolarSceneHandle, Props>(function SolarScene(
         },
       })
       gsap.to(lookTarget, {
-        x: mPos.x, y: mPos.y, z: mPos.z,
+        x: mPos.x, y: 0, z: mPos.z,
         duration: 1.5,
         ease: 'power3.inOut',
         onUpdate: () => camera.lookAt(lookTarget.x, lookTarget.y, lookTarget.z),
@@ -172,7 +205,7 @@ const SolarScene = forwardRef<SolarSceneHandle, Props>(function SolarScene(
       if (isZooming) return
       isZooming = true
       gsap.to(camera.position, {
-        x: 0, y: 0, z: CAMERA_DEFAULT_Z,
+        x: CAM_DEFAULT.x, y: CAM_DEFAULT.y, z: CAM_DEFAULT.z,
         duration: 1.2,
         ease: 'power3.inOut',
         onComplete: () => {
@@ -234,20 +267,21 @@ const SolarScene = forwardRef<SolarSceneHandle, Props>(function SolarScene(
       mx += (tx - mx) * 0.08
       my += (ty - my) * 0.08
 
-      // Paused planet keeps its angle; all others continue orbiting
       planets.forEach(p => {
         if (p.id !== pausedPlanetId) p.angle += p.speed * dt
         p.mesh.position.x = Math.cos(p.angle) * p.r
         p.mesh.position.z = Math.sin(p.angle) * p.r
       })
 
+      // Top-down parallax: mouse X → star X, mouse Y → star Z depth
       starGroups.forEach((g, i) => {
         g.position.x =  mx * PARALLAX[i] * 8
-        g.position.y = -my * PARALLAX[i] * 8
+        g.position.z = -my * PARALLAX[i] * 8
       })
 
       sun.scale.setScalar(1 + Math.sin(t * 0.001) * 0.025)
 
+      applyTheme()
       renderer.render(scene, camera)
       labelRenderer.render(scene, camera)
       animId = requestAnimationFrame(animate)

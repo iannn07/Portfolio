@@ -25,15 +25,16 @@
     --primary-foreground:     #000000;
     --secondary:              #888888;
     --secondary-foreground:   #FFFFFF;
-    --muted:                  #333333;
+    --muted:                  #666666;
     --muted-foreground:       #888888;
     --accent:                 #888888;
     --accent-foreground:      #FFFFFF;
     --destructive:            #ef4444;
     --destructive-foreground: #FFFFFF;
-    --border:                 #1A1A1A;
-    --input:                  #1A1A1A;
+    --border:                 #252525;
+    --input:                  #252525;
     --ring:                   #888888;
+    --panel-bg:               rgba(0, 0, 0, 0.72);
     --radius:                 0.5rem;
   }
 
@@ -53,13 +54,14 @@
     --primary-foreground:     #F5F5F0;
     --secondary:              #666666;
     --secondary-foreground:   #F5F5F0;
-    --muted:                  #AAAAAA;
+    --muted:                  #777777;
     --muted-foreground:       #666666;
     --accent:                 #666666;
     --accent-foreground:      #F5F5F0;
-    --border:                 #D8D8D4;
-    --input:                  #D8D8D4;
+    --border:                 #D0D0CC;
+    --input:                  #D0D0CC;
     --ring:                   #666666;
+    --panel-bg:               rgba(245, 245, 240, 0.88);
   }
 }
 
