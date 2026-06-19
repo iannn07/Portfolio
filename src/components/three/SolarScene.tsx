@@ -40,6 +40,7 @@ const SolarScene = forwardRef<SolarSceneHandle, Props>(function SolarScene(
   useEffect(() => {
     const mount = mountRef.current
     if (!mount) return
+    const zoom = zoomRef.current
 
     // ── Scene setup ──────────────────────────────────────────────────────
     const scene = new THREE.Scene()
@@ -135,7 +136,7 @@ const SolarScene = forwardRef<SolarSceneHandle, Props>(function SolarScene(
     let pausedPlanetId: string | null = null
     const lookTarget = { x: 0, y: 0, z: 0 }
 
-    zoomRef.current.to = (id: string) => {
+    zoom.to = (id: string) => {
       if (isZooming) return
       const mesh = meshById.get(id)
       const pDef = PLANETS.find(p => p.id === id)
@@ -167,7 +168,7 @@ const SolarScene = forwardRef<SolarSceneHandle, Props>(function SolarScene(
       })
     }
 
-    zoomRef.current.out = () => {
+    zoom.out = () => {
       if (isZooming) return
       isZooming = true
       gsap.to(camera.position, {
@@ -202,7 +203,7 @@ const SolarScene = forwardRef<SolarSceneHandle, Props>(function SolarScene(
       const hits = raycaster.intersectObjects(meshList)
       if (hits.length) {
         const hit = planets.find(p => p.mesh === hits[0].object)
-        if (hit) zoomRef.current.to?.(hit.id)
+        if (hit) zoom.to?.(hit.id)
       }
     }
 
@@ -270,8 +271,8 @@ const SolarScene = forwardRef<SolarSceneHandle, Props>(function SolarScene(
       renderer.dispose()
       if (mount.contains(renderer.domElement)) mount.removeChild(renderer.domElement)
       if (mount.contains(labelRenderer.domElement)) mount.removeChild(labelRenderer.domElement)
-      zoomRef.current.to = null
-      zoomRef.current.out = null
+      zoom.to = null
+      zoom.out = null
     }
   }, [])
 
