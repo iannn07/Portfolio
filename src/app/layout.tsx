@@ -6,7 +6,7 @@ import { Cormorant_Garamond, IBM_Plex_Sans, JetBrains_Mono } from 'next/font/goo
 
 const cormorant = Cormorant_Garamond({
   subsets: ['latin'],
-  weight: ['400', '700', '900'],
+  weight: ['300', '400', '500', '600', '700'],
   variable: '--font-display',
 })
 

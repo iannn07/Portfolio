@@ -1,33 +1,16 @@
-import NavBar from '@/components/nav/NavBar'
-import CustomCursor from '@/components/cursor/CustomCursor'
-import Footer from '@/components/footer/Footer'
-import HeroSection from './(sections)/HeroSection'
-import MarqueeStrip from './(sections)/MarqueeStrip'
-import AboutSection from './(sections)/AboutSection'
-import FeaturedWorkSection from './(sections)/FeaturedWorkSection'
-import ProjectsGridSection from './(sections)/ProjectsGridSection'
-import ExperienceSection from './(sections)/ExperienceSection'
-import PassionsSection from './(sections)/PassionsSection'
-import SkillsSection from './(sections)/SkillsSection'
-import ContactSection from './(sections)/ContactSection'
+'use client'
+
+import dynamic from 'next/dynamic'
+import { useRef } from 'react'
+import type { SolarSceneHandle } from '@/components/three/SolarScene'
+
+const SolarScene = dynamic(() => import('@/components/three/SolarScene'), { ssr: false })
 
 export default function Homepage() {
+  const sceneRef = useRef<SolarSceneHandle>(null)
   return (
-    <>
-      <CustomCursor />
-      <NavBar />
-      <main>
-        <HeroSection />
-        <MarqueeStrip />
-        <AboutSection />
-        <FeaturedWorkSection />
-        <ProjectsGridSection />
-        <ExperienceSection />
-        <PassionsSection />
-        <SkillsSection />
-        <ContactSection />
-      </main>
-      <Footer />
-    </>
+    <div style={{ width: '100vw', height: '100vh', overflow: 'hidden', background: '#000' }}>
+      <SolarScene ref={sceneRef} onPlanetEntered={() => {}} onPlanetExited={() => {}} />
+    </div>
   )
 }
