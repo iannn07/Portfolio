@@ -4,40 +4,62 @@
 
 @layer base {
   :root {
-    /* ── v2 Design Tokens ───────────────────────────────────── */
-    --bg:     #000000;
-    --bg2:    #0a0c0c;
-    --fg:     #C8CCCE;
-    --fg2:    #8a9094;
-    --fg3:    #565F64;
-    --accent: #00A19B;
-    --rule:   #1a2020;
+    /* ── Solar Design Tokens (Dark — default) ───────────────────────────── */
+    --void:     #000000;
+    --surface:  #080808;
+    --elevated: #0F0F0F;
 
-    /* ── Font variables (set by next/font in layout.tsx) ────── */
-    --serif:  var(--font-serif, Georgia, serif);
-    --sans:   var(--font-sans, system-ui, sans-serif);
-    --mono:   var(--font-mono, monospace);
+    /* Font variables (set by next/font in layout.tsx) */
+    --display: var(--font-display, 'Cormorant Garamond', Georgia, serif);
+    --sans:    var(--font-sans, 'IBM Plex Sans', system-ui, sans-serif);
+    --mono:    var(--font-mono, 'JetBrains Mono', monospace);
 
-    /* ── Shadcn/ui compatibility tokens ────────────────────── */
-    --background: #000000;
-    --foreground: #C8CCCE;
-    --card: #0a0c0c;
-    --card-foreground: #C8CCCE;
-    --popover: #0a0c0c;
-    --popover-foreground: #C8CCCE;
-    --primary: #C8CCCE;
-    --primary-foreground: #000000;
-    --secondary: #00A19B;
-    --secondary-foreground: #000000;
-    --muted: #1a2020;
-    --muted-foreground: #565F64;
-    --accent-foreground: #000000;
-    --destructive: #ef4444;
-    --destructive-foreground: #C8CCCE;
-    --border: #1a2020;
-    --input: #1a2020;
-    --ring: #00A19B;
-    --radius: 0.5rem;
+    /* Shadcn/ui compatibility tokens (solar values) */
+    --background:             #000000;
+    --foreground:             #FFFFFF;
+    --card:                   #080808;
+    --card-foreground:        #FFFFFF;
+    --popover:                #080808;
+    --popover-foreground:     #FFFFFF;
+    --primary:                #FFFFFF;
+    --primary-foreground:     #000000;
+    --secondary:              #888888;
+    --secondary-foreground:   #FFFFFF;
+    --muted:                  #333333;
+    --muted-foreground:       #888888;
+    --accent:                 #888888;
+    --accent-foreground:      #FFFFFF;
+    --destructive:            #ef4444;
+    --destructive-foreground: #FFFFFF;
+    --border:                 #1A1A1A;
+    --input:                  #1A1A1A;
+    --ring:                   #888888;
+    --radius:                 0.5rem;
+  }
+
+  [data-theme="light"] {
+    /* ── Light Theme Overrides ──────────────────────────────────────── */
+    --void:     #F5F5F0;
+    --surface:  #EBEBEB;
+    --elevated: #E0E0DC;
+
+    --background:             #F5F5F0;
+    --foreground:             #000000;
+    --card:                   #EBEBEB;
+    --card-foreground:        #000000;
+    --popover:                #EBEBEB;
+    --popover-foreground:     #000000;
+    --primary:                #000000;
+    --primary-foreground:     #F5F5F0;
+    --secondary:              #666666;
+    --secondary-foreground:   #F5F5F0;
+    --muted:                  #AAAAAA;
+    --muted-foreground:       #666666;
+    --accent:                 #666666;
+    --accent-foreground:      #F5F5F0;
+    --border:                 #D8D8D4;
+    --input:                  #D8D8D4;
+    --ring:                   #666666;
   }
 }
 
@@ -48,16 +70,12 @@
   body {
     @apply bg-background text-foreground;
     font-family: var(--sans);
-    font-weight: 300;
+    font-weight: 400;
     line-height: 1.6;
-    overflow-x: hidden;
-    cursor: none;
-  }
-  a {
-    cursor: none;
+    overflow: hidden;
   }
   ::selection {
-    background: var(--accent);
-    color: var(--fg);
+    background: var(--primary);
+    color: var(--background);
   }
 }

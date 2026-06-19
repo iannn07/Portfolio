@@ -1,61 +1,46 @@
-import { ReactLenis } from '@/components/lenis/lenis'
-import GSAPProvider from '@/components/gsap/GSAPProvider'
+import { Providers } from '@/components/providers/Providers'
 import '@/css/style.css'
 import '@/css/portfolio-v2.css'
 import { Metadata } from 'next'
-import { Playfair_Display, DM_Sans, DM_Mono } from 'next/font/google'
+import { Cormorant_Garamond, IBM_Plex_Sans, JetBrains_Mono } from 'next/font/google'
 
-const playfair = Playfair_Display({
+const cormorant = Cormorant_Garamond({
   subsets: ['latin'],
   weight: ['400', '700', '900'],
-  style: ['normal', 'italic'],
-  variable: '--font-serif',
+  variable: '--font-display',
 })
 
-const dmSans = DM_Sans({
+const ibmPlex = IBM_Plex_Sans({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600'],
+  weight: ['400', '500', '600'],
   variable: '--font-sans',
 })
 
-const dmMono = DM_Mono({
+const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
-  weight: ['400', '500'],
+  weight: ['400', '500', '600'],
+  style: ['normal', 'italic'],
   variable: '--font-mono',
 })
 
 export const metadata: Metadata = {
-  title: 'Pristian Budi Dharmawan — Software Engineer · Agentic AI Builder',
+  title: 'Pristian Budi Dharmawan — Full Stack Engineer',
   description:
     'Full-stack software engineer specialising in scalable web applications, ELT data pipelines, and AI integration.',
-  keywords: [
-    'Software Engineer',
-    'Agentic AI',
-    'Full Stack Developer',
-    'React',
-    'Next.js',
-    'TypeScript',
-  ],
-  openGraph: {
-    title: 'Pristian Budi Dharmawan — Software Engineer · Agentic AI Builder',
-    type: 'website',
-  },
+  keywords: ['Software Engineer', 'Agentic AI', 'Full Stack Developer', 'React', 'Next.js', 'TypeScript'],
+  openGraph: { title: 'Pristian Budi Dharmawan — Full Stack Engineer', type: 'website' },
   robots: { index: true, follow: true },
 }
 
-export default function RootLayout({
-  children,
-}: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html
       lang="en"
-      className={`${playfair.variable} ${dmSans.variable} ${dmMono.variable}`}
+      suppressHydrationWarning
+      className={`${cormorant.variable} ${ibmPlex.variable} ${jetbrainsMono.variable}`}
     >
       <body suppressHydrationWarning style={{ margin: 0 }}>
-        <ReactLenis root options={{ lerp: 0.08, smoothWheel: true, overscroll: false }}>
-          <GSAPProvider />
-          {children}
-        </ReactLenis>
+        <Providers>{children}</Providers>
       </body>
     </html>
   )
