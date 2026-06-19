@@ -1,107 +1,67 @@
-export interface FeaturedProject {
+export interface Project {
   num: string
-  badge: string
-  title: string
-  description: string
-  highlight: string
-  tags: string[]
-  link: string
-}
-
-export interface GridProject {
-  num: string
-  category: string
+  label: string
   name: string
   description: string
   tags: string[]
-  link: string
+  linkType: 'external' | 'stealth' | 'internal'
+  link?: string
 }
 
-export const featuredProjects: FeaturedProject[] = [
+export const allProjects: Project[] = [
   {
     num: '01',
-    badge: 'Agentic AI · Active Development',
-    title: 'Gunawan Agents',
+    label: 'Enterprise · Production · KLBF',
+    name: 'SCM Digital Twin',
     description:
-      'Personal AI agent framework — the foundation of autonomous software development workflows. Building agents that plan, code, test, and deploy with minimal human intervention.',
-    highlight: 'Agentic AI · Software Factory',
-    tags: ['TypeScript', 'Agents', 'LLM', 'Automation'],
-    link: 'https://github.com/iannn07',
+      'Digital twin of the FG → Intermediate → MRP manufacturing cascade. SSE-streamed, job-queued Supabase RPC operations. AES-256-GCM encrypted URL state, 19 XLSX streaming download routes. 3 SBUs · hundreds of thousands of records → actionable entries.',
+    tags: ['Next.js 15', 'Supabase', 'PostgreSQL', 'Keycloak', 'TypeScript', 'Azure K8s'],
+    linkType: 'internal',
   },
   {
     num: '02',
-    badge: 'Mobile App · Local Discovery',
-    title: 'The Weeknd Project',
+    label: 'Thesis · AI Healthcare · Open Source',
+    name: 'Axolotl — Your Caregiver',
     description:
-      "A TikTok-style mobile app that surfaces what's hot in your current area — local spaces, events, and moments. Designed for real-time discovery and hyper-local social relevance.",
-    highlight: 'Hyper-local social discovery',
-    tags: ['React Native', 'Mobile', 'Real-time', 'Location'],
-    link: 'https://github.com/iannn07',
+      'Full-stack healthcare platform with a Random Forest Classifier trained on 133 symptoms. 96.45% diagnostic accuracy. E2E test coverage, DB data-flow verification, and clinical workflow integration.',
+    tags: ['Next.js', 'FastAPI', 'Python', 'Random Forest', 'Supabase', 'Jest'],
+    linkType: 'external',
+    link: 'https://github.com/iannn07/Axolotl',
   },
   {
     num: '03',
-    badge: 'Thesis · AI Healthcare',
-    title: 'Axolotl — Your Caregiver',
+    label: 'Venture · Clinical Research · TypeScript',
+    name: 'Optimus',
     description:
-      'AI-powered healthcare platform with a Random Forest Classifier trained on 133 symptoms. Full-stack system with E2E test coverage, DB data-flow verification, and clinical workflow integration.',
-    highlight: '96.45% diagnostic accuracy',
-    tags: ['Next.js', 'FastAPI', 'Python', 'Random Forest', 'Supabase'],
-    link: 'https://github.com/iannn07/Axolotl',
+      'Multi-tenant SaaS for pharmaceutical clinical trial management. RBAC hierarchy (T0–T3), PHI Guard on every AI entry point, RAG-powered document intelligence. 49-module regulatory spec · 4-tier RBAC.',
+    tags: ['Next.js 16', 'Supabase', 'PostgreSQL', 'Tailwind', 'shadcn/ui', 'Keycloak'],
+    linkType: 'stealth',
   },
-]
-
-export const gridProjects: GridProject[] = [
   {
     num: '04',
-    category: 'Organisation',
-    name: 'The Weeknd Organisation',
+    label: 'Stealth Venture · Systems · Rust',
+    name: '[CALLSIGN: MERIDIAN]',
     description:
-      'Contributing as <strong>Lead Software Engineer</strong> — building and architecting software systems within the organisation.',
-    tags: ['Lead SE', 'Architecture'],
-    link: 'https://github.com/iannn07',
+      'Self-hosted outcome-based LLM routing gateway. CARROT, BELLA, and xRouter algorithms from arXiv. OpenAI-compatible API surface, Tower middleware, SurrealDB ledger, Redis L2 cache, HNSW semantic cache. Built solo in Rust.',
+    tags: ['Rust', 'Axum', 'Tokio', 'SurrealDB', 'Redis', 'Ratatui'],
+    linkType: 'stealth',
   },
   {
     num: '05',
-    category: 'OSS',
-    name: 'TanStack Custom FilterFn',
+    label: 'Enterprise · Regulatory · KLBF',
+    name: 'K-RIM',
     description:
-      'Open-source contribution — custom filter functions including date range and IncludesSubString for React Table.',
-    tags: ['React', 'TypeScript', 'Open Source'],
-    link: 'https://github.com/iannn07/TanStack-Custom-FilterFn',
+      'Kalbe Regulatory Information Management — pharmaceutical regulatory submission management with Keycloak/LDAP auth, OnlyOffice Document Server integration, Synology NAS + Azure Blob, WAF layer, self-hosted Kubernetes.',
+    tags: ['Next.js 16', 'Keycloak', 'OnlyOffice', 'Kubernetes', 'Tailwind'],
+    linkType: 'internal',
   },
   {
     num: '06',
-    category: 'Healthcare',
-    name: 'HL7 Deno Parser',
+    label: 'Stealth Venture · Mobile · Consumer',
+    name: '[CALLSIGN: WEEKEND]',
     description:
-      'HL7 medical data protocol implementation in Deno — supporting digital radiology workflows.',
-    tags: ['Deno', 'TypeScript', 'HL7'],
-    link: 'https://github.com/iannn07/hl7-deno',
-  },
-  {
-    num: '07',
-    category: 'Mobile',
-    name: 'MedExpert',
-    description: 'Flutter mobile app for medical expertise. Watch the full demo on YouTube.',
-    tags: ['Flutter', 'Dart', '▶ Demo'],
-    link: 'https://www.youtube.com/watch?v=ppB0mTmSyhg&t=40s',
-  },
-  {
-    num: '08',
-    category: 'Data Science',
-    name: 'House ROI Forecasting',
-    description:
-      'Big data project forecasting Melbourne property ROI using ML on historical pricing and market signals.',
-    tags: ['Python', 'ML', 'Jupyter'],
-    link: 'https://github.com/iannn07/S5-BDA-Project-House-ROI-Forecasting',
-  },
-  {
-    num: '09',
-    category: 'Hackathon',
-    name: 'Old Gartic V2',
-    description:
-      'Codedex Holiday Hackathon entry — collaborative real-time drawing and guessing game.',
-    tags: ['Real-time', 'Hackathon'],
-    link: 'https://github.com/iannn07/Old-Gartic-V2',
+      "Hyper-local social discovery mobile app — TikTok-style feed surfacing what's happening in your area in real time. Technical Lead over 2 engineers. Google Cloud deployment.",
+    tags: ['React Native', 'GCP', 'Real-time', 'Location'],
+    linkType: 'stealth',
   },
 ]
