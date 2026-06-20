@@ -1,19 +1,17 @@
 import HomepageClient from './HomepageClient'
+import { getSocialLinks } from '@/actions/social-links'
 
-export default function Page() {
-  const github = process.env.GITHUB_URL
-  const linkedin = process.env.LINKEDIN_URL
-  const email = process.env.EMAIL
-  const resume = process.env.RESUME_URL
+export const dynamic = 'force-dynamic'
 
-  console.dir({ github, linkedin, email, resume })
+export default async function Page() {
+  const { github, linkedin, email, resume } = await getSocialLinks()
 
   return (
     <HomepageClient
-      github={process.env.GITHUB_URL}
-      linkedin={process.env.LINKEDIN_URL}
-      email={process.env.EMAIL}
-      resume={process.env.RESUME_URL}
+      github={github}
+      linkedin={linkedin}
+      email={email}
+      resume={resume}
     />
   )
 }
