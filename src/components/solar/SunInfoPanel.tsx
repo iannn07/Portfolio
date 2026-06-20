@@ -5,22 +5,20 @@ const STATS = [
   { value: '3.94', label: 'GPA' },
 ]
 
-const github = process.env.NEXT_PUBLIC_GITHUB_URL
-const linkedin = process.env.NEXT_PUBLIC_LINKEDIN_URL
-const email = process.env.NEXT_PUBLIC_EMAIL
-const resume = process.env.NEXT_PUBLIC_RESUME_URL
+interface Props {
+  github?: string
+  linkedin?: string
+  email?: string
+  resume?: string
+}
 
-const SOCIALS = [
-  { label: 'GitHub', href: github || '#' },
-  {
-    label: 'LinkedIn',
-    href: linkedin || '#',
-  },
-  { label: 'Email', href: `mailto:${email}` },
-  { label: 'Resume', href: resume || '#' },
-]
-
-export default function SunInfoPanel() {
+export default function SunInfoPanel({ github, linkedin, email, resume }: Props) {
+  const SOCIALS = [
+    { label: 'GitHub', href: github || '#' },
+    { label: 'LinkedIn', href: linkedin || '#' },
+    { label: 'Email', href: email ? `mailto:${email}` : '#' },
+    { label: 'Resume', href: resume || '#' },
+  ]
   return (
     <div
       style={{
