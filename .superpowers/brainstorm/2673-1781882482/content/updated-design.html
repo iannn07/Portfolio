@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Updated Design — v2</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #0a0e18;
+  color: #c8d8f0;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  padding: 32px 28px 60px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+h2 { font-size: 20px; font-weight: 700; color: #e8f2ff; margin-bottom: 6px; }
+.sub { font-size: 13px; color: #3a5a7a; margin-bottom: 32px; }
+h3 { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #2a4a6a; margin-bottom: 14px; }
+.section { margin-bottom: 44px; }
+hr { border: none; border-top: 1px solid #0f1e30; margin: 40px 0; }
+
+/* CHANGES ADDRESSED */
+.changes {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+  margin-bottom: 40px;
+}
+.change-chip {
+  background: #000;
+  border: 1px solid #1a1a1a;
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+.cc-label { font-size: 8px; letter-spacing: 1.5px; text-transform: uppercase; color: #2a2a2a; margin-bottom: 4px; }
+.cc-old { font-size: 10px; color: #333; text-decoration: line-through; margin-bottom: 3px; }
+.cc-new { font-size: 11px; font-weight: 700; color: #ffffff; }
+
+/* HERO SPLIT — orbital + info panel */
+.hero-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 44px;
+}
+.mock-frame {
+  border: 1px solid #1a1a1a;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.mock-bar {
+  background: #050505;
+  padding: 7px 12px;
+  display: flex; align-items: center; gap: 5px;
+  border-bottom: 1px solid #111;
+}
+.dot { width: 7px; height: 7px; border-radius: 50%; }
+.dot-r { background: #ff5f57; }
+.dot-y { background: #febc2e; }
+.dot-g { background: #28c840; }
+.bar-label { font-size: 9px; color: #1a1a1a; margin-left: 6px; font-family: monospace; letter-spacing: 0.5px; }
+
+/* DARK ORBITAL */
+.orbital-dark {
+  background: #000;
+  height: 320px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.stars-bg {
+  position: absolute; inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 8% 15%, #fff3 0%, transparent 100%),
+    radial-gradient(1px 1px at 22% 8%, #fff2 0%, transparent 100%),
+    radial-gradient(1px 1px at 45% 5%, #fff3 0%, transparent 100%),
+    radial-gradient(1px 1px at 68% 12%, #fff2 0%, transparent 100%),
+    radial-gradient(1px 1px at 88% 20%, #fff3 0%, transparent 100%),
+    radial-gradient(1px 1px at 12% 45%, #fff2 0%, transparent 100%),
+    radial-gradient(1px 1px at 75% 38%, #fff2 0%, transparent 100%),
+    radial-gradient(1px 1px at 92% 55%, #fff3 0%, transparent 100%),
+    radial-gradient(1px 1px at 5% 72%, #fff2 0%, transparent 100%),
+    radial-gradient(1px 1px at 35% 82%, #fff2 0%, transparent 100%),
+    radial-gradient(1px 1px at 58% 78%, #fff3 0%, transparent 100%),
+    radial-gradient(1px 1px at 82% 85%, #fff2 0%, transparent 100%);
+}
+/* theme toggle */
+.theme-toggle {
+  position: absolute; top: 10px; right: 10px;
+  display: flex; align-items: center; gap: 4px;
+  background: #0a0a0a;
+  border: 1px solid #1a1a1a;
+  border-radius: 4px;
+  padding: 3px 6px;
+  font-size: 8px; color: #333; letter-spacing: 0.5px; font-family: monospace;
+  z-index: 20;
+}
+.orbital-system {
+  position: relative; width: 280px; height: 280px;
+  display: flex; align-items: center; justify-content: center;
+}
+.orb {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid #ffffff08; border-radius: 50%;
+}
+.o1 { width: 72px; height: 72px; }
+.o2 { width: 112px; height: 112px; }
+.o3 { width: 152px; height: 152px; }
+.o4 { width: 192px; height: 192px; }
+.o5 { width: 232px; height: 232px; }
+.o6 { width: 272px; height: 272px; }
+
+.sun-wrap {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+}
+.sun-ball {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: radial-gradient(circle at 40% 38%, #ffffff 0%, #cccccc 40%, #888 80%, #333 100%);
+  box-shadow: 0 0 24px rgba(255,255,255,0.25), 0 0 48px rgba(255,255,255,0.10);
+}
+.sun-name { font-size: 7px; font-weight: 800; letter-spacing: 1px; color: #ffffff; font-family: monospace; white-space: nowrap; }
+.sun-role { font-size: 6px; color: #2a2a2a; letter-spacing: 1px; font-family: monospace; white-space: nowrap; }
+
+/* info panel anchored near sun */
+.info-panel {
+  position: absolute;
+  left: 8px; bottom: 12px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid #ffffff08;
+  border-radius: 6px;
+  padding: 10px 12px;
+  width: 130px;
+}
+.ip-tag { font-size: 7px; letter-spacing: 2px; color: #222; text-transform: uppercase; font-family: monospace; margin-bottom: 5px; }
+.ip-name { font-size: 13px; font-weight: 900; color: #fff; font-family: Georgia, serif; letter-spacing: -0.5px; line-height: 1.1; margin-bottom: 3px; }
+.ip-title { font-size: 8px; color: #444; letter-spacing: 1px; text-transform: uppercase; font-family: monospace; margin-bottom: 8px; }
+.ip-divider { width: 20px; height: 1px; background: #1a1a1a; margin-bottom: 6px; }
+.ip-quote { font-size: 7.5px; color: #2a2a2a; line-height: 1.5; font-style: italic; margin-bottom: 8px; }
+.ip-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+.ip-stat { }
+.ips-num { font-size: 11px; font-weight: 800; color: #ffffff; font-family: Georgia, serif; }
+.ips-label { font-size: 6px; color: #222; letter-spacing: 0.5px; font-family: monospace; }
+
+/* planets */
+.pl {
+  position: absolute; top: 50%; left: 50%;
+  border-radius: 50%;
+}
+.pl-body { border-radius: 50%; background: radial-gradient(circle at 35% 32%, #fff 0%, #999 50%, #444 100%); }
+.pl-num {
+  position: absolute;
+  font-size: 6px; font-weight: 700; color: #ffffff60;
+  letter-spacing: 0.5px; white-space: nowrap;
+  font-family: monospace;
+}
+.p01 { transform: translate(calc(-50% + 36px), -50%); }
+.p01 .pl-body { width: 10px; height: 10px; }
+.p01 .pl-num { top: -11px; left: 50%; transform: translateX(-50%); }
+
+.p02 { transform: translate(calc(-50% + 0px), calc(-50% - 56px)); }
+.p02 .pl-body { width: 14px; height: 14px; }
+.p02 .pl-num { top: -12px; left: 50%; transform: translateX(-50%); }
+
+.p03 { transform: translate(calc(-50% + 76px), calc(-50% + 22px)); }
+.p03 .pl-body { width: 11px; height: 11px; }
+.p03 .pl-num { top: -12px; left: 50%; transform: translateX(-50%); }
+
+.p04 { transform: translate(calc(-50% - 82px), calc(-50% + 52px)); }
+.p04 .pl-body { width: 12px; height: 12px; }
+.p04 .pl-num { top: -12px; left: 50%; transform: translateX(-50%); }
+
+.p05 { transform: translate(calc(-50% + 20px), calc(-50% + 115px)); }
+.p05 .pl-body { width: 10px; height: 10px; }
+.p05 .pl-num { top: -11px; left: 50%; transform: translateX(-50%); }
+
+.p06 { transform: translate(calc(-50% - 124px), calc(-50% - 58px)); }
+.p06 .pl-body { width: 9px; height: 9px; opacity: 0.6; }
+.p06 .pl-num { top: -11px; left: 50%; transform: translateX(-50%); }
+
+/* HUD */
+.hud-tr {
+  position: absolute; top: 12px; left: 10px;
+  font-size: 7px; color: #1a1a1a; font-family: monospace;
+  letter-spacing: 1px; line-height: 1.9;
+}
+
+/* LIGHT ORBITAL */
+.orbital-light {
+  background: #f5f5f0;
+  height: 320px;
+  position: relative;
+  overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+.orb-l { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); border: 1px solid rgba(0,0,0,0.06); border-radius: 50%; }
+.sun-ball-l {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: radial-gradient(circle at 38% 35%, #111 0%, #555 50%, #888 100%);
+  box-shadow: 0 0 16px rgba(0,0,0,0.15);
+}
+.sun-name-l { font-size: 7px; font-weight: 800; letter-spacing: 1px; color: #000; font-family: monospace; white-space: nowrap; }
+.sun-role-l { font-size: 6px; color: #aaa; letter-spacing: 1px; font-family: monospace; white-space: nowrap; }
+.pl-l { position: absolute; top: 50%; left: 50%; border-radius: 50%; }
+.pl-body-l { border-radius: 50%; background: radial-gradient(circle at 35% 32%, #333 0%, #888 50%, #ccc 100%); }
+
+.info-panel-l {
+  position: absolute;
+  left: 8px; bottom: 12px;
+  background: rgba(0,0,0,0.04);
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 6px; padding: 10px 12px; width: 130px;
+}
+.ip-tag-l { font-size: 7px; letter-spacing: 2px; color: #bbb; text-transform: uppercase; font-family: monospace; margin-bottom: 5px; }
+.ip-name-l { font-size: 13px; font-weight: 900; color: #000; font-family: Georgia, serif; letter-spacing: -0.5px; line-height: 1.1; margin-bottom: 3px; }
+.ip-title-l { font-size: 8px; color: #888; letter-spacing: 1px; text-transform: uppercase; font-family: monospace; margin-bottom: 8px; }
+.ip-divider-l { width: 20px; height: 1px; background: #ddd; margin-bottom: 6px; }
+.ip-quote-l { font-size: 7.5px; color: #aaa; line-height: 1.5; font-style: italic; margin-bottom: 8px; }
+.ips-num-l { font-size: 11px; font-weight: 800; color: #000; font-family: Georgia, serif; }
+.ips-label-l { font-size: 6px; color: #bbb; letter-spacing: 0.5px; font-family: monospace; }
+.theme-toggle-l {
+  position: absolute; top: 10px; right: 10px;
+  display: flex; align-items: center; gap: 4px;
+  background: rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.10);
+  border-radius: 4px; padding: 3px 6px;
+  font-size: 8px; color: #bbb; letter-spacing: 0.5px; font-family: monospace; z-index: 20;
+}
+.hud-tr-l { position: absolute; top: 12px; left: 10px; font-size: 7px; color: #ccc; font-family: monospace; letter-spacing: 1px; line-height: 1.9; }
+
+/* PROJECTS PANEL */
+.projects-section { margin-bottom: 44px; }
+.proj-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+.proj-card {
+  background: #000;
+  border: 1px solid #111;
+  border-radius: 8px;
+  padding: 12px;
+  display: flex; flex-direction: column; gap: 5px;
+}
+.pc-num { font-size: 18px; font-weight: 900; color: #0f0f0f; font-family: Georgia, serif; line-height: 1; }
+.pc-label { font-size: 7px; letter-spacing: 1.5px; color: #222; text-transform: uppercase; font-family: monospace; }
+.pc-name { font-size: 11px; font-weight: 700; color: #fff; letter-spacing: -0.2px; }
+.pc-desc { font-size: 9px; color: #2a2a2a; line-height: 1.5; }
+.pc-tags { display: flex; flex-wrap: wrap; gap: 3px; margin-top: 2px; }
+.pc-tag { font-size: 7px; padding: 1px 5px; background: #0a0a0a; border: 1px solid #141414; border-radius: 2px; color: #1a1a1a; font-family: monospace; }
+.planet-header {
+  font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+  color: #1a1a1a; font-family: monospace;
+  margin-bottom: 10px; padding-bottom: 6px;
+  border-bottom: 1px solid #0a0a0a;
+}
+
+/* TYPOGRAPHY CONTRAST */
+.type-split { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 44px; }
+.type-dark {
+  background: #000; border: 1px solid #111; border-radius: 8px; padding: 20px;
+}
+.type-light {
+  background: #f5f5f0; border: 1px solid #e0e0d8; border-radius: 8px; padding: 20px;
+}
+.ty-tag { font-size: 8px; letter-spacing: 2px; text-transform: uppercase; font-family: monospace; margin-bottom: 12px; }
+.ty-tag-d { color: #222; }
+.ty-tag-l { color: #ccc; }
+.ty-h1 { font-size: 28px; font-weight: 900; font-family: Georgia, serif; letter-spacing: -1px; line-height: 1.05; margin-bottom: 6px; }
+.ty-h1-d { color: #ffffff; }
+.ty-h1-l { color: #000000; }
+.ty-h2 { font-size: 11px; letter-spacing: 3px; font-family: monospace; text-transform: uppercase; margin-bottom: 12px; }
+.ty-h2-d { color: #444; }
+.ty-h2-l { color: #999; }
+.ty-divider { width: 24px; height: 1px; margin-bottom: 12px; }
+.ty-divider-d { background: #1a1a1a; }
+.ty-divider-l { background: #ddd; }
+.ty-body { font-size: 12px; line-height: 1.6; margin-bottom: 10px; }
+.ty-body-d { color: #888; }
+.ty-body-l { color: #444; }
+.ty-mono { font-size: 9px; letter-spacing: 1px; font-family: monospace; }
+.ty-mono-d { color: #222; }
+.ty-mono-l { color: #bbb; }
+.ty-contrast-note { font-size: 8px; font-family: monospace; margin-top: 10px; padding: 6px 8px; border-radius: 3px; }
+.ty-contrast-d { background: #0a0a0a; color: #1a5a1a; border: 1px solid #0f2a0f; }
+.ty-contrast-l { background: rgba(0,0,0,0.04); color: #336633; border: 1px solid rgba(0,0,0,0.08); }
+
+/* APPROVAL */
+.approval { display: flex; gap: 14px; justify-content: center; margin-top: 8px; }
+.btn {
+  background: #000; border: 1.5px solid #1a1a1a;
+  border-radius: 8px; padding: 14px 28px; cursor: pointer;
+  transition: border-color 0.2s; text-align: center;
+}
+.btn:hover { border-color: #444; }
+.btn.selected { border-color: #fff; }
+.btn.selected .btn-label { background: #fff; color: #000; }
+.btn-label { display: inline-block; padding: 2px 8px; border-radius: 3px; font-size: 9px; font-weight: 700; background: #111; color: #333; border: 1px solid #1a1a1a; margin-bottom: 6px; letter-spacing: 0.5px; }
+.btn-title { font-size: 13px; font-weight: 700; color: #fff; }
+.btn-sub { font-size: 10px; color: #333; margin-top: 3px; }
+</style>
+</head>
+<body>
+
+<h2>Updated Design — v2</h2>
+<p class="sub">Addresses: richer hero · all CV projects · high-contrast typography · light/dark toggle</p>
+
+<!-- Changes addressed -->
+<div class="section">
+  <h3>Changes from feedback</h3>
+  <div class="changes">
+    <div class="change-chip">
+      <div class="cc-label">Hero</div>
+      <div class="cc-old">Just orbital, minimal info</div>
+      <div class="cc-new">Info panel anchored to sun: name, role, tagline, 4 stats. Always visible.</div>
+    </div>
+    <div class="change-chip">
+      <div class="cc-label">Typography</div>
+      <div class="cc-old">Gray-on-near-black, no toggle</div>
+      <div class="cc-new">White on black / black on white. Full light/dark toggle. 9:1+ contrast.</div>
+    </div>
+    <div class="change-chip">
+      <div class="cc-label">Projects</div>
+      <div class="cc-old">Only 3 projects shown</div>
+      <div class="cc-new">13 projects across CV + Obsidian: KLBF enterprise, stealth ventures, OSS, thesis.</div>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<!-- Hero: dark + light side by side -->
+<div class="section">
+  <h3>Hero — Dark vs Light mode</h3>
+  <div class="hero-split">
+
+    <!-- DARK -->
+    <div>
+      <p style="font-size:9px;color:#2a4a6a;font-family:monospace;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;">DARK MODE (default)</p>
+      <div class="mock-frame">
+        <div class="mock-bar">
+          <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+          <div class="bar-label">portfolio · orbital · dark</div>
+        </div>
+        <div class="orbital-dark">
+          <div class="stars-bg"></div>
+          <div class="theme-toggle">○ dark &nbsp;◉</div>
+          <div class="hud-tr">PT KALBE FARMA · SWE<br>JAKARTA · 2025</div>
+          <div class="orbital-system">
+            <div class="orb o1"></div>
+            <div class="orb o2"></div>
+            <div class="orb o3"></div>
+            <div class="orb o4"></div>
+            <div class="orb o5"></div>
+            <div class="pl p01"><div class="pl-body"></div><div class="pl-num">01</div></div>
+            <div class="pl p02"><div class="pl-body" style="width:14px;height:14px;"></div><div class="pl-num">02</div></div>
+            <div class="pl p03"><div class="pl-body" style="width:11px;height:11px;"></div><div class="pl-num">03</div></div>
+            <div class="pl p04"><div class="pl-body" style="width:12px;height:12px;"></div><div class="pl-num">04</div></div>
+            <div class="pl p05"><div class="pl-body" style="width:10px;height:10px;"></div><div class="pl-num">05</div></div>
+            <div class="sun-wrap">
+              <div class="sun-ball"></div>
+              <div class="sun-name">PRISTIAN</div>
+              <div class="sun-role">FULL STACK ENG.</div>
+            </div>
+          </div>
+          <!-- Info panel -->
+          <div class="info-panel">
+            <div class="ip-tag">Identity</div>
+            <div class="ip-name">PRISTIAN<br>DHARMAWAN</div>
+            <div class="ip-title">Full Stack Engineer</div>
+            <div class="ip-divider"></div>
+            <div class="ip-quote">"I build systems that run after I'm gone."</div>
+            <div class="ip-stats">
+              <div class="ip-stat"><div class="ips-num">2+</div><div class="ips-label">yrs prod</div></div>
+              <div class="ip-stat"><div class="ips-num">150+</div><div class="ips-label">automations</div></div>
+              <div class="ip-stat"><div class="ips-num">500×</div><div class="ips-label">community</div></div>
+              <div class="ip-stat"><div class="ips-num">3.94</div><div class="ips-label">GPA summa</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LIGHT -->
+    <div>
+      <p style="font-size:9px;color:#2a4a6a;font-family:monospace;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;">LIGHT MODE (toggle)</p>
+      <div class="mock-frame">
+        <div class="mock-bar" style="background:#f0f0ec;border-bottom-color:#e0e0d8;">
+          <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+          <div class="bar-label" style="color:#bbb;">portfolio · orbital · light</div>
+        </div>
+        <div class="orbital-light">
+          <div class="theme-toggle-l">◉ &nbsp;light ○</div>
+          <div class="hud-tr-l">PT KALBE FARMA · SWE<br>JAKARTA · 2025</div>
+          <div class="orbital-system">
+            <div class="orb-l" style="width:72px;height:72px;"></div>
+            <div class="orb-l" style="width:112px;height:112px;"></div>
+            <div class="orb-l" style="width:152px;height:152px;"></div>
+            <div class="orb-l" style="width:192px;height:192px;"></div>
+            <div class="orb-l" style="width:232px;height:232px;"></div>
+            <!-- planets -->
+            <div class="pl p01"><div class="pl-body-l" style="width:10px;height:10px;"></div></div>
+            <div class="pl p02"><div class="pl-body-l" style="width:14px;height:14px;"></div></div>
+            <div class="pl p03"><div class="pl-body-l" style="width:11px;height:11px;"></div></div>
+            <div class="pl p04"><div class="pl-body-l" style="width:12px;height:12px;"></div></div>
+            <div class="pl p05"><div class="pl-body-l" style="width:10px;height:10px;"></div></div>
+            <div class="sun-wrap">
+              <div class="sun-ball-l"></div>
+              <div class="sun-name-l">PRISTIAN</div>
+              <div class="sun-role-l">FULL STACK ENG.</div>
+            </div>
+          </div>
+          <div class="info-panel-l">
+            <div class="ip-tag-l">Identity</div>
+            <div class="ip-name-l">PRISTIAN<br>DHARMAWAN</div>
+            <div class="ip-title-l">Full Stack Engineer</div>
+            <div class="ip-divider-l"></div>
+            <div class="ip-quote-l">"I build systems that run after I'm gone."</div>
+            <div class="ip-stats">
+              <div class="ip-stat"><div class="ips-num-l">2+</div><div class="ips-label-l">yrs prod</div></div>
+              <div class="ip-stat"><div class="ips-num-l">150+</div><div class="ips-label-l">automations</div></div>
+              <div class="ip-stat"><div class="ips-num-l">500×</div><div class="ips-label-l">community</div></div>
+              <div class="ip-stat"><div class="ips-num-l">3.94</div><div class="ips-label-l">GPA summa</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<!-- Typography contrast -->
+<div class="section">
+  <h3>Typography — High Contrast (dark / light)</h3>
+  <div class="type-split">
+    <div class="type-dark">
+      <div class="ty-tag ty-tag-d">Dark mode</div>
+      <div class="ty-h1 ty-h1-d">PROJECTS<br>02</div>
+      <div class="ty-h2 ty-h2-d">9 Systems Built · Full Stack</div>
+      <div class="ty-divider ty-divider-d"></div>
+      <div class="ty-body ty-body-d">Supply Chain Digital Twin — ELT pipeline across 3 BUs, transforming raw planning records into actionable entries.</div>
+      <div class="ty-mono ty-mono-d">Next.js 15 · Supabase · TanStack</div>
+      <div class="ty-contrast-note ty-contrast-d">✓ #ffffff on #000000 = 21:1 contrast (WCAG AAA)</div>
+    </div>
+    <div class="type-light">
+      <div class="ty-tag ty-tag-l">Light mode</div>
+      <div class="ty-h1 ty-h1-l">PROJECTS<br>02</div>
+      <div class="ty-h2 ty-h2-l">9 Systems Built · Full Stack</div>
+      <div class="ty-divider ty-divider-l"></div>
+      <div class="ty-body ty-body-l">Supply Chain Digital Twin — ELT pipeline across 3 BUs, transforming raw planning records into actionable entries.</div>
+      <div class="ty-mono ty-mono-l">Next.js 15 · Supabase · TanStack</div>
+      <div class="ty-contrast-note ty-contrast-l">✓ #000000 on #f5f5f0 = 19:1 contrast (WCAG AAA)</div>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<!-- Full project inventory across planets -->
+<div class="projects-section">
+  <h3>Full project inventory — from CV + Obsidian</h3>
+
+  <div class="planet-header">☀ SUN — Pristian · hero info panel (always visible)</div>
+
+  <div class="planet-header">01 — ABOUT · bio · philosophy · education · GDSC community</div>
+
+  <div class="planet-header">02 — WORK · 7 enterprise products @ PT Kalbe Farma</div>
+  <div class="proj-grid" style="margin-bottom:20px;">
+    <div class="proj-card">
+      <div class="pc-num">·</div>
+      <div class="pc-label">enterprise · klbf · active</div>
+      <div class="pc-name">Optimus</div>
+      <div class="pc-desc">Clinical Trial Management System. Multi-tenant, AI/RAG pipeline, pgvector, 49 modules.</div>
+      <div class="pc-tags"><span class="pc-tag">Next.js</span><span class="pc-tag">pgvector</span><span class="pc-tag">multi-tenant</span></div>
+    </div>
+    <div class="proj-card">
+      <div class="pc-num">·</div>
+      <div class="pc-label">enterprise · klbf · active</div>
+      <div class="pc-name">SCM Digital Twin</div>
+      <div class="pc-desc">Supply chain ELT pipeline. FG→Intermediate→MRP cascade across 3 BUs.</div>
+      <div class="pc-tags"><span class="pc-tag">Next.js 15</span><span class="pc-tag">Supabase</span><span class="pc-tag">JSONB</span></div>
+    </div>
+    <div class="proj-card">
+      <div class="pc-num">·</div>
+      <div class="pc-label">enterprise · klbf · active</div>
+      <div class="pc-name">K-RIM</div>
+      <div class="pc-desc">Regulatory Document Management. CSV IQ/OQ/PQ validation. Keycloak + Supabase.</div>
+      <div class="pc-tags"><span class="pc-tag">Next.js 16</span><span class="pc-tag">Keycloak</span><span class="pc-tag">CSV</span></div>
+    </div>
+    <div class="proj-card">
+      <div class="pc-num">·</div>
+      <div class="pc-label">enterprise · klbf</div>
+      <div class="pc-name">RIS</div>
+      <div class="pc-desc">Radiology Information System. Lighthouse 20-30→70-90 (3–4× improvement).</div>
+      <div class="pc-tags"><span class="pc-tag">Next.js</span><span class="pc-tag">Supabase</span><span class="pc-tag">SSR</span></div>
+    </div>
+    <div class="proj-card">
+      <div class="pc-num">·</div>
+      <div class="pc-label">enterprise · klbf · shipped</div>
+      <div class="pc-name">Internal Chatbot</div>
+      <div class="pc-desc">AI chatbot for ~1,000-user BU. Sole engineer. AKS deployment.</div>
+      <div class="pc-tags"><span class="pc-tag">Azure OpenAI</span><span class="pc-tag">AKS</span><span class="pc-tag">RAG</span></div>
+    </div>
+    <div class="proj-card">
+      <div class="pc-num">·</div>
+      <div class="pc-label">enterprise · klbf · shipped</div>
+      <div class="pc-name">Calendar of Events</div>
+      <div class="pc-desc">Board of Directors calendar management across all Corporate Functions and SBUs.</div>
+      <div class="pc-tags"><span class="pc-tag">Next.js</span><span class="pc-tag">Supabase</span></div>
+    </div>
+  </div>
+
+  <div class="planet-header">03 — PROJECTS · open source · thesis · personal</div>
+  <div class="proj-grid" style="margin-bottom:20px;">
+    <div class="proj-card">
+      <div class="pc-num">·</div>
+      <div class="pc-label">thesis · 2024 · open source</div>
+      <div class="pc-name">Axolotl</div>
+      <div class="pc-desc">AI-powered patient diagnostic system. ML model, backend pipeline, GCR deployment.</div>
+      <div class="pc-tags"><span class="pc-tag">Python</span><span class="pc-tag">ML</span><span class="pc-tag">GCR</span></div>
+    </div>
+    <div class="proj-card">
+      <div class="pc-num">·</div>
+      <div class="pc-label">oss contribution</div>
+      <div class="pc-name">TanStack FilterFn</div>
+      <div class="pc-desc">Custom FilterFn contribution to TanStack React Table.</div>
+      <div class="pc-tags"><span class="pc-tag">TypeScript</span><span class="pc-tag">OSS</span></div>
+    </div>
+    <div class="proj-card">
+      <div class="pc-num">·</div>
+      <div class="pc-label">personal</div>
+      <div class="pc-name">HL7 Deno Parser</div>
+      <div class="pc-desc">Medical data protocol parser for HL7 messages.</div>
+      <div class="pc-tags"><span class="pc-tag">Deno</span><span class="pc-tag">HL7</span></div>
+    </div>
+    <div class="proj-card">
+      <div class="pc-num">·</div>
+      <div class="pc-label">personal · ml</div>
+      <div class="pc-name">House ROI Forecast</div>
+      <div class="pc-desc">Property return analysis using ML/Python.</div>
+      <div class="pc-tags"><span class="pc-tag">Python</span><span class="pc-tag">ML</span></div>
+    </div>
+  </div>
+
+  <div class="planet-header">04 — VENTURES · two active stealth companies</div>
+  <div class="proj-grid" style="margin-bottom:20px;">
+    <div class="proj-card">
+      <div class="pc-num">·</div>
+      <div class="pc-label">stealth · 2026 · rust</div>
+      <div class="pc-name">GaussRouter</div>
+      <div class="pc-desc">Outcome-based LLM routing gateway. CARROT, BELLA, xRouter algorithms. Rust/Axum/Tokio.</div>
+      <div class="pc-tags"><span class="pc-tag">Rust</span><span class="pc-tag">Axum</span><span class="pc-tag">SurrealDB</span></div>
+    </div>
+    <div class="proj-card">
+      <div class="pc-num">·</div>
+      <div class="pc-label">stealth · 2026 · mobile</div>
+      <div class="pc-name">[WEEKND]</div>
+      <div class="pc-desc">B2C consumer mobile app. Social/media. Tech Lead across architecture and infra.</div>
+      <div class="pc-tags"><span class="pc-tag">React Native</span><span class="pc-tag">GCP</span></div>
+    </div>
+  </div>
+
+  <div class="planet-header">05 — SKILLS · languages · cloud · AI/ML · devops · QA</div>
+  <div class="planet-header">06 — CONTACT · links · GitHub · LinkedIn · email</div>
+</div>
+
+<hr>
+
+<!-- Approval -->
+<div class="section">
+  <h3>Approve updated design?</h3>
+  <p style="font-size:11px;color:#2a3a4a;margin-bottom:16px;">Ready to write the full spec + implementation plan.</p>
+  <div class="approval">
+    <div class="btn" data-choice="approved" onclick="toggleSelect(this)">
+      <div class="btn-label">✓</div>
+      <div class="btn-title">Looks good</div>
+      <div class="btn-sub">Write spec + plan</div>
+    </div>
+    <div class="btn" data-choice="changes" onclick="toggleSelect(this)">
+      <div class="btn-label">↺</div>
+      <div class="btn-title">Still need changes</div>
+      <div class="btn-sub">Tell me what</div>
+    </div>
+  </div>
+</div>
+
+<p style="text-align:center;font-size:11px;color:#1a3050;margin-top:32px;">http://localhost:52155</p>
+
+<script>
+function toggleSelect(el) {
+  document.querySelectorAll('.btn').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  const choice = el.getAttribute('data-choice');
+  const text = el.querySelector('.btn-title').textContent;
+  if (window.recordChoice) window.recordChoice(choice, text);
+}
+</script>
+</body>
+</html>

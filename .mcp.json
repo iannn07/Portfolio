@@ -1,49 +1,21 @@
 {
   "mcpServers": {
-    "supabase": {
-      "command": "npx",
+    "mcp-obsidian": {
+      "command": "C:\\Users\\LENOVO\\AppData\\Local\\Microsoft\\WinGet\\Links\\uvx.exe",
       "args": [
-        "-y",
-        "@supabase/mcp-server-supabase@latest",
-        "--supabase-url",
-        "${SUPABASE_MCP_URL}",
-        "--anon-key",
-        "${SUPABASE_MCP_ANON_KEY}",
-        "--read-only"
+        "--system-certs",
+        "mcp-obsidian"
       ],
-      "description": "Supabase dev project — read-only by default. Set SUPABASE_MCP_URL and SUPABASE_MCP_ANON_KEY in your shell. NEVER point at staging or production."
-    },
-    "playwright": {
-      "command": "npx",
-      "args": ["-y", "@playwright/mcp@latest"],
-      "description": "Browser automation for exploratory testing and self-QA. Use for /qa:fix interactive sessions. Use Playwright CLI (not MCP) for CI pipelines."
-    },
-    "github": {
-      "type": "http",
-      "url": "https://api.githubcopilot.com/mcp/",
-      "description": "GitHub — PR reviews, issue management, repo operations. Run /mcp to authenticate on first use."
-    },
-    "figma": {
-      "command": "npx",
-      "args": ["-y", "figma-mcp"],
       "env": {
-        "FIGMA_ACCESS_TOKEN": "${FIGMA_ACCESS_TOKEN}"
-      },
-      "description": "Figma — read design files, extract tokens and screen specs. Required for /design:import from Figma. Set FIGMA_ACCESS_TOKEN in your shell."
-    },
-    "context7": {
-      "command": "npx",
-      "args": ["-y", "@upstash/context7-mcp@latest"],
-      "description": "Up-to-date library documentation injected into context. Prevents hallucinated API signatures for Next.js 16, Supabase, Tailwind 4."
-    },
-    "sentry": {
-      "command": "npx",
-      "args": ["-y", "@sentry/mcp-server@latest"],
-      "env": {
-        "SENTRY_AUTH_TOKEN": "${SENTRY_MCP_AUTH_TOKEN}",
-        "SENTRY_ORG": "${SENTRY_ORG}"
-      },
-      "description": "Sentry error monitoring — query production errors during /deployment:release post-deploy checks. Set SENTRY_MCP_AUTH_TOKEN and SENTRY_ORG in your shell."
+        "OBSIDIAN_API_KEY": "155b1eb07e4a298668abb2ebdac886dffa92a84a51f961f88839d27b101fd31b",
+        "OBSIDIAN_HOST": "127.0.0.1",
+        "OBSIDIAN_PORT": "27124",
+        "UV_PYTHON": "C:\\Users\\LENOVO\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe",
+        "UV_CACHE_DIR": "D:\\uv\\cache",
+        "UV_TOOL_DIR": "D:\\uv\\tools",
+        "TEMP": "D:\\Temp",
+        "TMP": "D:\\Temp"
+      }
     }
   }
 }

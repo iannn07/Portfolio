@@ -2,7 +2,11 @@ import { Providers } from '@/components/providers/Providers'
 import '@/css/style.css'
 import '@/css/portfolio-v2.css'
 import { Metadata } from 'next'
-import { Cormorant_Garamond, IBM_Plex_Sans, JetBrains_Mono } from 'next/font/google'
+import {
+  Cormorant_Garamond,
+  IBM_Plex_Sans,
+  JetBrains_Mono,
+} from 'next/font/google'
 
 const cormorant = Cormorant_Garamond({
   subsets: ['latin'],
@@ -24,15 +28,27 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'Pristian Budi Dharmawan — Full Stack Engineer',
+  title: 'Pristian Budi Dharmawan — Software Engineer',
   description:
     'Full-stack software engineer specialising in scalable web applications, ELT data pipelines, and AI integration.',
-  keywords: ['Software Engineer', 'Agentic AI', 'Full Stack Developer', 'React', 'Next.js', 'TypeScript'],
-  openGraph: { title: 'Pristian Budi Dharmawan — Full Stack Engineer', type: 'website' },
+  keywords: [
+    'Software Engineer',
+    'Agentic AI',
+    'Full Stack Developer',
+    'React',
+    'Next.js',
+    'TypeScript',
+  ],
+  openGraph: {
+    title: 'Pristian Budi Dharmawan — Software Engineer',
+    type: 'website',
+  },
   robots: { index: true, follow: true },
 }
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html
       lang="en"

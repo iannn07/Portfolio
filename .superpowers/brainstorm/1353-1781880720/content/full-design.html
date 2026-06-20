@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Full Design Proposal</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #080d16;
+    color: #c8d8f0;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    padding: 36px 28px 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .page-title { font-size: 24px; font-weight: 700; color: #e8f2ff; letter-spacing: -0.5px; margin-bottom: 6px; }
+  .page-sub { font-size: 13px; color: #3a5a7a; margin-bottom: 40px; }
+
+  h3 { font-size: 13px; font-weight: 700; color: #ffffff; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 16px; }
+  .section { margin-bottom: 48px; }
+
+  /* Decision summary */
+  .decisions {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 48px;
+  }
+  .decision-chip {
+    background: #0a1628;
+    border: 1px solid #1a2a40;
+    border-radius: 8px;
+    padding: 12px 14px;
+  }
+  .dc-label { font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: #2a4a6a; margin-bottom: 4px; }
+  .dc-value { font-size: 12px; font-weight: 700; color: #c8d8f0; }
+  .dc-check { font-size: 9px; color: #4a7aaa; margin-top: 4px; }
+
+  /* Main mockup */
+  .main-mockup {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 48px;
+  }
+
+  .mockup-frame {
+    border: 1px solid #1a2a40;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #000;
+  }
+  .mockup-bar {
+    background: #0a1628;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border-bottom: 1px solid #1a2a40;
+  }
+  .mb-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .mb-red { background: #ff5f57; }
+  .mb-yellow { background: #febc2e; }
+  .mb-green { background: #28c840; }
+  .mb-label { font-size: 10px; color: #2a4a6a; margin-left: 6px; letter-spacing: 0.5px; }
+
+  /* ORBITAL STATE */
+  .orbital-view {
+    background: #000;
+    height: 360px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .stars {
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 15% 20%, #ffffff22 0%, transparent 100%),
+      radial-gradient(1px 1px at 35% 8%, #ffffff18 0%, transparent 100%),
+      radial-gradient(1px 1px at 55% 35%, #ffffff25 0%, transparent 100%),
+      radial-gradient(1px 1px at 75% 15%, #ffffff20 0%, transparent 100%),
+      radial-gradient(1px 1px at 85% 55%, #ffffff15 0%, transparent 100%),
+      radial-gradient(1px 1px at 10% 65%, #ffffff18 0%, transparent 100%),
+      radial-gradient(1px 1px at 25% 80%, #ffffff12 0%, transparent 100%),
+      radial-gradient(1px 1px at 65% 75%, #ffffff20 0%, transparent 100%),
+      radial-gradient(1px 1px at 90% 85%, #ffffff15 0%, transparent 100%),
+      radial-gradient(1px 1px at 45% 60%, #ffffff10 0%, transparent 100%);
+  }
+  .orbital-system {
+    position: relative;
+    width: 280px;
+    height: 280px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .orbit-ring {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid #ffffff08;
+    border-radius: 50%;
+  }
+  .o1 { width: 70px; height: 70px; }
+  .o2 { width: 110px; height: 110px; }
+  .o3 { width: 150px; height: 150px; }
+  .o4 { width: 190px; height: 190px; }
+  .o5 { width: 230px; height: 230px; }
+  .o6 { width: 270px; height: 270px; }
+
+  .sun-core {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+  }
+  .sun-glow {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #ffffff 0%, #dddddd 40%, #aaaaaa 70%, transparent 100%);
+    box-shadow: 0 0 30px #ffffff40, 0 0 60px #ffffff18;
+  }
+  .sun-name {
+    font-size: 7px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #ffffff;
+    text-align: center;
+    white-space: nowrap;
+  }
+  .sun-role {
+    font-size: 6px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #333;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .planet {
+    position: absolute;
+    top: 50%; left: 50%;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .planet-body {
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #ffffff 0%, #999 50%, #444 100%);
+  }
+  .planet-num {
+    position: absolute;
+    font-size: 6px;
+    font-weight: 700;
+    color: #ffffff60;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+
+  /* Planet positions (radius from center) */
+  /* orbit 1 = 35px, orbit 2 = 55px, orbit 3 = 75px, orbit 4 = 95px, orbit 5 = 115px, orbit 6 = 135px */
+  .p01 { transform: translate(calc(-50% + 35px), -50%); }
+  .p01 .planet-body { width: 10px; height: 10px; }
+  .p01 .planet-num { top: -12px; }
+
+  .p02 { transform: translate(calc(-50% - 0px), calc(-50% - 55px)); }
+  .p02 .planet-body { width: 14px; height: 14px; background: radial-gradient(circle at 35% 35%, #ffffff 0%, #888 50%, #333 100%); }
+  .p02 .planet-num { top: -14px; }
+
+  .p03 { transform: translate(calc(-50% + 75px), calc(-50% + 20px)); }
+  .p03 .planet-body { width: 11px; height: 11px; }
+  .p03 .planet-num { top: -13px; }
+
+  .p04 { transform: translate(calc(-50% - 80px), calc(-50% + 50px)); }
+  .p04 .planet-body { width: 12px; height: 12px; }
+  .p04 .planet-num { top: -13px; }
+
+  .p05 { transform: translate(calc(-50% + 30px), calc(-50% + 113px)); }
+  .p05 .planet-body { width: 10px; height: 10px; }
+  .p05 .planet-num { top: -12px; }
+
+  .p06 { transform: translate(calc(-50% - 120px), calc(-50% - 60px)); }
+  .p06 .planet-body { width: 9px; height: 9px; opacity: 0.7; }
+  .p06 .planet-num { top: -12px; }
+
+  /* HUD overlay corner */
+  .hud-corner {
+    position: absolute;
+    bottom: 14px; right: 14px;
+    font-size: 7px;
+    color: #1a2a3a;
+    letter-spacing: 1px;
+    font-family: monospace;
+    text-align: right;
+    line-height: 1.8;
+  }
+  .hud-corner-tl {
+    position: absolute;
+    top: 14px; left: 14px;
+    font-size: 7px;
+    color: #1a2a3a;
+    letter-spacing: 1px;
+    font-family: monospace;
+    line-height: 1.8;
+  }
+
+  /* ZOOMED STATE */
+  .zoomed-view {
+    background: #000;
+    height: 360px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+  .zv-back {
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid #0f0f0f;
+  }
+  .zv-back-arrow {
+    font-size: 10px; color: #333;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .zv-breadcrumb {
+    font-size: 9px;
+    color: #1a1a1a;
+    letter-spacing: 2px;
+    font-family: monospace;
+  }
+
+  .zv-content {
+    flex: 1;
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overflow: hidden;
+  }
+  .zv-num {
+    font-size: 48px;
+    font-weight: 900;
+    color: #0f0f0f;
+    line-height: 1;
+    font-family: 'Georgia', serif;
+    letter-spacing: -2px;
+    margin-top: -8px;
+  }
+  .zv-title {
+    font-size: 26px;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: -1px;
+    font-family: 'Georgia', serif;
+    line-height: 1;
+  }
+  .zv-sub {
+    font-size: 9px;
+    color: #333;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-family: monospace;
+  }
+  .zv-divider { width: 32px; height: 1px; background: #1a1a1a; }
+  .zv-items {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .zv-item {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    padding: 5px 0;
+    border-bottom: 1px solid #0c0c0c;
+  }
+  .zvi-n { font-size: 8px; color: #222; font-family: monospace; letter-spacing: 1px; flex-shrink: 0; }
+  .zvi-name { font-size: 10px; color: #ffffff; font-weight: 600; letter-spacing: -0.2px; }
+  .zvi-tag { font-size: 8px; color: #2a2a2a; letter-spacing: 0.5px; margin-left: auto; font-family: monospace; }
+
+  .zv-nav {
+    position: absolute;
+    bottom: 12px; right: 12px;
+    display: flex;
+    gap: 8px;
+  }
+  .zv-nav-btn {
+    width: 24px; height: 24px;
+    border: 1px solid #1a1a1a;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    color: #333;
+  }
+
+  /* MOBILE MOCKUP */
+  .mobile-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+  .mobile-frame {
+    border: 1px solid #1a2a40;
+    border-radius: 20px;
+    overflow: hidden;
+    background: #000;
+    max-width: 180px;
+    margin: 0 auto;
+  }
+  .mobile-notch {
+    background: #000;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid #0a0a0a;
+  }
+  .mn-pill {
+    width: 50px; height: 4px;
+    background: #1a1a1a;
+    border-radius: 4px;
+  }
+  .mobile-orbital {
+    height: 180px;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .mob-stars {
+    position: absolute; inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 20% 20%, #ffffff18 0%, transparent 100%),
+      radial-gradient(1px 1px at 60% 15%, #ffffff14 0%, transparent 100%),
+      radial-gradient(1px 1px at 80% 60%, #ffffff18 0%, transparent 100%),
+      radial-gradient(1px 1px at 30% 75%, #ffffff12 0%, transparent 100%);
+  }
+  .mob-orbit-system {
+    position: relative;
+    width: 140px; height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .mob-ring {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid #ffffff08;
+    border-radius: 50%;
+  }
+  .mr1 { width: 36px; height: 36px; }
+  .mr2 { width: 58px; height: 58px; }
+  .mr3 { width: 80px; height: 80px; }
+  .mr4 { width: 102px; height: 102px; }
+  .mr5 { width: 120px; height: 120px; }
+  .mr6 { width: 136px; height: 136px; }
+  .mob-sun {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: radial-gradient(#fff, #999);
+    box-shadow: 0 0 14px #ffffff50;
+    z-index: 10;
+  }
+  .mob-p {
+    position: absolute;
+    top: 50%; left: 50%;
+    border-radius: 50%;
+  }
+  .mp1 { transform: translate(calc(-50% + 18px), -50%); width: 6px; height: 6px; background: #ffffff90; }
+  .mp2 { transform: translate(-50%, calc(-50% - 29px)); width: 8px; height: 8px; background: #ffffff80; }
+  .mp3 { transform: translate(calc(-50% + 40px), calc(-50% + 10px)); width: 6px; height: 6px; background: #ffffff70; }
+  .mp4 { transform: translate(calc(-50% - 44px), calc(-50% + 26px)); width: 7px; height: 7px; background: #ffffff60; }
+  .mp5 { transform: translate(calc(-50% + 15px), calc(-50% + 59px)); width: 6px; height: 6px; background: #ffffff50; }
+  .mp6 { transform: translate(calc(-50% - 64px), calc(-50% - 30px)); width: 5px; height: 5px; background: #ffffff40; }
+
+  .mobile-tap-hint {
+    height: 24px;
+    background: #050505;
+    border-top: 1px solid #0a0a0a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 8px;
+    color: #1a1a1a;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-family: monospace;
+  }
+  .mobile-sheet {
+    background: #080808;
+    padding: 12px;
+    border-top: 1px solid #1a1a1a;
+  }
+  .ms-handle {
+    width: 24px; height: 2px;
+    background: #222;
+    border-radius: 2px;
+    margin: 0 auto 10px;
+  }
+  .ms-num { font-size: 22px; font-weight: 900; color: #111; font-family: 'Georgia', serif; }
+  .ms-title { font-size: 14px; font-weight: 800; color: #fff; font-family: 'Georgia', serif; letter-spacing: -0.3px; }
+  .ms-sub { font-size: 7px; color: #333; letter-spacing: 2px; text-transform: uppercase; font-family: monospace; margin-top: 4px; }
+
+  /* Typography spec */
+  .type-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+  .type-card {
+    background: #000;
+    border: 1px solid #1a1a1a;
+    border-radius: 8px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .tc-label { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: #2a2a2a; font-family: monospace; }
+  .tc-sample-display {
+    font-size: 28px;
+    font-weight: 900;
+    color: #ffffff;
+    font-family: 'Georgia', serif;
+    letter-spacing: -1px;
+    line-height: 1;
+  }
+  .tc-sample-mono {
+    font-size: 11px;
+    color: #333;
+    font-family: monospace;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    line-height: 1.6;
+  }
+  .tc-sample-body {
+    font-size: 12px;
+    color: #444;
+    font-family: 'Segoe UI', sans-serif;
+    line-height: 1.6;
+  }
+  .tc-spec { font-size: 9px; color: #1a1a1a; font-family: monospace; }
+
+  /* Color palette */
+  .palette {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 48px;
+    flex-wrap: wrap;
+  }
+  .swatch {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: center;
+  }
+  .swatch-box {
+    width: 56px; height: 56px;
+    border-radius: 8px;
+    border: 1px solid #1a1a1a;
+  }
+  .swatch-label { font-size: 8px; color: #2a3a4a; font-family: monospace; letter-spacing: 0.5px; text-align: center; }
+  .swatch-hex { font-size: 9px; color: #3a4a5a; font-family: monospace; }
+
+  /* Section map */
+  .section-map {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+    margin-bottom: 48px;
+  }
+  .sm-item {
+    background: #000;
+    border: 1px solid #1a1a1a;
+    border-radius: 8px;
+    padding: 12px 10px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: center;
+  }
+  .sm-planet {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #ffffff 0%, #888 50%, #333 100%);
+    margin: 0 auto;
+  }
+  .sm-num { font-size: 11px; font-weight: 800; color: #ffffff; font-family: monospace; }
+  .sm-name { font-size: 9px; color: #333; letter-spacing: 1px; text-transform: uppercase; }
+  .sm-orbit { font-size: 8px; color: #1a1a1a; font-family: monospace; }
+
+  /* Flow diagram */
+  .flow {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    background: #000;
+    border: 1px solid #1a1a1a;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 48px;
+    overflow-x: auto;
+  }
+  .flow-step {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: center;
+    min-width: 80px;
+  }
+  .fs-icon {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    border: 1px solid #1a1a1a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: #333;
+    font-family: monospace;
+  }
+  .fs-icon.active { border-color: #ffffff; color: #fff; }
+  .fs-label { font-size: 8px; color: #2a2a2a; text-align: center; letter-spacing: 0.5px; font-family: monospace; text-transform: uppercase; }
+  .flow-arrow { font-size: 14px; color: #1a1a1a; flex-shrink: 0; padding: 0 4px; margin-bottom: 12px; }
+
+  .hint { text-align: center; font-size: 12px; color: #1a3a5a; margin-top: 40px; }
+
+  /* Approval */
+  .approval-cards {
+    display: flex;
+    gap: 16px;
+    margin-top: 20px;
+    justify-content: center;
+  }
+  .approval-card {
+    background: #000;
+    border: 1.5px solid #1a1a1a;
+    border-radius: 10px;
+    padding: 16px 24px;
+    cursor: pointer;
+    transition: border-color 0.2s;
+    min-width: 160px;
+    text-align: center;
+  }
+  .approval-card:hover { border-color: #444; }
+  .approval-card.selected { border-color: #fff; }
+  .approval-card.selected .ac-label { background: #fff; color: #000; }
+  .ac-label {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 4px;
+    font-size: 10px; font-weight: 700;
+    background: #111; color: #333;
+    border: 1px solid #1a1a1a;
+    margin-bottom: 8px;
+  }
+  .ac-title { font-size: 13px; font-weight: 700; color: #fff; }
+  .ac-sub { font-size: 10px; color: #333; margin-top: 4px; }
+  hr { border: none; border-top: 1px solid #0f1e30; margin: 40px 0; }
+</style>
+</head>
+<body>
+
+<div class="page-title">Full Design Proposal</div>
+<div class="page-sub">Solar System Orbital Portfolio · SpaceX Ultra-Minimal · Camera Zoom · Numbers Only · 2D CSS Mobile</div>
+
+<!-- Decision recap -->
+<div class="decisions">
+  <div class="decision-chip">
+    <div class="dc-label">Interaction</div>
+    <div class="dc-value">Orbital Navigation</div>
+    <div class="dc-check">✓ Locked</div>
+  </div>
+  <div class="decision-chip">
+    <div class="dc-label">Visual Style</div>
+    <div class="dc-value">SpaceX Ultra-Minimal</div>
+    <div class="dc-check">✓ Locked</div>
+  </div>
+  <div class="decision-chip">
+    <div class="dc-label">Click Behavior</div>
+    <div class="dc-value">Camera Zooms In</div>
+    <div class="dc-check">✓ Locked</div>
+  </div>
+  <div class="decision-chip">
+    <div class="dc-label">Planet Labels</div>
+    <div class="dc-value">Numbers Only 01–06</div>
+    <div class="dc-check">✓ Locked</div>
+  </div>
+</div>
+
+<!-- Section map -->
+<div class="section">
+  <h3>Planet → Section Map</h3>
+  <div class="section-map">
+    <div class="sm-item">
+      <div class="sm-planet" style="width:22px;height:22px;opacity:0.9"></div>
+      <div class="sm-num">☀</div>
+      <div class="sm-name">You</div>
+      <div class="sm-orbit">center</div>
+    </div>
+    <div class="sm-item">
+      <div class="sm-planet"></div>
+      <div class="sm-num">01</div>
+      <div class="sm-name">About</div>
+      <div class="sm-orbit">orbit 1</div>
+    </div>
+    <div class="sm-item">
+      <div class="sm-planet" style="width:34px;height:34px;"></div>
+      <div class="sm-num">02</div>
+      <div class="sm-name">Projects</div>
+      <div class="sm-orbit">orbit 2</div>
+    </div>
+    <div class="sm-item">
+      <div class="sm-planet" style="width:26px;height:26px;"></div>
+      <div class="sm-num">03</div>
+      <div class="sm-name">Experience</div>
+      <div class="sm-orbit">orbit 3</div>
+    </div>
+    <div class="sm-item">
+      <div class="sm-planet" style="width:24px;height:24px;"></div>
+      <div class="sm-num">04</div>
+      <div class="sm-name">Ventures</div>
+      <div class="sm-orbit">orbit 4</div>
+    </div>
+    <div class="sm-item">
+      <div class="sm-planet" style="width:22px;height:22px;"></div>
+      <div class="sm-num">05</div>
+      <div class="sm-name">Skills</div>
+      <div class="sm-orbit">orbit 5</div>
+    </div>
+  </div>
+  <p style="font-size:11px;color:#2a3a4a;font-family:monospace;">Contact folds into planet 01 (About). 5 orbiting planets + sun = 6 destinations total.</p>
+</div>
+
+<hr>
+
+<!-- Desktop mockup side by side -->
+<div class="section">
+  <h3>Desktop — Two States</h3>
+  <div class="main-mockup">
+
+    <!-- State 1: Orbital view -->
+    <div>
+      <p style="font-size:10px;color:#2a4a6a;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;font-family:monospace;">STATE 1 · Orbital (default)</p>
+      <div class="mockup-frame">
+        <div class="mockup-bar">
+          <div class="mb-dot mb-red"></div>
+          <div class="mb-dot mb-yellow"></div>
+          <div class="mb-dot mb-green"></div>
+          <div class="mb-label">portfolio · orbital</div>
+        </div>
+        <div class="orbital-view">
+          <div class="stars"></div>
+          <div class="hud-corner-tl">
+            PRISTIAN DHARMAWAN<br>
+            FULL STACK ENGINEER
+          </div>
+          <div class="hud-corner">
+            JAKARTA · 2025<br>
+            6 SYSTEMS ONLINE
+          </div>
+          <div class="orbital-system">
+            <div class="orbit-ring o1"></div>
+            <div class="orbit-ring o2"></div>
+            <div class="orbit-ring o3"></div>
+            <div class="orbit-ring o4"></div>
+            <div class="orbit-ring o5"></div>
+
+            <!-- Planets -->
+            <div class="planet p01"><div class="planet-body"></div><div class="planet-num">01</div></div>
+            <div class="planet p02"><div class="planet-body" style="width:14px;height:14px;"></div><div class="planet-num">02</div></div>
+            <div class="planet p03"><div class="planet-body" style="width:11px;height:11px;"></div><div class="planet-num">03</div></div>
+            <div class="planet p04"><div class="planet-body" style="width:12px;height:12px;"></div><div class="planet-num">04</div></div>
+            <div class="planet p05"><div class="planet-body" style="width:10px;height:10px;"></div><div class="planet-num">05</div></div>
+
+            <div class="sun-core">
+              <div class="sun-glow"></div>
+              <div class="sun-name">PRISTIAN</div>
+              <div class="sun-role">FULL STACK ENG.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- State 2: Zoomed into planet 02 -->
+    <div>
+      <p style="font-size:10px;color:#2a4a6a;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;font-family:monospace;">STATE 2 · Zoomed (click planet 02)</p>
+      <div class="mockup-frame">
+        <div class="mockup-bar">
+          <div class="mb-dot mb-red"></div>
+          <div class="mb-dot mb-yellow"></div>
+          <div class="mb-dot mb-green"></div>
+          <div class="mb-label">portfolio · 02 / projects</div>
+        </div>
+        <div class="zoomed-view">
+          <div class="zv-back">
+            <div class="zv-back-arrow">← orbit</div>
+            <div class="zv-breadcrumb">☀ / 02</div>
+          </div>
+          <div class="zv-content">
+            <div class="zv-num">02</div>
+            <div class="zv-title">Projects</div>
+            <div class="zv-sub">9 systems built</div>
+            <div class="zv-divider"></div>
+            <div class="zv-items">
+              <div class="zv-item">
+                <div class="zvi-n">→</div>
+                <div class="zvi-name">SCM Digital Twin</div>
+                <div class="zvi-tag">enterprise</div>
+              </div>
+              <div class="zv-item">
+                <div class="zvi-n">→</div>
+                <div class="zvi-name">Axolotl</div>
+                <div class="zvi-tag">healthcare ai</div>
+              </div>
+              <div class="zv-item">
+                <div class="zvi-n">→</div>
+                <div class="zvi-name">[MERIDIAN]</div>
+                <div class="zvi-tag">stealth · rust</div>
+              </div>
+            </div>
+          </div>
+          <div class="zv-nav">
+            <div class="zv-nav-btn">←</div>
+            <div class="zv-nav-btn">→</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<!-- Mobile -->
+<div class="section">
+  <h3>Mobile — 2D CSS Orbital + Bottom Sheet</h3>
+  <div class="mobile-split">
+    <div>
+      <p style="font-size:10px;color:#2a4a6a;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;font-family:monospace;">Default</p>
+      <div class="mobile-frame">
+        <div class="mobile-notch"><div class="mn-pill"></div></div>
+        <div class="mobile-orbital">
+          <div class="mob-stars"></div>
+          <div class="mob-orbit-system">
+            <div class="mob-ring mr1"></div>
+            <div class="mob-ring mr2"></div>
+            <div class="mob-ring mr3"></div>
+            <div class="mob-ring mr4"></div>
+            <div class="mob-ring mr5"></div>
+            <div class="mob-sun"></div>
+            <div class="mob-p mp1"></div>
+            <div class="mob-p mp2"></div>
+            <div class="mob-p mp3"></div>
+            <div class="mob-p mp4"></div>
+            <div class="mob-p mp5"></div>
+          </div>
+        </div>
+        <div class="mobile-tap-hint">tap a planet</div>
+      </div>
+    </div>
+    <div>
+      <p style="font-size:10px;color:#2a4a6a;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;font-family:monospace;">After tap (bottom sheet)</p>
+      <div class="mobile-frame">
+        <div class="mobile-notch"><div class="mn-pill"></div></div>
+        <div class="mobile-orbital" style="height:110px;">
+          <div class="mob-stars"></div>
+          <div class="mob-orbit-system" style="width:90px;height:90px;">
+            <div class="mob-ring mr1" style="width:24px;height:24px;"></div>
+            <div class="mob-ring mr2" style="width:40px;height:40px;border-color:#ffffff14;"></div>
+            <div class="mob-ring mr3" style="width:56px;height:56px;"></div>
+            <div class="mob-ring mr4" style="width:70px;height:70px;"></div>
+            <div class="mob-ring mr5" style="width:82px;height:82px;"></div>
+            <div class="mob-sun" style="width:12px;height:12px;"></div>
+            <div class="mob-p mp2" style="width:6px;height:6px;background:#fff;box-shadow:0 0 6px #fff;transform:translate(-50%,calc(-50% - 19px))"></div>
+          </div>
+        </div>
+        <div class="mobile-sheet">
+          <div class="ms-handle"></div>
+          <div class="ms-num">02</div>
+          <div class="ms-title">Projects</div>
+          <div class="ms-sub">9 systems · full stack</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<!-- Typography -->
+<div class="section">
+  <h3>Typography</h3>
+  <div class="type-grid">
+    <div class="type-card">
+      <div class="tc-label">Display — Cormorant Garamond</div>
+      <div class="tc-sample-display">PROJECTS<br>02</div>
+      <div class="tc-spec">900 · serif · headings, numbers</div>
+    </div>
+    <div class="type-card">
+      <div class="tc-label">Labels — JetBrains Mono (existing)</div>
+      <div class="tc-sample-mono">FULL STACK ENG.<br>JAKARTA · 2025<br>← ORBIT</div>
+      <div class="tc-spec">400-600 · mono · nav, tags, HUD</div>
+    </div>
+    <div class="type-card">
+      <div class="tc-label">Body — IBM Plex Sans</div>
+      <div class="tc-sample-body">Systems that refuse to stop running, long after everyone else has moved on.</div>
+      <div class="tc-spec">400 · sans · descriptions, bio</div>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<!-- Color -->
+<div class="section">
+  <h3>Color Palette</h3>
+  <div class="palette">
+    <div class="swatch">
+      <div class="swatch-box" style="background:#000000;"></div>
+      <div class="swatch-label">Void</div>
+      <div class="swatch-hex">#000000</div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-box" style="background:#080808;"></div>
+      <div class="swatch-label">Surface</div>
+      <div class="swatch-hex">#080808</div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-box" style="background:#0f0f0f;"></div>
+      <div class="swatch-label">Elevated</div>
+      <div class="swatch-hex">#0F0F0F</div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-box" style="background:#1a1a1a; border-color:#2a2a2a;"></div>
+      <div class="swatch-label">Border</div>
+      <div class="swatch-hex">#1A1A1A</div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-box" style="background:#333333;"></div>
+      <div class="swatch-label">Muted</div>
+      <div class="swatch-hex">#333333</div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-box" style="background:#888888;"></div>
+      <div class="swatch-label">Secondary</div>
+      <div class="swatch-hex">#888888</div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-box" style="background:#ffffff;"></div>
+      <div class="swatch-label">Primary</div>
+      <div class="swatch-hex">#FFFFFF</div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-box" style="background:radial-gradient(#fff 0%, #999 50%, #444 100%);"></div>
+      <div class="swatch-label">Planet</div>
+      <div class="swatch-hex">grayscale gradient</div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-box" style="background:radial-gradient(#ffe 0%,#ddd 40%,#aaa 70%,transparent 100%);"></div>
+      <div class="swatch-label">Sun glow</div>
+      <div class="swatch-hex">warm white</div>
+    </div>
+  </div>
+  <p style="font-size:11px;color:#2a3a4a;font-family:monospace;">No cyan, no violet, no ember. Pure monochrome. Drama lives in contrast + void.</p>
+</div>
+
+<hr>
+
+<!-- User flow -->
+<div class="section">
+  <h3>Interaction Flow</h3>
+  <div class="flow">
+    <div class="flow-step">
+      <div class="fs-icon active">☀</div>
+      <div class="fs-label">Orbital<br>(load)</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <div class="fs-icon">●</div>
+      <div class="fs-label">Hover<br>planet</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <div class="fs-icon">⊙</div>
+      <div class="fs-label">Click<br>planet</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <div class="fs-icon">▶</div>
+      <div class="fs-label">Camera<br>zooms (1.5s)</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <div class="fs-icon">□</div>
+      <div class="fs-label">Content<br>fades in</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <div class="fs-icon">←</div>
+      <div class="fs-label">Back /<br>ESC</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <div class="fs-icon active">☀</div>
+      <div class="fs-label">Orbital<br>(resume)</div>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<div class="section">
+  <h3>Approve this design?</h3>
+  <p style="font-size:12px;color:#2a3a4a;margin-bottom:16px;">This will become the spec and implementation plan.</p>
+  <div class="approval-cards">
+    <div class="approval-card" data-choice="approved" onclick="toggleSelect(this)">
+      <div class="ac-label">✓</div>
+      <div class="ac-title">Looks good</div>
+      <div class="ac-sub">Proceed to spec</div>
+    </div>
+    <div class="approval-card" data-choice="changes" onclick="toggleSelect(this)">
+      <div class="ac-label">↺</div>
+      <div class="ac-title">Needs changes</div>
+      <div class="ac-sub">Tell me what to adjust</div>
+    </div>
+  </div>
+</div>
+
+<p class="hint">http://localhost:59456</p>
+
+<script>
+function toggleSelect(el) {
+  document.querySelectorAll('.approval-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  const choice = el.getAttribute('data-choice');
+  const text = el.querySelector('.ac-title').textContent;
+  if (window.recordChoice) window.recordChoice(choice, text);
+}
+</script>
+</body>
+</html>

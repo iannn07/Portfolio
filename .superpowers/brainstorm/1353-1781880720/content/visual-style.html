@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visual Style Direction</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #050a14;
+    color: #c8d8f0;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    min-height: 100vh;
+    padding: 32px 24px;
+  }
+  h2 { font-size: 22px; font-weight: 600; color: #e8f2ff; margin-bottom: 8px; letter-spacing: -0.3px; }
+  .subtitle { font-size: 14px; color: #5a7a9a; margin-bottom: 32px; }
+
+  .cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    max-width: 1100px;
+  }
+  .card {
+    background: #0a1628;
+    border: 1.5px solid #1a2a40;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .card:hover { border-color: #00d4ff40; transform: translateY(-2px); }
+  .card.selected { border-color: #00d4ff; background: #0a1e35; }
+  .card.selected .card-label { background: #00d4ff; color: #000; }
+
+  .card-mockup {
+    height: 240px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ---- STYLE A: SpaceX Ultra-Minimal ---- */
+  .spacex-minimal {
+    background: #000000;
+    width: 100%; height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 20px;
+  }
+  .sx-badge {
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #333;
+    font-weight: 500;
+  }
+  .sx-name {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    color: #ffffff;
+    text-align: center;
+    line-height: 1.05;
+    font-family: 'Georgia', serif;
+  }
+  .sx-role {
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #444;
+    font-weight: 400;
+  }
+  .sx-divider {
+    width: 30px; height: 1px;
+    background: #222;
+  }
+  .sx-planets {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .sx-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #333;
+  }
+  .sx-dot.active { background: #ffffff; }
+
+  /* ---- STYLE B: SpaceX + Web3 Glow ---- */
+  .spacex-web3 {
+    background: radial-gradient(ellipse at 50% 60%, #0a1535 0%, #020610 100%);
+    width: 100%; height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .sw3-glow-ring {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 180px; height: 180px;
+    border-radius: 50%;
+    border: 1px solid #00d4ff15;
+    box-shadow: inset 0 0 40px #00d4ff08;
+  }
+  .sw3-glow-ring-2 {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 250px; height: 250px;
+    border-radius: 50%;
+    border: 1px solid #7b61ff10;
+  }
+  .sw3-badge {
+    font-size: 8px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #00d4ff;
+    font-weight: 600;
+    border: 1px solid #00d4ff30;
+    padding: 2px 8px;
+    border-radius: 3px;
+    background: #00d4ff08;
+    z-index: 1;
+  }
+  .sw3-name {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: #ffffff;
+    text-align: center;
+    line-height: 1.1;
+    z-index: 1;
+  }
+  .sw3-role {
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #4a6a9a;
+    z-index: 1;
+  }
+  .sw3-planets-row {
+    display: flex;
+    gap: 10px;
+    z-index: 1;
+    margin-top: 4px;
+  }
+  .sw3-planet {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+  }
+  .sw3-p1 { background: #00d4ff; box-shadow: 0 0 8px #00d4ff; }
+  .sw3-p2 { background: #7b61ff; box-shadow: 0 0 8px #7b61ff; }
+  .sw3-p3 { background: #ff9f43; box-shadow: 0 0 8px #ff9f43; }
+  .sw3-p4 { background: #44ffaa; box-shadow: 0 0 8px #44ffaa; }
+  .sw3-p5 { background: #ff6680; box-shadow: 0 0 8px #ff6680; }
+
+  /* ---- STYLE C: Apple Glass ---- */
+  .apple-glass {
+    background: linear-gradient(135deg, #08101e 0%, #040c1a 50%, #070e1c 100%);
+    width: 100%; height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .ag-blur-orb-1 {
+    position: absolute;
+    width: 100px; height: 100px;
+    border-radius: 50%;
+    background: rgba(0, 120, 200, 0.12);
+    filter: blur(30px);
+    top: 20%; left: 15%;
+  }
+  .ag-blur-orb-2 {
+    position: absolute;
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: rgba(100, 60, 220, 0.10);
+    filter: blur(25px);
+    bottom: 20%; right: 15%;
+  }
+  .ag-card {
+    background: rgba(255,255,255,0.04);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 16px 24px;
+    z-index: 1;
+    text-align: center;
+    width: 160px;
+  }
+  .ag-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: #e8f2ff;
+    letter-spacing: -0.3px;
+    line-height: 1.2;
+  }
+  .ag-role {
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+    margin-top: 4px;
+  }
+  .ag-planets-row {
+    display: flex;
+    gap: 8px;
+    z-index: 1;
+  }
+  .ag-planet {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.06);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 7px;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 0;
+  }
+  .ag-p1 { background: rgba(0,212,255,0.15); border-color: rgba(0,212,255,0.2); color: rgba(0,212,255,0.7); }
+  .ag-p2 { background: rgba(123,97,255,0.15); border-color: rgba(123,97,255,0.2); color: rgba(123,97,255,0.7); }
+  .ag-p3 { background: rgba(255,159,67,0.15); border-color: rgba(255,159,67,0.2); color: rgba(255,159,67,0.7); }
+  .ag-p4 { background: rgba(68,255,170,0.12); border-color: rgba(68,255,170,0.2); color: rgba(68,255,170,0.6); }
+
+  /* Card bottom */
+  .card-body { padding: 14px 16px; border-top: 1px solid #0f1e30; }
+  .card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+  .card-label {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.5px;
+    background: #0f1e30; color: #4a7aaa;
+    border: 1px solid #1a3050;
+  }
+  .card h3 { font-size: 13px; font-weight: 700; color: #c8d8f0; letter-spacing: -0.2px; }
+  .card p { font-size: 11px; color: #4a6a8a; line-height: 1.5; margin-top: 3px; }
+  .keyword-row {
+    display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px;
+  }
+  .keyword {
+    padding: 2px 7px;
+    background: #0a1628;
+    border: 1px solid #1a2a3a;
+    border-radius: 3px;
+    font-size: 9px;
+    color: #3a5a7a;
+    letter-spacing: 0.3px;
+  }
+  .hint { text-align: center; font-size: 12px; color: #2a4a6a; margin-top: 24px; }
+  .hint span { color: #00d4ff60; }
+</style>
+</head>
+<body>
+<h2>Which visual style direction?</h2>
+<p class="subtitle">You chose Orbital Navigation (A). Now: how should it look and feel?</p>
+
+<div class="cards">
+
+  <!-- STYLE A -->
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-mockup">
+      <div class="spacex-minimal">
+        <div class="sx-badge">Portfolio · 2025</div>
+        <div class="sx-name">PRISTIAN<br>DHARMAWAN</div>
+        <div class="sx-divider"></div>
+        <div class="sx-role">Full Stack Engineer</div>
+        <div class="sx-planets">
+          <div class="sx-dot"></div>
+          <div class="sx-dot active"></div>
+          <div class="sx-dot"></div>
+          <div class="sx-dot"></div>
+          <div class="sx-dot"></div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="card-header">
+        <span class="card-label">A</span>
+        <h3>SpaceX Ultra-Minimal</h3>
+      </div>
+      <p>Pure black. White serif headings. No glow, no neon. SpaceX.com tension. Drama through typography and void.</p>
+      <div class="keyword-row">
+        <span class="keyword">pitch black</span>
+        <span class="keyword">serif bold</span>
+        <span class="keyword">cinematic</span>
+        <span class="keyword">stark</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- STYLE B -->
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-mockup">
+      <div class="spacex-web3">
+        <div class="sw3-glow-ring"></div>
+        <div class="sw3-glow-ring-2"></div>
+        <div class="sw3-badge">Full Stack · Jakarta</div>
+        <div class="sw3-name">PRISTIAN<br>DHARMAWAN</div>
+        <div class="sw3-role">Systems Architect</div>
+        <div class="sw3-planets-row">
+          <div class="sw3-planet sw3-p1"></div>
+          <div class="sw3-planet sw3-p2"></div>
+          <div class="sw3-planet sw3-p3"></div>
+          <div class="sw3-planet sw3-p4"></div>
+          <div class="sw3-planet sw3-p5"></div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="card-header">
+        <span class="card-label">B</span>
+        <h3>SpaceX × Web3 Glow</h3>
+      </div>
+      <p>Deep navy base. Neon glowing planets. Cyan/violet/ember accents. HUD overlays. Max immersion, max drama.</p>
+      <div class="keyword-row">
+        <span class="keyword">deep navy</span>
+        <span class="keyword">neon glow</span>
+        <span class="keyword">HUD layers</span>
+        <span class="keyword">plasma</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- STYLE C -->
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-mockup">
+      <div class="apple-glass">
+        <div class="ag-blur-orb-1"></div>
+        <div class="ag-blur-orb-2"></div>
+        <div class="ag-card">
+          <div class="ag-name">PRISTIAN<br>DHARMAWAN</div>
+          <div class="ag-role">Full Stack Engineer</div>
+        </div>
+        <div class="ag-planets-row">
+          <div class="ag-planet ag-p1">AB</div>
+          <div class="ag-planet ag-p2">PR</div>
+          <div class="ag-planet ag-p3">XP</div>
+          <div class="ag-planet ag-p4">SK</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="card-header">
+        <span class="card-label">C</span>
+        <h3>Apple Glass + Space</h3>
+      </div>
+      <p>Frosted glass cards. Soft ambient blur orbs. Subtle gradients. Apple's refinement applied to a space theme.</p>
+      <div class="keyword-row">
+        <span class="keyword">frosted glass</span>
+        <span class="keyword">blur orbs</span>
+        <span class="keyword">Apple HIG</span>
+        <span class="keyword">refined</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<p class="hint">Click to select · <span>http://localhost:59456</span></p>
+
+<script>
+function toggleSelect(el) {
+  document.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  const choice = el.getAttribute('data-choice');
+  const text = el.querySelector('h3').textContent;
+  if (window.recordChoice) window.recordChoice(choice, text);
+}
+</script>
+</body>
+</html>

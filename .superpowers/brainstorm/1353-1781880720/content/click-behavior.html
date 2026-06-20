@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Click Behavior</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #050a14;
+    color: #c8d8f0;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    min-height: 100vh;
+    padding: 32px 24px;
+  }
+  h2 { font-size: 22px; font-weight: 600; color: #e8f2ff; margin-bottom: 8px; }
+  .subtitle { font-size: 14px; color: #5a7a9a; margin-bottom: 32px; }
+
+  .cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    max-width: 900px;
+  }
+  .card {
+    background: #0a1628;
+    border: 1.5px solid #1a2a40;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .card:hover { border-color: #ffffff20; transform: translateY(-2px); }
+  .card.selected { border-color: #ffffff; background: #0f1e32; }
+  .card.selected .card-label { background: #ffffff; color: #000; }
+
+  .card-mockup {
+    height: 200px;
+    position: relative;
+    overflow: hidden;
+    background: #000;
+  }
+
+  /* ---- A: Camera Zoom Into Planet ---- */
+  .zoom-scene {
+    width: 100%; height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .zoom-before {
+    position: absolute;
+    left: 18px; top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    opacity: 0.7;
+  }
+  .zoom-sun-small {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 10px #ffffff60;
+  }
+  .zoom-ring-s { width: 40px; height: 40px; border: 1px solid #ffffff15; border-radius: 50%; position: absolute; }
+  .zoom-ring-m { width: 60px; height: 60px; border: 1px solid #ffffff10; border-radius: 50%; position: absolute; }
+  .zoom-planet-s {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #fff;
+    position: absolute;
+    top: calc(50% - 4px);
+    right: -4px;
+  }
+  .zoom-arrow {
+    font-size: 18px;
+    color: #ffffff20;
+    position: absolute;
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+  }
+  .zoom-after {
+    position: absolute;
+    right: 14px; top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 10px 12px;
+    background: #111;
+    border: 1px solid #ffffff15;
+    border-radius: 8px;
+    width: 100px;
+  }
+  .za-label { font-size: 7px; letter-spacing: 2px; color: #444; text-transform: uppercase; }
+  .za-title { font-size: 12px; font-weight: 700; color: #fff; }
+  .za-line { width: 100%; height: 1px; background: #222; }
+  .za-text { font-size: 8px; color: #555; line-height: 1.5; }
+
+  /* ---- B: Slide-in Panel ---- */
+  .slide-scene {
+    width: 100%; height: 100%;
+    display: flex;
+    position: relative;
+  }
+  .slide-orbital {
+    flex: 0 0 45%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .slide-sun { width: 20px; height: 20px; border-radius: 50%; background: #fff; box-shadow: 0 0 12px #ffffff60; position: absolute; }
+  .slide-ring { position: absolute; border: 1px solid #ffffff12; border-radius: 50%; }
+  .sr1 { width: 50px; height: 50px; }
+  .sr2 { width: 80px; height: 80px; }
+  .sr3 { width: 110px; height: 110px; }
+  .slide-p {
+    position: absolute;
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    background: #ffffff60;
+  }
+  .slide-p.active { background: #fff; box-shadow: 0 0 8px #fff; }
+  .slide-pa { top: calc(50% - 4px); right: -4px; }
+  .slide-pb { bottom: -4px; left: calc(50% - 4px); }
+  .slide-pc { top: calc(50% - 4px); left: -4px; }
+  .slide-pd { top: -4px; left: calc(50% - 4px); }
+  .slide-content {
+    flex: 0 0 55%;
+    background: #0a0a0a;
+    border-left: 1px solid #ffffff08;
+    padding: 14px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    justify-content: center;
+  }
+  .sc-tag { font-size: 7px; letter-spacing: 2px; color: #333; text-transform: uppercase; }
+  .sc-title { font-size: 14px; font-weight: 700; color: #fff; letter-spacing: -0.3px; }
+  .sc-divider { width: 20px; height: 1px; background: #333; }
+  .sc-body { font-size: 8px; color: #444; line-height: 1.6; }
+  .sc-tag2 {
+    font-size: 7px; letter-spacing: 1px;
+    color: #222;
+    border: 1px solid #1a1a1a;
+    padding: 2px 6px;
+    border-radius: 2px;
+    display: inline-block;
+    width: fit-content;
+  }
+
+  /* ---- C: Full-screen Overlay ---- */
+  .overlay-scene {
+    width: 100%; height: 100%;
+    position: relative;
+    background: #000;
+  }
+  .overlay-base {
+    width: 100%; height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .overlay-sun-m { width: 24px; height: 24px; border-radius: 50%; background: #fff; position: absolute; box-shadow: 0 0 12px #fff6; }
+  .overlay-ring-m { position: absolute; border: 1px solid #ffffff08; border-radius: 50%; }
+  .orm1 { width: 60px; height: 60px; }
+  .orm2 { width: 95px; height: 95px; }
+  .orm3 { width: 130px; height: 130px; }
+  .overlay-planet-m {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: #ffffff60;
+    position: absolute;
+  }
+  .opm1 { top: calc(50% - 5px); right: -5px; }
+  .opm2 { top: -5px; left: calc(50% - 5px); }
+  .overlay-panel {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.92);
+    border: 1px solid #ffffff08;
+    padding: 18px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    justify-content: center;
+  }
+  .op-close {
+    position: absolute;
+    top: 10px; right: 12px;
+    font-size: 10px;
+    color: #333;
+    letter-spacing: 1px;
+  }
+  .op-tag { font-size: 7px; letter-spacing: 2px; color: #333; text-transform: uppercase; }
+  .op-title { font-size: 18px; font-weight: 800; color: #fff; letter-spacing: -0.5px; }
+  .op-sub { font-size: 8px; color: #444; letter-spacing: 1px; text-transform: uppercase; }
+  .op-divider { width: 24px; height: 1px; background: #222; }
+  .op-body { font-size: 8px; color: #444; line-height: 1.6; }
+
+  /* ---- D: Planet Becomes Section Header ---- */
+  .transform-scene {
+    width: 100%; height: 100%;
+    background: #000;
+    display: flex;
+    flex-direction: column;
+  }
+  .ts-top {
+    flex: 0 0 40%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border-bottom: 1px solid #111;
+  }
+  .ts-planet-large {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #fff, #888);
+    box-shadow: 0 0 20px #ffffff30;
+  }
+  .ts-orbital-label {
+    position: absolute;
+    right: 16px; top: 50%;
+    transform: translateY(-50%);
+    text-align: right;
+  }
+  .tol-section { font-size: 8px; letter-spacing: 2px; color: #333; text-transform: uppercase; }
+  .tol-name { font-size: 11px; font-weight: 700; color: #ffffff80; }
+  .ts-back {
+    position: absolute;
+    left: 12px; top: 50%;
+    transform: translateY(-50%);
+    font-size: 8px; color: #333;
+    letter-spacing: 1px;
+  }
+  .ts-bottom {
+    flex: 1;
+    padding: 10px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    justify-content: center;
+  }
+  .tsb-title { font-size: 13px; font-weight: 700; color: #fff; }
+  .tsb-item {
+    font-size: 8px;
+    color: #333;
+    padding: 4px 0;
+    border-bottom: 1px solid #0f0f0f;
+    letter-spacing: 0.5px;
+  }
+
+  /* Card bottom */
+  .card-body { padding: 14px 16px; border-top: 1px solid #0f1e30; }
+  .card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+  .card-label {
+    display: inline-block; padding: 2px 8px;
+    border-radius: 4px; font-size: 10px; font-weight: 700; letter-spacing: 0.5px;
+    background: #0f1e30; color: #4a7aaa; border: 1px solid #1a3050;
+  }
+  .card h3 { font-size: 13px; font-weight: 700; color: #c8d8f0; }
+  .card p { font-size: 11px; color: #4a6a8a; line-height: 1.5; margin-top: 3px; }
+  .pros-cons { display: flex; gap: 12px; margin-top: 8px; }
+  .pros, .cons { flex: 1; font-size: 10px; line-height: 1.6; }
+  .pros { color: #aaaaaa80; }
+  .cons { color: #ffffff30; }
+  .pros strong { display: block; font-size: 9px; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 2px; color: #aaaaaa; }
+  .cons strong { display: block; font-size: 9px; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 2px; color: #555; }
+
+  .hint { text-align: center; font-size: 12px; color: #2a4a6a; margin-top: 24px; }
+</style>
+</head>
+<body>
+
+<h2>When a planet is clicked — what happens?</h2>
+<p class="subtitle">Style: SpaceX Ultra-Minimal (A). This defines the core transition mechanic.</p>
+
+<div class="cards">
+
+  <!-- A: Zoom into planet -->
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-mockup">
+      <div class="zoom-scene">
+        <div class="zoom-before">
+          <div style="position:relative;width:70px;height:70px;display:flex;align-items:center;justify-content:center;">
+            <div class="zoom-ring-s"></div>
+            <div class="zoom-ring-m"></div>
+            <div class="zoom-planet-s"></div>
+            <div class="zoom-sun-small"></div>
+          </div>
+        </div>
+        <div class="zoom-arrow">→</div>
+        <div class="zoom-after">
+          <div class="za-label">02 · Projects</div>
+          <div class="za-title">Selected</div>
+          <div class="za-line"></div>
+          <div class="za-text">SCM Digital Twin<br>Axolotl AI<br>MERIDIAN</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="card-header"><span class="card-label">A</span><h3>Camera Zooms Into Planet</h3></div>
+      <p>Click planet → camera flies toward it → planet fills screen → content fades in inside. Back = camera pulls out.</p>
+      <div class="pros-cons">
+        <div class="pros"><strong>Pro</strong>Most cinematic<br>True 3D journey<br>SpaceX launch feel</div>
+        <div class="cons"><strong>Con</strong>Disorienting if rushed<br>Complex Three.js</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- B: Slide-in panel -->
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-mockup">
+      <div class="slide-scene">
+        <div class="slide-orbital">
+          <div class="slide-ring sr1"><div class="slide-p slide-pa active"></div></div>
+          <div class="slide-ring sr2"><div class="slide-p slide-pb"></div></div>
+          <div class="slide-ring sr3"><div class="slide-p slide-pc"></div><div class="slide-p slide-pd"></div></div>
+          <div class="slide-sun"></div>
+        </div>
+        <div class="slide-content">
+          <div class="sc-tag">02 · Projects</div>
+          <div class="sc-title">Work</div>
+          <div class="sc-divider"></div>
+          <div class="sc-body">SCM Digital Twin<br>Axolotl AI<br>[MERIDIAN]</div>
+          <div class="sc-tag2">← back to orbit</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="card-header"><span class="card-label">B</span><h3>Content Slides In (Split View)</h3></div>
+      <p>Click planet → solar system shrinks left → content panel slides in right. Orbital always visible as mini-nav.</p>
+      <div class="pros-cons">
+        <div class="pros"><strong>Pro</strong>Orbital stays visible<br>Context preserved<br>Easy to navigate</div>
+        <div class="cons"><strong>Con</strong>Less dramatic<br>Smaller content area</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- C: Full overlay -->
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-mockup">
+      <div class="overlay-scene">
+        <div class="overlay-base">
+          <div class="overlay-ring-m orm1"><div class="overlay-planet-m opm1"></div></div>
+          <div class="overlay-ring-m orm2"><div class="overlay-planet-m opm2"></div></div>
+          <div class="overlay-ring-m orm3"></div>
+          <div class="overlay-sun-m"></div>
+        </div>
+        <div class="overlay-panel">
+          <div class="op-close">✕ esc</div>
+          <div class="op-tag">02 · Projects</div>
+          <div class="op-title">Work</div>
+          <div class="op-sub">Full Stack · Agentic</div>
+          <div class="op-divider"></div>
+          <div class="op-body">SCM Digital Twin — Enterprise<br>Axolotl AI — Healthcare<br>[MERIDIAN] — LLM Routing</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="card-header"><span class="card-label">C</span><h3>Full-screen Overlay</h3></div>
+      <p>Click planet → dark overlay covers the solar system → content appears full-screen. Esc / back arrow dismisses.</p>
+      <div class="pros-cons">
+        <div class="pros"><strong>Pro</strong>Max content space<br>Clean reading<br>Simple to build</div>
+        <div class="cons"><strong>Con</strong>Orbital disappears<br>Less immersive</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- D: Planet → section header -->
+  <div class="card" data-choice="d" onclick="toggleSelect(this)">
+    <div class="card-mockup">
+      <div class="transform-scene">
+        <div class="ts-top">
+          <div class="ts-back">← orbit</div>
+          <div class="ts-planet-large"></div>
+          <div class="ts-orbital-label">
+            <div class="tol-section">02 · Projects</div>
+            <div class="tol-name">Work</div>
+          </div>
+        </div>
+        <div class="ts-bottom">
+          <div class="tsb-title">Selected Works</div>
+          <div class="tsb-item">SCM Digital Twin · Enterprise · KLBF</div>
+          <div class="tsb-item">Axolotl · Healthcare AI · ML</div>
+          <div class="tsb-item">[MERIDIAN] · LLM Routing · Rust</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="card-header"><span class="card-label">D</span><h3>Planet Becomes Section Header</h3></div>
+      <p>Click planet → page scrolls down, planet morphs into a section heading. Orbital collapses to a mini dot-nav at top.</p>
+      <div class="pros-cons">
+        <div class="pros"><strong>Pro</strong>Continuous flow<br>No modal breaks<br>SEO-friendly</div>
+        <div class="cons"><strong>Con</strong>Loses 3D fully<br>Most like current site</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<p class="hint">Click to select · http://localhost:59456</p>
+
+<script>
+function toggleSelect(el) {
+  document.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  const choice = el.getAttribute('data-choice');
+  const text = el.querySelector('h3').textContent;
+  if (window.recordChoice) window.recordChoice(choice, text);
+}
+</script>
+</body>
+</html>

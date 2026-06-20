@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solar System Portfolio — Interaction Model</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #050a14;
+    color: #c8d8f0;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    min-height: 100vh;
+    padding: 32px 24px;
+  }
+  h2 {
+    font-size: 22px;
+    font-weight: 600;
+    color: #e8f2ff;
+    margin-bottom: 8px;
+    letter-spacing: -0.3px;
+  }
+  .subtitle {
+    font-size: 14px;
+    color: #5a7a9a;
+    margin-bottom: 32px;
+  }
+  .cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    max-width: 1000px;
+  }
+  .card {
+    background: #0a1628;
+    border: 1.5px solid #1a2a40;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .card:hover { border-color: #00d4ff40; transform: translateY(-2px); }
+  .card.selected { border-color: #00d4ff; background: #0a1e35; }
+  .card.selected .card-label { background: #00d4ff; color: #000; }
+
+  .card-mockup {
+    height: 200px;
+    position: relative;
+    overflow: hidden;
+    background: #03080f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ---- OPTION A: Orbital Nav ---- */
+  .orbital-scene {
+    position: relative;
+    width: 180px;
+    height: 180px;
+  }
+  .sun {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #ffe080 0%, #ff9020 60%, #ff4400 100%);
+    box-shadow: 0 0 30px #ff901080, 0 0 60px #ff300040;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 8px; color: #ffe; font-weight: 700; letter-spacing: 0px;
+    text-align: center; line-height: 1.2;
+  }
+  .orbit {
+    position: absolute;
+    top: 50%; left: 50%;
+    border: 1px solid #1a2a4040;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .orbit-1 { width: 80px; height: 80px; }
+  .orbit-2 { width: 120px; height: 120px; }
+  .orbit-3 { width: 160px; height: 160px; }
+  .planet {
+    position: absolute;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 7px; font-weight: 600; color: #fff;
+    text-shadow: 0 1px 3px #0006;
+  }
+  .p1 { width: 14px; height: 14px; top: -7px; left: calc(50% - 7px); background: radial-gradient(#00d4ff, #0066aa); box-shadow: 0 0 8px #00d4ff80; }
+  .p2 { width: 16px; height: 16px; top: calc(50% - 8px); right: -8px; background: radial-gradient(#7b61ff, #3b00cc); box-shadow: 0 0 8px #7b61ff80; }
+  .p3 { width: 12px; height: 12px; bottom: -6px; left: calc(50% - 6px); background: radial-gradient(#ff9f43, #cc4400); box-shadow: 0 0 8px #ff9f4380; }
+  .p4 { width: 13px; height: 13px; top: calc(50% - 6px); left: -6px; background: radial-gradient(#44ffaa, #009955); box-shadow: 0 0 8px #44ffaa80; }
+  .p5 { width: 11px; height: 11px; top: -5px; right: 5px; background: radial-gradient(#ff6680, #cc0033); box-shadow: 0 0 8px #ff668080; }
+  .p6 { width: 11px; height: 11px; bottom: 5px; right: 5px; background: radial-gradient(#ffdd44, #cc8800); }
+
+  /* ---- OPTION B: Scroll through Space ---- */
+  .scroll-scene {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    padding: 10px 0;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    justify-content: space-around;
+  }
+  .scroll-line {
+    position: absolute;
+    left: 50%;
+    top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, #00d4ff50 30%, #7b61ff50 70%, transparent);
+    transform: translateX(-50%);
+  }
+  .scroll-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 140px;
+    z-index: 1;
+  }
+  .scroll-section.right { flex-direction: row-reverse; }
+  .scroll-planet {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .scroll-label {
+    font-size: 8px;
+    color: #7a9ab8;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+  .sp1 { background: radial-gradient(#00d4ff, #003366); box-shadow: 0 0 8px #00d4ff60; }
+  .sp2 { background: radial-gradient(#7b61ff, #1a0066); box-shadow: 0 0 8px #7b61ff60; }
+  .sp3 { background: radial-gradient(#ff9f43, #660000); box-shadow: 0 0 8px #ff9f4360; }
+  .sp4 { background: radial-gradient(#44ffaa, #003322); box-shadow: 0 0 8px #44ffaa60; }
+  .sp5 { background: radial-gradient(#ffffff, #8899bb); box-shadow: 0 0 6px #ffffff40; }
+  .scroll-arrow {
+    position: absolute;
+    right: 12px; bottom: 12px;
+    font-size: 9px;
+    color: #00d4ff80;
+    display: flex; align-items: center; gap: 4px;
+  }
+
+  /* ---- OPTION C: Hero Scene + Sections ---- */
+  .hero-scene {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  .hero-top {
+    flex: 0 0 55%;
+    background: radial-gradient(ellipse at 60% 50%, #0a1a3a 0%, #02050c 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-3d-sun {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #ffe080, #ff9020);
+    box-shadow: 0 0 40px #ff901060, 0 0 80px #ff300030;
+  }
+  .hero-ring {
+    position: absolute;
+    border: 1px solid #1a2a4020;
+    border-radius: 50%;
+  }
+  .hr1 { width: 90px; height: 90px; }
+  .hr2 { width: 140px; height: 140px; }
+  .hr3 { width: 190px; height: 190px; }
+  .hero-label-block {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .hlb-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: #e8f2ff;
+    letter-spacing: -0.3px;
+  }
+  .hlb-sub {
+    font-size: 8px;
+    color: #4a6a8a;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .hero-bottom {
+    flex: 0 0 45%;
+    background: #040c1a;
+    border-top: 1px solid #0a1628;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    padding: 0 8px;
+  }
+  .section-pill {
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 7px;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+    color: #4a7aaa;
+    background: #0a1628;
+    border: 1px solid #1a2a3a;
+    white-space: nowrap;
+  }
+
+  /* ---- OPTION D: Split Orbital ---- */
+  .split-scene {
+    width: 100%;
+    height: 100%;
+    display: flex;
+  }
+  .split-left {
+    flex: 0 0 45%;
+    background: #030810;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid #0a1628;
+    position: relative;
+    overflow: hidden;
+  }
+  .split-mini-orbital {
+    position: relative;
+    width: 120px; height: 120px;
+  }
+  .split-sun {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: radial-gradient(#ffe080, #ff9020);
+    box-shadow: 0 0 20px #ff901060;
+  }
+  .split-orbit { position: absolute; top: 50%; left: 50%; border: 1px solid #1a2a3020; border-radius: 50%; transform: translate(-50%,-50%); }
+  .so1 { width: 60px; height: 60px; }
+  .so2 { width: 90px; height: 90px; }
+  .so3 { width: 116px; height: 116px; }
+  .split-p {
+    position: absolute; border-radius: 50%;
+    box-shadow: 0 0 6px currentColor;
+  }
+  .sp-a { width: 10px; height: 10px; top: -5px; left: calc(50% - 5px); background: #00d4ff; color: #00d4ff; }
+  .sp-b { width: 9px; height: 9px; top: calc(50% - 4px); right: -4px; background: #7b61ff; color: #7b61ff; }
+  .sp-c { width: 8px; height: 8px; bottom: 0; left: calc(50% - 4px); background: #ff9f43; color: #ff9f43; }
+  .sp-d { width: 9px; height: 9px; top: calc(50% - 4px); left: -4px; background: #44ffaa; color: #44ffaa; }
+  .sp-e { width: 7px; height: 7px; top: 0; right: 8px; background: #ff6680; color: #ff6680; }
+  .sp-f { width: 8px; height: 8px; bottom: 8px; left: 4px; background: #ffdd44; color: #ffdd44; }
+  .split-right {
+    flex: 1;
+    background: #040a18;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 12px 14px;
+    gap: 10px;
+  }
+  .split-content-block {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .scb-title {
+    font-size: 10px;
+    font-weight: 700;
+    color: #c8d8f0;
+    letter-spacing: -0.2px;
+  }
+  .scb-text {
+    font-size: 8px;
+    color: #3a5a7a;
+    line-height: 1.5;
+  }
+  .scb-divider {
+    width: 24px; height: 1px;
+    background: #00d4ff30;
+  }
+
+  /* Card bottom */
+  .card-body {
+    padding: 14px 16px;
+    border-top: 1px solid #0f1e30;
+  }
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+  .card-label {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    background: #0f1e30;
+    color: #4a7aaa;
+    border: 1px solid #1a3050;
+  }
+  .card h3 {
+    font-size: 13px;
+    font-weight: 700;
+    color: #c8d8f0;
+    letter-spacing: -0.2px;
+  }
+  .card p {
+    font-size: 11px;
+    color: #4a6a8a;
+    line-height: 1.5;
+    margin-top: 3px;
+  }
+  .pros-cons {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+  }
+  .pros, .cons {
+    flex: 1;
+    font-size: 10px;
+    line-height: 1.6;
+  }
+  .pros { color: #44ffaa80; }
+  .cons { color: #ff668080; }
+  .pros strong, .cons strong {
+    display: block;
+    font-size: 9px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+  .pros strong { color: #44ffaa; }
+  .cons strong { color: #ff6680; }
+
+  .selection-hint {
+    text-align: center;
+    font-size: 12px;
+    color: #2a4a6a;
+    margin-top: 24px;
+  }
+  .selection-hint span { color: #00d4ff60; }
+</style>
+</head>
+<body>
+<h2>What's the core interaction model?</h2>
+<p class="subtitle">This shapes everything — navigation, scroll behavior, section layout, Three.js scene architecture.</p>
+
+<div class="cards">
+
+  <!-- OPTION A -->
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-mockup">
+      <div class="orbital-scene">
+        <div class="orbit orbit-1"><div class="planet p1"></div></div>
+        <div class="orbit orbit-2">
+          <div class="planet p2"></div>
+          <div class="planet p4"></div>
+        </div>
+        <div class="orbit orbit-3">
+          <div class="planet p3"></div>
+          <div class="planet p5"></div>
+          <div class="planet p6"></div>
+        </div>
+        <div class="sun">YOU</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="card-header">
+        <span class="card-label">A</span>
+        <h3>Orbital Navigation</h3>
+      </div>
+      <p>Solar system IS the nav. Planets orbit you (the sun). Click a planet → section flies in. Most immersive, least conventional.</p>
+      <div class="pros-cons">
+        <div class="pros"><strong>Pro</strong>Unforgettable<br>True web3 feel<br>Interactive 3D</div>
+        <div class="cons"><strong>Con</strong>Complex UX<br>Mobile hard<br>High build risk</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OPTION B -->
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-mockup">
+      <div class="scroll-scene">
+        <div class="scroll-line"></div>
+        <div class="scroll-section">
+          <div class="scroll-planet sp1"></div>
+          <div class="scroll-label">HERO — EARTH</div>
+        </div>
+        <div class="scroll-section right">
+          <div class="scroll-planet sp2"></div>
+          <div class="scroll-label">ABOUT — MARS</div>
+        </div>
+        <div class="scroll-section">
+          <div class="scroll-planet sp3"></div>
+          <div class="scroll-label">PROJECTS — JUPITER</div>
+        </div>
+        <div class="scroll-section right">
+          <div class="scroll-planet sp4"></div>
+          <div class="scroll-label">EXPERIENCE — SATURN</div>
+        </div>
+        <div class="scroll-section">
+          <div class="scroll-planet sp5"></div>
+          <div class="scroll-label">CONTACT — PLUTO</div>
+        </div>
+        <div class="scroll-arrow">↓ scroll through space</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="card-header">
+        <span class="card-label">B</span>
+        <h3>Scroll Through Space</h3>
+      </div>
+      <p>Each section = a planet. Scrolling is a space journey. Rocket travels between planets. SpaceX launch cinematic feel.</p>
+      <div class="pros-cons">
+        <div class="pros"><strong>Pro</strong>Cinematic flow<br>Scroll = natural<br>Keeps rocket</div>
+        <div class="cons"><strong>Con</strong>Current structure<br>Less "new"<br>Section length varies</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OPTION C -->
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-mockup">
+      <div class="hero-scene">
+        <div class="hero-top">
+          <div class="hero-ring hr1"></div>
+          <div class="hero-ring hr2"></div>
+          <div class="hero-ring hr3"></div>
+          <div class="hero-3d-sun"></div>
+          <div class="hero-label-block">
+            <div class="hlb-name">PRISTIAN<br>DHARMAWAN</div>
+            <div class="hlb-sub">Full Stack Engineer</div>
+          </div>
+        </div>
+        <div class="hero-bottom">
+          <div class="section-pill">ABOUT</div>
+          <div class="section-pill">PROJECTS</div>
+          <div class="section-pill">XP</div>
+          <div class="section-pill">VENTURES</div>
+          <div class="section-pill">SKILLS</div>
+          <div class="section-pill">CONTACT</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="card-header">
+        <span class="card-label">C</span>
+        <h3>Solar System Hero</h3>
+      </div>
+      <p>Full solar system 3D hero experience. Scroll down — sections below are redesigned but standard linear. Apple.com energy.</p>
+      <div class="pros-cons">
+        <div class="pros"><strong>Pro</strong>Apple polish<br>Clean sections<br>Fastest build</div>
+        <div class="cons"><strong>Con</strong>Hero then "normal"<br>Less immersive<br>No nav metaphor</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OPTION D -->
+  <div class="card" data-choice="d" onclick="toggleSelect(this)">
+    <div class="card-mockup">
+      <div class="split-scene">
+        <div class="split-left">
+          <div class="split-mini-orbital">
+            <div class="split-orbit so1"></div>
+            <div class="split-orbit so2"></div>
+            <div class="split-orbit so3"></div>
+            <div class="split-sun"></div>
+            <div class="split-p sp-a"></div>
+            <div class="split-p sp-b"></div>
+            <div class="split-p sp-c"></div>
+            <div class="split-p sp-d"></div>
+            <div class="split-p sp-e"></div>
+            <div class="split-p sp-f"></div>
+          </div>
+        </div>
+        <div class="split-right">
+          <div class="split-content-block">
+            <div class="scb-title">PRISTIAN DHARMAWAN</div>
+            <div class="scb-text">Full Stack · Jakarta</div>
+          </div>
+          <div class="scb-divider"></div>
+          <div class="split-content-block">
+            <div class="scb-title">SCM Digital Twin</div>
+            <div class="scb-text">Enterprise · Next.js · Supabase</div>
+          </div>
+          <div class="split-content-block">
+            <div class="scb-title">CALLSIGN: MERIDIAN</div>
+            <div class="scb-text">LLM Routing · Rust · Stealth</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="card-header">
+        <span class="card-label">D</span>
+        <h3>Persistent Orbital + Content</h3>
+      </div>
+      <p>Solar system orbits on the left (fixed). Content scrolls on the right. Click a planet = jump to section. Click to highlight.</p>
+      <div class="pros-cons">
+        <div class="pros"><strong>Pro</strong>Always-visible 3D<br>Novel layout<br>Clear wayfinding</div>
+        <div class="cons"><strong>Con</strong>Content area narrow<br>Mobile needs rethink<br>Unusual pattern</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<p class="selection-hint">Click a card to select · <span>http://localhost:59456</span></p>
+
+<script>
+function toggleSelect(el) {
+  document.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  const choice = el.getAttribute('data-choice');
+  const text = el.querySelector('h3').textContent;
+  if (window.recordChoice) window.recordChoice(choice, text);
+}
+</script>
+</body>
+</html>

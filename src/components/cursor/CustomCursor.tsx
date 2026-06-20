@@ -35,14 +35,14 @@ export default function CustomCursor() {
       rafRef.current = requestAnimationFrame(animate)
     }
 
-    const onEnter = () => document.body.classList.add('cursor-hover')
-    const onLeave = () => document.body.classList.remove('cursor-hover')
+    const onEnter = () => document.body.classList.add('c-hover')
+    const onLeave = () => document.body.classList.remove('c-hover')
 
     window.addEventListener('mousemove', onMouseMove)
     rafRef.current = requestAnimationFrame(animate)
 
     const interactives = document.querySelectorAll(
-      'a, button, .proj-card, .feat-card, .stat'
+      'a, button, .proj-card, .stat, .venture-card'
     )
     interactives.forEach((el) => {
       el.addEventListener('mouseenter', onEnter)
@@ -57,8 +57,8 @@ export default function CustomCursor() {
 
   return (
     <>
-      <div id="cursor-dot" ref={dotRef} />
-      <div id="cursor-ring" ref={ringRef} />
+      <div id="cur-dot" ref={dotRef} />
+      <div id="cur-ring" ref={ringRef} />
     </>
   )
 }

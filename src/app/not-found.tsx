@@ -13,14 +13,30 @@ export default function NotFound() {
         fontFamily: 'var(--mono)',
       }}
     >
-      <div style={{ fontSize: 'clamp(6rem, 20vw, 14rem)', fontFamily: 'var(--serif)', fontWeight: 900, color: 'var(--fg3)', lineHeight: 1 }}>
+      <div
+        style={{
+          fontSize: 'clamp(6rem, 20vw, 14rem)',
+          fontFamily: 'var(--serif)',
+          fontWeight: 900,
+          color: 'var(--fg3)',
+          lineHeight: 1,
+        }}
+      >
         404
       </div>
-      <div style={{ fontSize: '0.78rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--fg3)', marginTop: '1rem' }}>
+      <div
+        style={{
+          fontSize: '0.78rem',
+          letterSpacing: '0.2em',
+          textTransform: 'uppercase',
+          color: 'var(--fg3)',
+          marginTop: '1rem',
+        }}
+      >
         Page Not Found
       </div>
       <Link
-        href="/"
+        href="/home"
         style={{
           marginTop: '2rem',
           fontFamily: 'var(--mono)',
