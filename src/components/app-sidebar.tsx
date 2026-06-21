@@ -11,7 +11,6 @@ import {
 import { useIsMobile } from '@/hooks/use-mobile'
 import {
   IconArrowLeft,
-  IconCode,
   IconHome,
   IconSchool,
 } from '@tabler/icons-react'
@@ -23,12 +22,6 @@ const items = [
     url: '/home',
     icon: IconHome,
     tooltip: 'Home',
-  },
-  {
-    title: 'Gear 2 - Projects',
-    url: '/projects',
-    icon: IconCode,
-    tooltip: 'My Projects',
   },
   {
     title: 'Gear 3 - Education',

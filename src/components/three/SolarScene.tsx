@@ -173,6 +173,48 @@ const SolarScene = forwardRef<SolarSceneHandle, Props>(function SolarScene(
       scene.add(mesh)
       meshById.set(p.id, mesh)
 
+      // Earth — blue atmosphere halo
+      if (p.id === '01') {
+        mesh.add(new THREE.Mesh(
+          new THREE.SphereGeometry(p.size * 1.14, 24, 24),
+          new THREE.MeshBasicMaterial({ color: 0x4A90D9, transparent: true, opacity: 0.22, side: THREE.BackSide }),
+        ))
+      }
+
+      // Jupiter — procedural horizontal band texture
+      if (p.id === '03') {
+        const cvs = document.createElement('canvas')
+        cvs.width = 512; cvs.height = 256
+        const ctx = cvs.getContext('2d')!
+        const BANDS = ['#C47035','#EAB870','#C47035','#D49060','#B86030','#EECC88','#C47035','#D49060','#B86030','#EAB870','#C47035']
+        const bh = cvs.height / BANDS.length
+        BANDS.forEach((c, i) => { ctx.fillStyle = c; ctx.fillRect(0, i * bh, cvs.width, bh) })
+        const jupMat = mesh.material as THREE.MeshStandardMaterial
+        jupMat.map = new THREE.CanvasTexture(cvs)
+        jupMat.color.setHex(0xffffff)
+        jupMat.needsUpdate = true
+      }
+
+      // Saturn — C / B / Cassini Division / A ring bands, flat in orbit plane
+      if (p.id === '04') {
+        const RINGS = [
+          { inner: 1.50, outer: 1.70, color: 0xC0A860, opacity: 0.32 }, // C ring — faint, inner
+          { inner: 1.70, outer: 2.10, color: 0xF0E0A0, opacity: 0.88 }, // B ring — brightest, widest
+          { inner: 2.10, outer: 2.15, color: 0x060404, opacity: 0.94 }, // Cassini Division — dark gap
+          { inner: 2.15, outer: 2.52, color: 0xD8C080, opacity: 0.66 }, // A ring
+        ]
+        RINGS.forEach(({ inner, outer, color, opacity }) => {
+          const band = new THREE.Mesh(
+            new THREE.RingGeometry(p.size * inner, p.size * outer, 64),
+            new THREE.MeshBasicMaterial({ color, side: THREE.DoubleSide, transparent: true, opacity, depthWrite: false }),
+          )
+          // Saturn's axial tilt (~27°) from orbit plane + diagonal orientation
+          band.rotation.x = 1.1   // 63° from XY → 27° from orbit plane (XZ)
+          band.rotation.z = 0.42  // diagonal lean so ring appears angled, not edge-on
+          mesh.add(band)
+        })
+      }
+
       // Label uses CSS variables — inherits theme automatically from the document
       const el = document.createElement('div')
       el.textContent = p.section

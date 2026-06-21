@@ -1,11 +1,10 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import AboutContent    from '@/components/contents/AboutContent'
-import WorkContent     from '@/components/contents/WorkContent'
-import ProjectsContent from '@/components/contents/ProjectsContent'
+import AboutContent from '@/components/contents/AboutContent'
+import WorkContent from '@/components/contents/WorkContent'
 import VenturesContent from '@/components/contents/VenturesContent'
-import SkillsContent   from '@/components/contents/SkillsContent'
+import SkillsContent from '@/components/contents/SkillsContent'
 
 interface Props {
   section: string
@@ -16,12 +15,15 @@ interface Props {
 const SECTION_MAP: Record<string, React.ReactNode> = {
   '01': <AboutContent />,
   '02': <WorkContent />,
-  '03': <ProjectsContent />,
-  '04': <VenturesContent />,
-  '05': <SkillsContent />,
+  '03': <VenturesContent />,
+  '04': <SkillsContent />,
 }
 
-export default function PlanetContent({ section, onBack, standalone = false }: Props) {
+export default function PlanetContent({
+  section,
+  onBack,
+  standalone = false,
+}: Props) {
   const panelRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -38,7 +40,9 @@ export default function PlanetContent({ section, onBack, standalone = false }: P
   }, [section, standalone])
 
   useEffect(() => {
-    const onEsc = (e: KeyboardEvent) => { if (e.key === 'Escape') onBack() }
+    const onEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onBack()
+    }
     window.addEventListener('keydown', onEsc)
     return () => window.removeEventListener('keydown', onEsc)
   }, [onBack])
@@ -48,9 +52,22 @@ export default function PlanetContent({ section, onBack, standalone = false }: P
       <div ref={panelRef}>
         <button
           onClick={onBack}
-          style={{ fontFamily: 'var(--mono)', fontSize: '9px', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'var(--muted)', background: 'none', border: 'none', cursor: 'pointer', padding: 0, marginBottom: 24, display: 'block', transition: 'color 0.2s' }}
-          onMouseEnter={e => (e.currentTarget.style.color = 'var(--primary)')}
-          onMouseLeave={e => (e.currentTarget.style.color = 'var(--muted)')}
+          style={{
+            fontFamily: 'var(--mono)',
+            fontSize: '9px',
+            letterSpacing: '0.25em',
+            textTransform: 'uppercase',
+            color: 'var(--muted)',
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            padding: 0,
+            marginBottom: 24,
+            display: 'block',
+            transition: 'color 0.2s',
+          }}
+          onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--primary)')}
+          onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--muted)')}
         >
           ← BACK
         </button>
@@ -82,9 +99,22 @@ export default function PlanetContent({ section, onBack, standalone = false }: P
     >
       <button
         onClick={onBack}
-        style={{ fontFamily: 'var(--mono)', fontSize: '9px', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'var(--muted)', background: 'none', border: 'none', cursor: 'pointer', padding: 0, marginBottom: 32, textAlign: 'left', transition: 'color 0.2s' }}
-        onMouseEnter={e => (e.currentTarget.style.color = 'var(--primary)')}
-        onMouseLeave={e => (e.currentTarget.style.color = 'var(--muted)')}
+        style={{
+          fontFamily: 'var(--mono)',
+          fontSize: '9px',
+          letterSpacing: '0.25em',
+          textTransform: 'uppercase',
+          color: 'var(--muted)',
+          background: 'none',
+          border: 'none',
+          cursor: 'pointer',
+          padding: 0,
+          marginBottom: 32,
+          textAlign: 'left',
+          transition: 'color 0.2s',
+        }}
+        onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--primary)')}
+        onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--muted)')}
       >
         ← ESC / BACK
       </button>

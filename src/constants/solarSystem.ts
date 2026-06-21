@@ -1,4 +1,4 @@
-export type PlanetId = '01' | '02' | '03' | '04' | '05'
+export type PlanetId = '01' | '02' | '03' | '04'
 
 export interface Planet {
   id: PlanetId
@@ -7,15 +7,14 @@ export interface Planet {
   size: number
   speed: number         // radians/second
   initialAngle: number  // radians
-  color: number         // THREE.js hex color inspired by real solar system
+  color: number         // THREE.js hex color
 }
 
 export const PLANETS: Planet[] = [
-  { id: '01', section: 'About',    orbitRadius: 2.6, size: 0.32, speed: (2 * Math.PI) / 18, initialAngle: 0,              color: 0xB8B8B8 }, // Mercury — silver-gray
-  { id: '02', section: 'Work',     orbitRadius: 3.8, size: 0.44, speed: (2 * Math.PI) / 28, initialAngle: Math.PI * 0.4,  color: 0xE8C97B }, // Venus — golden cream
-  { id: '03', section: 'Projects', orbitRadius: 5.0, size: 0.36, speed: (2 * Math.PI) / 38, initialAngle: Math.PI * 0.8,  color: 0x5BA3C9 }, // Earth — ocean blue
-  { id: '04', section: 'Ventures', orbitRadius: 6.2, size: 0.38, speed: (2 * Math.PI) / 50, initialAngle: Math.PI * 1.3,  color: 0xD4522E }, // Mars — rusty red
-  { id: '05', section: 'Skills',   orbitRadius: 7.5, size: 0.52, speed: (2 * Math.PI) / 65, initialAngle: Math.PI * 1.8,  color: 0xD4A04A }, // Jupiter — amber
+  { id: '01', section: 'About',    orbitRadius: 2.6, size: 0.30, speed: (2 * Math.PI) / 18, initialAngle: 0,              color: 0x2469B8 }, // Earth — ocean blue
+  { id: '02', section: 'Work',     orbitRadius: 3.8, size: 0.22, speed: (2 * Math.PI) / 28, initialAngle: Math.PI * 0.4,  color: 0xB5411A }, // Mars — burnt sienna
+  { id: '03', section: 'Ventures', orbitRadius: 5.2, size: 0.50, speed: (2 * Math.PI) / 45, initialAngle: Math.PI * 0.9,  color: 0xC8956C }, // Jupiter — banded amber
+  { id: '04', section: 'Skills',   orbitRadius: 6.8, size: 0.42, speed: (2 * Math.PI) / 62, initialAngle: Math.PI * 1.5,  color: 0xE8D09A }, // Saturn — pale gold
 ]
 
 export const SUN_SIZE  = 0.5
